@@ -27,14 +27,14 @@ public enum WorldEntity {
         ;
 
 
-    private char getCode() {
-        return code;
-    }
-
     private final char code;
 
     WorldEntity(char code) {
         this.code = code;
+    }
+
+    private char getCode() {
+        return code;
     }
 
     public static Optional<WorldEntity> fromCode(char code) {

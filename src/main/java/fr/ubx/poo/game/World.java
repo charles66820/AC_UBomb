@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class World {
-    private final Map<Position, Decor> grid;
-    private final WorldEntity[][] raw;
+    private final Map<Position, Decor> grid; // World gri with all decors (For collision)
+    private final WorldEntity[][] raw; // World gid with all entities
     public final Dimension dimension;
 
     public World(WorldEntity[][] raw) {
