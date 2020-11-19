@@ -30,8 +30,8 @@ Chaque monde est représenté par une carte (rectangulaire) composée de cellule
 
 ## Prise en main
 
-Nous vous fournissons une première ébauche du jeu, utilisant la bibliothère JavaFX. Le lancement du jeu
-fait apparaître une carte minimaliste, chargée statiquement en mémoire, dans laquelle le joueur peut se déplacer dans toutes les directions quelque soit la nature des cellules. Le code utilise `gradle` comme moteur de production. Il suffit de lancer la commande suivante pour compiler et exécuter le jeu. Toutes les dépendances seront automatiquement téléchargées et installées. Le jeu nécessite une version de Java au moins égale à 11.
+Nous vous fournissons une première ébauche du jeu, utilisant la bibliothèque JavaFX. Le lancement du jeu
+fait apparaître une carte minimaliste, chargée statiquement en mémoire, dans laquelle le joueur peut se déplacer dans toutes les directions quelle que soit la nature des cellules. Le code utilise `gradle` comme moteur de production. Il suffit de lancer la commande suivante pour compiler et exécuter le jeu. Toutes les dépendances seront automatiquement téléchargées et installées. Le jeu nécessite une version de Java au moins égale à 11.
 
     $ ./gradlew run
 
@@ -95,7 +95,7 @@ disparaît. Une explosion ne peut
 détruire qu’une seule caisse dans une même direction. Si un bonus (ou un malus) se trouve sur le chemin de l’explosion, il disparaît. 
 Enfin, si un joueur ou un monstre est sur une cellule touchée par une explosion, il
 perd une vie. Les explosions n’ont aucun effet sur les portes et les
-clés. Lorsque une bombe explose, une nouvelle bombe est ajoutée à
+clés. Lorsqu’une une bombe explose, une nouvelle bombe est ajoutée à
 l’inventaire du joueur. 
 
 Si le joueur pose une bombe et change ensuite de niveau en franchissant une porte, la bombe doit tout de même exploser au bout de 4 secondes. Les éléments de décor détruits sur un niveau doivent le rester pendant toute la durée de la partie.
@@ -103,14 +103,14 @@ Si le joueur pose une bombe et change ensuite de niveau en franchissant une port
 
 ## Gestion des bonus et malus
 
-Le joueur ramasse automatiquement un bonus lorsqu'il marche sur la case qui le contient. Les monstrent peuvent marcher sur les cases des bonus mais ne peuvent pas les ramasser. Il existe 5 bonus différents :
+Le joueur ramasse automatiquement un bonus lorsqu'il marche sur la case qui le contient. Les monstres peuvent marcher sur les cases des bonus mais ne peuvent pas les ramasser. Il existe 5 bonus différents :
 
 Bonus | Effet
 --- | --- |
 ![nb+](src/main/resources/images/bonus_bomb_nb_inc.png) | Augmente la capacité du sac de bombe de une unité. |
-![nb-](src/main/resources/images/bonus_bomb_nb_dec.png) | Diminue la capacité du sac de bombe de une unité. Le sac contient toujours au minimum une bombre |
+![nb-](src/main/resources/images/bonus_bomb_nb_dec.png) | Diminue la capacité du sac de bombe de une unité. Le sac contient toujours au minimum une bombe |
 | ![range+](src/main/resources/images/bonus_bomb_range_inc.png) | Augmente la portée des bombes de une unité. La modification de portée n'affecte pas les bombes déjà posées. |
-| ![range-](src/main/resources/images/bonus_bomb_range_inc.png) | Diminue la portée des bombes de une unité. La portée minimale est de un. La modification de portée n'affecte pas les bombes déjà posées. |
+| ![range-](src/main/resources/images/bonus_bomb_range_dec.png) | Diminue la portée des bombes de une unité. La portée minimale est de un. La modification de portée n'affecte pas les bombes déjà posées. |
 | ![live](src/main/resources/images/heart.png) | Ajoute une vie. |
 
 
