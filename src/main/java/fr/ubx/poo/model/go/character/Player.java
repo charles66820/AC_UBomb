@@ -12,7 +12,7 @@ import fr.ubx.poo.game.Game;
 
 public class Player extends GameObject implements Movable {
 
-    // TO DO : supprimer le final
+    // TODO : supprimer le final
     private final boolean alive = true;
     Direction direction;
     private boolean moveRequested = false;
