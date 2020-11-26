@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class World {
-    private final Map<Position, Decor> grid; // World gri with all decors (For collision)
-    private final WorldEntity[][] raw; // World gid with all entities
+    private final Map<Position, Decor> grid; // World grid with all decors and collectable (For collision)
+    private final WorldEntity[][] raw; // World grid with all entities
     public final Dimension dimension;
 
     public World(WorldEntity[][] raw) {
@@ -53,7 +53,7 @@ public class World {
     }
 
     public boolean isInside(Position position) {
-        return true; // to update
+        return true; // TODO to update
     }
 
     public boolean isEmpty(Position position) {
