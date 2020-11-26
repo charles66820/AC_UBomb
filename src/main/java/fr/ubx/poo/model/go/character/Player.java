@@ -57,6 +57,7 @@ public class Player extends GameObject implements Movable {
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);
+                //TODO : update la statusbar du player
             }
         }
         moveRequested = false;
