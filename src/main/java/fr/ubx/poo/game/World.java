@@ -80,7 +80,11 @@ public class World {
     }
 
     public boolean isInside(Position position) {
-        return true; // TODO to update
+        if (position.x >= 0 && position.x < this.dimension.width &&
+            position.y >= 0 && position.y < this.dimension.height){
+            return true;
+        }
+        return false;
     }
 
     public boolean isEmpty(Position position) {
