@@ -5,12 +5,16 @@
 package fr.ubx.poo.game;
 
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Properties;
 
+import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.model.go.character.Princess;
 
@@ -19,6 +23,7 @@ public class Game {
     private final World world;
     private final Player player;
     private final Princess princesss;
+    private final Collection<Monster> monseters;
     private final String worldPath;
     public int initPlayerLives;
 
@@ -45,6 +50,9 @@ public class Game {
             tmpPrincess = null;
         }
         princesss = tmpPrincess;
+
+        monseters = new ArrayList<>();
+        for (Position pos : world.getMonsterPositions()) monseters.add(new Monster(this, pos));
     }
 
     public int getInitPlayerLives() {
@@ -72,5 +80,9 @@ public class Game {
 
     public Princess getPincess() {
         return this.princesss;
+    }
+
+    public Collection<Monster> getMonster() {
+        return this.monseters;
     }
 }

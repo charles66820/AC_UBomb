@@ -39,7 +39,6 @@ public final class GameEngine {
     private Input input;
     private Stage stage;
     private Sprite spritePlayer;
-    private Sprite spritePrincess;
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
         this.windowTitle = windowTitle;
@@ -73,7 +72,8 @@ public final class GameEngine {
         // Create decor sprites
         game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
-        if (princess != null) spritePrincess = SpriteFactory.createPrincess(layer, princess);
+        if (princess != null)  sprites.add(SpriteFactory.createPrincess(layer, princess));
+        game.getMonster().forEach(monster -> sprites.add(SpriteFactory.createMonster(layer, monster)));
         // TODO: add game object loading
     }
 
@@ -151,7 +151,6 @@ public final class GameEngine {
         sprites.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
-        spritePrincess.render();
     }
 
     public void start() {

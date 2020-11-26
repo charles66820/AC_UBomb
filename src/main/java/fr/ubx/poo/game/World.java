@@ -5,10 +5,14 @@
 package fr.ubx.poo.game;
 
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.go.character.Monster;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.BiConsumer;
+
+import static fr.ubx.poo.game.WorldEntity.*;
 
 public class World {
     private final Map<Position, Decor> grid; // World grid with all decors and collectable (For collision)
@@ -24,7 +28,7 @@ public class World {
     public Position findPlayer() throws PositionNotFoundException {
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
-                if (raw[y][x] == WorldEntity.Player) {
+                if (raw[y][x] == Player) {
                     return new Position(x, y);
                 }
             }
@@ -35,12 +39,24 @@ public class World {
     public Position findPrincess() throws PositionNotFoundException {
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
-                if (raw[y][x] == WorldEntity.Princess) {
+                if (raw[y][x] == Princess) {
                     return new Position(x, y);
                 }
             }
         }
         throw new PositionNotFoundException("Princess");
+    }
+
+    public Collection<Position> getMonsterPositions() {
+        Collection<Position> pos = new ArrayList<Position>();
+        for (int x = 0; x < dimension.width; x++) {
+            for (int y = 0; y < dimension.height; y++) {
+                if (raw[y][x] == Monster) {
+                    pos.add(new Position(x, y));
+                }
+            }
+        }
+        return pos;
     }
 
     public Decor get(Position position) {
