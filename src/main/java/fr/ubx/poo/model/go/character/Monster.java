@@ -20,4 +20,6 @@ public class Monster extends GameObject implements Movable {
     @Override
     public void doMove(Direction direction){}
 
+    //TODO : rajouter getDirection, requestMove, update.
+
 }
