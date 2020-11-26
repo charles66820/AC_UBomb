@@ -12,11 +12,13 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import fr.ubx.poo.model.go.character.Player;
+import fr.ubx.poo.model.go.character.Princess;
 
 public class Game {
 
     private final World world;
     private final Player player;
+    private final Princess princesss;
     private final String worldPath;
     public int initPlayerLives;
 
@@ -32,6 +34,17 @@ public class Game {
             System.err.println("Position not found : " + e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
+
+        Position positionPrincess = null;
+        Princess tmpPrincess;
+        try {
+            positionPrincess = world.findPrincess();
+            tmpPrincess = new Princess(this, positionPrincess);
+        } catch (PositionNotFoundException e) {
+            System.err.println("Position not found : " + e.getLocalizedMessage());
+            tmpPrincess = null;
+        }
+        princesss = tmpPrincess;
     }
 
     public int getInitPlayerLives() {
@@ -57,5 +70,7 @@ public class Game {
         return this.player;
     }
 
-
+    public Princess getPincess() {
+        return this.princesss;
+    }
 }
