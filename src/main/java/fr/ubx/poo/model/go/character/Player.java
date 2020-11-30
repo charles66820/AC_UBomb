@@ -8,6 +8,7 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.decor.collectable.Heart;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 
@@ -34,6 +35,10 @@ public class Player extends GameObject implements Movable {
         return direction;
     }
 
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
     public void requestMove(Direction direction) {
         if (direction != this.direction) {
             this.direction = direction;
@@ -58,16 +63,32 @@ public class Player extends GameObject implements Movable {
             if (canMove(direction)) {
                 doMove(direction);
                 //TODO : update la statusbar du player
+                Position pos = this.getPosition();
+                Decor decor = this.game.getWorld().get(pos);
+                //Lives
+                if (decor instanceof Heart){
+                    setLives(this.getLives()+1);
+                    this.game.getWorld().clear(pos);
+                    //TODO: remove heart sprite
+                }
             }
         }
         moveRequested = false;
     }
 
     public boolean isWinner() {
-        return winner;
+        Position pos = this.getPosition();
+        Princess princess = this.game.getPrincess();
+        if (pos == princess.getPosition()){
+            return winner = true; //TODO: ça marche paaaas :(
+        }
+        return winner = false;
     }
 
     public boolean isAlive() {
+        if (this.getLives() <= 0){
+            return !alive;
+        }
         return alive;
     }
 

@@ -44,7 +44,7 @@ public final class GameEngine {
         this.windowTitle = windowTitle;
         this.game = game;
         this.player = game.getPlayer();
-        this.princess = game.getPincess();
+        this.princess = game.getPrincess();
         initialize(stage, game);
         buildAndSetGameLoop();
     }

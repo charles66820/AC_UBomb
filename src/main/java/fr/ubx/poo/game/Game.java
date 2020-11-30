@@ -5,7 +5,6 @@
 package fr.ubx.poo.game;
 
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,8 +21,8 @@ public class Game {
 
     private final World world;
     private final Player player;
-    private final Princess princesss;
-    private final Collection<Monster> monseters;
+    private final Princess princess;
+    private final Collection<Monster> monsters;
     private final String worldPath;
     public int initPlayerLives;
 
@@ -49,10 +48,10 @@ public class Game {
             System.err.println("Position not found : " + e.getLocalizedMessage());
             tmpPrincess = null;
         }
-        princesss = tmpPrincess;
+        princess = tmpPrincess;
 
-        monseters = new ArrayList<>();
-        for (Position pos : world.getMonsterPositions()) monseters.add(new Monster(this, pos));
+        monsters = new ArrayList<>();
+        for (Position pos : world.getMonsterPositions()) monsters.add(new Monster(this, pos));
     }
 
     public int getInitPlayerLives() {
@@ -78,11 +77,11 @@ public class Game {
         return this.player;
     }
 
-    public Princess getPincess() {
-        return this.princesss;
+    public Princess getPrincess() {
+        return this.princess;
     }
 
     public Collection<Monster> getMonster() {
-        return this.monseters;
+        return this.monsters;
     }
 }
