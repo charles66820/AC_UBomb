@@ -7,6 +7,7 @@ package fr.ubx.poo.model.go.character;
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
+import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.collectable.*;
 import fr.ubx.poo.model.go.GameObject;
@@ -79,6 +80,16 @@ public class Player extends GameObject implements Movable {
     public boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         Decor decor = this.game.getWorld().get(nextPos);
+        if (decor instanceof Box) {
+            Box b = (Box) decor;
+            Position nextBoxPos = direction.nextPosition(nextPos);
+            if (!this.game.getWorld().isInside(nextBoxPos)) return false; // Fix bug with box move out of world border
+            Decor d = this.game.getWorld().get(nextBoxPos);
+            if (d != null) return false;
+            this.game.getWorld().clear(nextPos);
+            this.game.getWorld().set(nextBoxPos, decor);
+            return true;
+        }
         return (this.game.getWorld().isInside(nextPos)) && ((decor == null) || (decor.isTraversable()));
     }
 
