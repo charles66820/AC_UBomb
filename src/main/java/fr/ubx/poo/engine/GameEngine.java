@@ -34,11 +34,13 @@ public final class GameEngine {
     private final Player player;
     private final Princess princess;
     private final List<Sprite> sprites = new ArrayList<>();
+    private final List<Sprite> monstersSprites = new ArrayList<>();
     private StatusBar statusBar;
     private Pane layer;
     private Input input;
     private Stage stage;
     private Sprite spritePlayer;
+    private Sprite spritePrincess;
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
         this.windowTitle = windowTitle;
@@ -72,8 +74,8 @@ public final class GameEngine {
         // Create decor sprites
         game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
-        if (princess != null)  sprites.add(SpriteFactory.createPrincess(layer, princess));
-        game.getMonsters().forEach(monster -> sprites.add(SpriteFactory.createMonster(layer, monster)));
+        if (princess != null)  spritePrincess = SpriteFactory.createPrincess(layer, princess);
+        game.getMonsters().forEach(monster -> monstersSprites.add(SpriteFactory.createMonster(layer, monster)));
         // TODO: add game object loading
     }
 
@@ -145,12 +147,21 @@ public final class GameEngine {
             gameLoop.stop();
             showMessage("Gagné", Color.BLUE);
         }
+
+        if (this.game.getWorld().hasChanged()) {
+            this.sprites.forEach(Sprite::remove);
+            this.sprites.clear();
+            game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
+            this.game.getWorld().setChanged(false);
+        }
     }
 
     private void render() {
         sprites.forEach(Sprite::render);
+        monstersSprites.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
+        spritePrincess.render();
     }
 
     public void start() {

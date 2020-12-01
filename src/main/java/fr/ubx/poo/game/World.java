@@ -5,7 +5,6 @@
 package fr.ubx.poo.game;
 
 import fr.ubx.poo.model.decor.Decor;
-import fr.ubx.poo.model.go.character.Monster;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,6 +17,7 @@ public class World {
     private final Map<Position, Decor> grid; // World grid with all decors and collectable (For collision)
     private final WorldEntity[][] raw; // World grid with all entities
     public final Dimension dimension;
+    private boolean changed = true;
 
     public World(WorldEntity[][] raw) {
         this.raw = raw;
@@ -69,6 +69,7 @@ public class World {
 
     public void clear(Position position) {
         grid.remove(position);
+        this.changed = true;
     }
 
     public void forEach(BiConsumer<Position, Decor> fn) {
@@ -89,5 +90,13 @@ public class World {
 
     public boolean isEmpty(Position position) {
         return grid.get(position) == null;
+    }
+
+    public boolean hasChanged() {
+        return changed;
+    }
+
+    public void setChanged(boolean changed) {
+        this.changed = changed;
     }
 }
