@@ -8,7 +8,7 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Decor;
-import fr.ubx.poo.model.decor.collectable.Heart;
+import fr.ubx.poo.model.decor.collectable.*;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 
@@ -16,10 +16,13 @@ public class Player extends GameObject implements Movable {
 
     // TODO : supprimer le final
     private final boolean alive = true;
+    private boolean winner;
     Direction direction;
     private boolean moveRequested = false;
     private int lives = 1;
-    private boolean winner;
+    private int bomb = 1;
+    private int rangebomb = 1;
+    private int key = 0;
 
     public Player(Game game, Position position) {
         super(game, position);
@@ -31,12 +34,36 @@ public class Player extends GameObject implements Movable {
         return lives;
     }
 
+    public int getBomb() {
+        return bomb;
+    }
+
+    public int getRangebomb() {
+        return rangebomb;
+    }
+
+    public int getKey() {
+        return key;
+    }
+
     public Direction getDirection() {
         return direction;
     }
 
     public void setLives(int lives) {
         this.lives = lives;
+    }
+
+    public void setBomb(int bomb) {
+        this.bomb = bomb;
+    }
+
+    public void setRangebomb(int rangebomb) {
+        this.rangebomb = rangebomb;
+    }
+
+    public void setKey(int key) {
+        this.key = key;
     }
 
     public void requestMove(Direction direction) {
@@ -62,14 +89,43 @@ public class Player extends GameObject implements Movable {
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);
-                //TODO : update la statusbar du player
+                //TODO : remove all sprite of collectables
                 Position pos = this.getPosition();
                 Decor decor = this.game.getWorld().get(pos);
                 //Lives
                 if (decor instanceof Heart){
                     setLives(this.getLives()+1);
                     this.game.getWorld().clear(pos);
-                    //TODO: remove heart sprite
+                    //TODO: loose lives (monsters + explosions)
+                }
+                //Keys
+                if (decor instanceof Key){
+                    setKey(this.getKey()+1);
+                    this.game.getWorld().clear(pos);
+                }
+                //Bomb increased
+                if (decor instanceof BombNumberInc){
+                    setBomb(this.getBomb()+1);
+                    this.game.getWorld().clear(pos);
+                }
+                //Bomb deceased
+                if (decor instanceof BombNumberDec){
+                    if (this.getBomb() > 1){
+                        setBomb(this.getBomb()-1);
+                        this.game.getWorld().clear(pos);
+                    }
+                }
+                //Range bomb increased
+                if (decor instanceof BombRangeInc){
+                    setRangebomb(this.getRangebomb()+1);
+                    this.game.getWorld().clear(pos);
+                }
+                //Range bomb decreased
+                if (decor instanceof BombRangeDec){
+                    if(this.getRangebomb() > 1) {
+                        setRangebomb(this.getRangebomb()-1);
+                        this.game.getWorld().clear(pos);
+                    }
                 }
             }
         }
@@ -80,7 +136,7 @@ public class Player extends GameObject implements Movable {
         Position pos = this.getPosition();
         Princess princess = this.game.getPrincess();
         if (pos == princess.getPosition()){
-            return winner = true; //TODO: ça marche paaaas :(
+            return winner = true; //TODO: faire gagner le joueur quand il trouve la princesse
         }
         return winner = false;
     }

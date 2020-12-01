@@ -40,7 +40,7 @@ public final class SpriteFactory {
         if (decor instanceof BombRangeDec)
             return new SpriteDecor(layer, factory.get(BOMB_RANGE_DEC), position);
         if (decor instanceof BombRangeInc)
-            return new SpriteDecor(layer, factory.get(BOMB_NUMBER_INC), position);
+            return new SpriteDecor(layer, factory.get(BOMB_RANGE_INC), position);
         return null;
     }
 

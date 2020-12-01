@@ -82,9 +82,9 @@ public class StatusBar {
     public void update(Game game) {
         updateLevel(1);
         liveValue.setText(String.valueOf(game.getPlayer().getLives()));
-        rangeValue.setText("?");
-        bombsValue.setText("?");
-        keyValue.setText("?");
+        rangeValue.setText(String.valueOf(game.getPlayer().getRangebomb()));
+        bombsValue.setText(String.valueOf(game.getPlayer().getBomb()));
+        keyValue.setText(String.valueOf(game.getPlayer().getKey()));
     }
 
 }
