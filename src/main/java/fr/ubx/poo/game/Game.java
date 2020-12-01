@@ -81,7 +81,7 @@ public class Game {
         return this.princess;
     }
 
-    public Collection<Monster> getMonster() {
+    public Collection<Monster> getMonsters() {
         return this.monsters;
     }
 }

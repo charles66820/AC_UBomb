@@ -73,7 +73,7 @@ public final class GameEngine {
         game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
         if (princess != null)  sprites.add(SpriteFactory.createPrincess(layer, princess));
-        game.getMonster().forEach(monster -> sprites.add(SpriteFactory.createMonster(layer, monster)));
+        game.getMonsters().forEach(monster -> sprites.add(SpriteFactory.createMonster(layer, monster)));
         // TODO: add game object loading
     }
 

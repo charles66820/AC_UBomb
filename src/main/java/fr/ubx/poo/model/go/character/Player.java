@@ -12,6 +12,8 @@ import fr.ubx.poo.model.decor.collectable.*;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 
+import java.util.Collection;
+
 public class Player extends GameObject implements Movable {
 
     // TODO : supprimer le final
@@ -92,12 +94,18 @@ public class Player extends GameObject implements Movable {
                 //TODO : remove all sprite of collectables
                 Position pos = this.getPosition();
                 Decor decor = this.game.getWorld().get(pos);
+                Collection<Monster> monsters = this.game.getMonsters();
                 //Lives
+                for (Monster monster : monsters) {
+                    if(pos.equals(monster.getPosition())){
+                        setLives(this.getLives()-1);
+                    }
+                }
                 if (decor instanceof Heart){
                     setLives(this.getLives()+1);
                     this.game.getWorld().clear(pos);
-                    //TODO: loose lives (monsters + explosions)
                 }
+                //TODO: loose lives (explosions)
                 //Keys
                 else if (decor instanceof Key){
                     setKey(this.getKey()+1);
