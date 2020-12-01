@@ -34,9 +34,10 @@ public class WorldBuilder {
             case Box:
                 return new Box();
             case DoorNextOpened:
-                return new Door();
             case DoorPrevOpened:
-                return new Door(); // TODO: open / close
+                return new Door(true);
+            case DoorNextClosed:
+                return new Door(false);
             case BombNumberDec:
                 return new BombNumberDec();
             case BombNumberInc:

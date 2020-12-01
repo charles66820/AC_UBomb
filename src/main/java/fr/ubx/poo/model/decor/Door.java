@@ -1,8 +1,20 @@
 package fr.ubx.poo.model.decor;
 
-import fr.ubx.poo.model.go.GameObject;
-
 public class Door extends Decor {
+    boolean isOpen;
+
+    public Door(boolean isOpen) {
+        this.isOpen = isOpen;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
+
     @Override
     public String toString() {
         return "Door";
