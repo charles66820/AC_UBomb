@@ -99,29 +99,29 @@ public class Player extends GameObject implements Movable {
                     //TODO: loose lives (monsters + explosions)
                 }
                 //Keys
-                if (decor instanceof Key){
+                else if (decor instanceof Key){
                     setKey(this.getKey()+1);
                     this.game.getWorld().clear(pos);
                 }
                 //Bomb increased
-                if (decor instanceof BombNumberInc){
+                else if (decor instanceof BombNumberInc){
                     setBomb(this.getBomb()+1);
                     this.game.getWorld().clear(pos);
                 }
                 //Bomb deceased
-                if (decor instanceof BombNumberDec){
+                else if (decor instanceof BombNumberDec){
                     if (this.getBomb() > 1){
                         setBomb(this.getBomb()-1);
                         this.game.getWorld().clear(pos);
                     }
                 }
                 //Range bomb increased
-                if (decor instanceof BombRangeInc){
+                else if (decor instanceof BombRangeInc){
                     setRangebomb(this.getRangebomb()+1);
                     this.game.getWorld().clear(pos);
                 }
                 //Range bomb decreased
-                if (decor instanceof BombRangeDec){
+                else if (decor instanceof BombRangeDec){
                     if(this.getRangebomb() > 1) {
                         setRangebomb(this.getRangebomb()-1);
                         this.game.getWorld().clear(pos);
@@ -135,8 +135,8 @@ public class Player extends GameObject implements Movable {
     public boolean isWinner() {
         Position pos = this.getPosition();
         Princess princess = this.game.getPrincess();
-        if (pos == princess.getPosition()){
-            return winner = true; //TODO: faire gagner le joueur quand il trouve la princesse
+        if (pos.equals(princess.getPosition())){
+            return winner = true;
         }
         return winner = false;
     }
