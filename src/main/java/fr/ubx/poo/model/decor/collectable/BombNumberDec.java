@@ -6,4 +6,5 @@ public class BombNumberDec extends Collectable {
     public String toString() {
         return "BombNumberDec";
     }
+    // TODO: take()
 }

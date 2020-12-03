@@ -102,7 +102,6 @@ public class Player extends GameObject implements Movable {
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);
-                //TODO : remove all sprite of collectables
                 Position pos = this.getPosition();
                 Decor decor = this.game.getWorld().get(pos);
                 Collection<Monster> monsters = this.game.getMonsters();
@@ -112,6 +111,7 @@ public class Player extends GameObject implements Movable {
                         setLives(this.getLives()-1);
                     }
                 }
+                // TODO: Make method take(player, pos) in all collectable decor for replacce instanceof
                 if (decor instanceof Heart){
                     setLives(this.getLives()+1);
                     this.game.getWorld().clear(pos);

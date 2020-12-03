@@ -5,4 +5,5 @@ public class BombRangeDec extends Collectable {
     public String toString() {
         return "BombRangeDec";
     }
+    // TODO: take()
 }

@@ -7,4 +7,5 @@ public abstract class Collectable extends Decor {
     public boolean isTraversable() {
         return true;
     }
+    // TODO: take()
 }
