@@ -5,6 +5,10 @@
 package fr.ubx.poo.engine;
 
 import fr.ubx.poo.game.Direction;
+import fr.ubx.poo.game.Position;
+import fr.ubx.poo.model.decor.Box;
+import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.decor.Door;
 import fr.ubx.poo.model.go.character.Princess;
 import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteFactory;
@@ -112,6 +116,18 @@ public final class GameEngine {
         }
         if (input.isMoveUp()) {
             player.requestMove(Direction.N);
+        }
+        if (input.isKey()) {
+            Position nextPos = this.player.getDirection().nextPosition(this.player.getPosition());
+            Decor decor = this.game.getWorld().get(nextPos);
+            if (decor instanceof Door) {
+                Door door = (Door) decor;
+                if(!door.isOpen()){
+                    door.setOpen(true);
+                    this.game.getWorld().setChanged(true);
+                    this.player.setKey(this.player.getKey()-1);
+                }
+            }
         }
         input.clear();
     }

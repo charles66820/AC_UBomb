@@ -1,7 +1,8 @@
 package fr.ubx.poo.model.decor;
 
 public class Door extends Decor {
-    boolean isOpen;
+    //TODO: gérer la destination de la porte
+    private boolean isOpen;
 
     public Door(boolean isOpen) {
         this.isOpen = isOpen;
@@ -18,5 +19,10 @@ public class Door extends Decor {
     @Override
     public String toString() {
         return "Door";
+    }
+
+    @Override
+    public boolean isTraversable() {
+        return isOpen;
     }
 }

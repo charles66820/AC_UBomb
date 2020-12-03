@@ -76,7 +76,7 @@ public final class Input {
 
     public boolean isBomb() {
         return is(SPACE);
-    }
+    } //TODO: à implémenter dans processInput
 
     public boolean isKey() {
         return is(ENTER);
@@ -84,5 +84,5 @@ public final class Input {
 
     public boolean isExit() {
         return is(ESCAPE);
-    }
+    } //TODO: à implémenter dans processInput
 }
