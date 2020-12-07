@@ -34,10 +34,11 @@ public class WorldBuilder {
             case Box:
                 return new Box();
             case DoorNextOpened:
+                return new Door(true, true);
             case DoorPrevOpened:
-                return new Door(true);
+                return new Door(true, false);
             case DoorNextClosed:
-                return new Door(false);
+                return new Door(false, true);
             case BombNumberDec:
                 return new BombNumberDec();
             case BombNumberInc:

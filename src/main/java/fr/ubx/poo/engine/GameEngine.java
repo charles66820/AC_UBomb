@@ -36,7 +36,7 @@ public final class GameEngine {
     private final String windowTitle;
     private final Game game;
     private final Player player;
-    private final Princess princess;
+    private Princess princess;
     private final List<Sprite> sprites = new ArrayList<>();
     private final List<Sprite> monstersSprites = new ArrayList<>();
     private StatusBar statusBar;
@@ -50,7 +50,6 @@ public final class GameEngine {
         this.windowTitle = windowTitle;
         this.game = game;
         this.player = game.getPlayer();
-        this.princess = game.getPrincess();
         initialize(stage, game);
         buildAndSetGameLoop();
     }
@@ -78,7 +77,8 @@ public final class GameEngine {
         // Create decor sprites
         game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
-        if (princess != null)  spritePrincess = SpriteFactory.createPrincess(layer, princess);
+        this.princess = game.getPrincess();
+        if (princess != null) spritePrincess = SpriteFactory.createPrincess(layer, princess);
         game.getMonsters().forEach(monster -> monstersSprites.add(SpriteFactory.createMonster(layer, monster)));
         // TODO: add game object loading
     }
@@ -122,10 +122,10 @@ public final class GameEngine {
             Decor decor = this.game.getWorld().get(nextPos);
             if (decor instanceof Door) {
                 Door door = (Door) decor;
-                if(!door.isOpen()){
+                if (!door.isOpen()) {
                     door.setOpen(true);
                     this.game.getWorld().setChanged(true);
-                    this.player.setKey(this.player.getKey()-1);
+                    this.player.setKey(this.player.getKey() - 1);
                 }
             }
         }
@@ -164,6 +164,11 @@ public final class GameEngine {
             showMessage("Gagné", Color.BLUE);
         }
 
+        if (this.game.worldHasChanged()) {
+            initialize(stage, game);
+            this.game.worldChanged();
+        }
+
         if (this.game.getWorld().hasChanged()) {
             this.sprites.forEach(Sprite::remove);
             this.sprites.clear();
@@ -177,7 +182,7 @@ public final class GameEngine {
         monstersSprites.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
-        spritePrincess.render();
+        if (spritePrincess != null) spritePrincess.render();
     }
 
     public void start() {

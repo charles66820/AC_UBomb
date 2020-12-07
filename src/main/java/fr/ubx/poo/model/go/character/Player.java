@@ -9,6 +9,7 @@ import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Decor;
+import fr.ubx.poo.model.decor.Door;
 import fr.ubx.poo.model.decor.collectable.*;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
@@ -107,44 +108,46 @@ public class Player extends GameObject implements Movable {
                 Collection<Monster> monsters = this.game.getMonsters();
                 //Lives
                 for (Monster monster : monsters) {
-                    if(pos.equals(monster.getPosition())){
-                        setLives(this.getLives()-1);
+                    if (pos.equals(monster.getPosition())) {
+                        setLives(this.getLives() - 1);
                     }
                 }
                 // TODO: Make method take(player, pos) in all collectable decor for replacce instanceof
-                if (decor instanceof Heart){
-                    setLives(this.getLives()+1);
+                if (decor instanceof Heart) {
+                    setLives(this.getLives() + 1);
                     this.game.getWorld().clear(pos);
                 }
                 //TODO: loose lives (explosions)
                 //Keys
-                else if (decor instanceof Key){
-                    setKey(this.getKey()+1);
+                else if (decor instanceof Key) {
+                    setKey(this.getKey() + 1);
                     this.game.getWorld().clear(pos);
                 }
                 //Bomb increased
-                else if (decor instanceof BombNumberInc){
-                    setBomb(this.getBomb()+1);
+                else if (decor instanceof BombNumberInc) {
+                    setBomb(this.getBomb() + 1);
                     this.game.getWorld().clear(pos);
                 }
                 //Bomb deceased
-                else if (decor instanceof BombNumberDec){
-                    if (this.getBomb() > 1){
-                        setBomb(this.getBomb()-1);
+                else if (decor instanceof BombNumberDec) {
+                    if (this.getBomb() > 1) {
+                        setBomb(this.getBomb() - 1);
                         this.game.getWorld().clear(pos);
                     }
                 }
                 //Range bomb increased
-                else if (decor instanceof BombRangeInc){
-                    setRangebomb(this.getRangebomb()+1);
+                else if (decor instanceof BombRangeInc) {
+                    setRangebomb(this.getRangebomb() + 1);
                     this.game.getWorld().clear(pos);
                 }
                 //Range bomb decreased
-                else if (decor instanceof BombRangeDec){
-                    if(this.getRangebomb() > 1) {
-                        setRangebomb(this.getRangebomb()-1);
+                else if (decor instanceof BombRangeDec) {
+                    if (this.getRangebomb() > 1) {
+                        setRangebomb(this.getRangebomb() - 1);
                         this.game.getWorld().clear(pos);
                     }
+                } else if (decor instanceof Door) { // Tmp for door
+                    decor.take(this, pos);
                 }
             }
         }
@@ -154,17 +157,24 @@ public class Player extends GameObject implements Movable {
     public boolean isWinner() {
         Position pos = this.getPosition();
         Princess princess = this.game.getPrincess();
-        if (pos.equals(princess.getPosition())){
+        if (princess != null && pos.equals(princess.getPosition())) {
             return winner = true;
         }
         return winner = false;
     }
 
     public boolean isAlive() {
-        if (this.getLives() <= 0){
+        if (this.getLives() <= 0) {
             return !alive;
         }
         return alive;
+    }
+
+    public void takeDoor(Door door) {
+        if (door.isNext())
+            this.game.goNextWord();
+        else
+            this.game.goPrevWord();
     }
 
 }

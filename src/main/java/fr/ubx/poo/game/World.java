@@ -82,7 +82,7 @@ public class World {
 
     public boolean isInside(Position position) {
         if (position.x >= 0 && position.x < this.dimension.width &&
-            position.y >= 0 && position.y < this.dimension.height){
+                position.y >= 0 && position.y < this.dimension.height) {
             return true;
         }
         return false;
@@ -99,4 +99,5 @@ public class World {
     public void setChanged(boolean changed) {
         this.changed = changed;
     }
+
 }
