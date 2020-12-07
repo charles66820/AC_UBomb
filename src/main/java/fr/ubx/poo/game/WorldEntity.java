@@ -49,6 +49,6 @@ public enum WorldEntity {
 
     @Override
     public String toString() {
-        return ""+code;
+        return "" + code;
     }
 }

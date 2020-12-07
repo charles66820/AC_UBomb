@@ -40,7 +40,7 @@ public final class SpriteFactory {
             return new SpriteDecor(layer, factory.get(BOMB_RANGE_DEC), position);
         if (decor instanceof BombRangeInc)
             return new SpriteDecor(layer, factory.get(BOMB_RANGE_INC), position);
-        return null;
+        throw new RuntimeException("Unsupported sprite for decor " + decor);
     }
 
     public static Sprite createPlayer(Pane layer, Player player) {
