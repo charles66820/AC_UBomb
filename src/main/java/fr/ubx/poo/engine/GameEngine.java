@@ -36,7 +36,6 @@ public final class GameEngine {
     private final String windowTitle;
     private final Game game;
     private final Player player;
-    private Princess princess;
     private final List<Sprite> sprites = new ArrayList<>();
     private final List<Sprite> monstersSprites = new ArrayList<>();
     private final List<Sprite> bombsSprites = new ArrayList<>();
@@ -76,16 +75,17 @@ public final class GameEngine {
         root.getChildren().add(layer);
         statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
 
+        removeSprites();
         createSprites();
     }
 
     private void createSprites() {
         // Create decor sprites
         game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
-        this.princess = game.getPrincess();
+        Princess princess = game.getPrincess();
         spritePlayer = SpriteFactory.createPlayer(layer, player);
         if (princess != null) spritePrincess = SpriteFactory.createPrincess(layer, princess);
-        game.getMonsters().forEach(monster -> monstersSprites.add(SpriteFactory.createMonster(layer, monster)));
+        game.getWorld().getMonsters().forEach(monster -> monstersSprites.add(SpriteFactory.createMonster(layer, monster)));
         game.getWorld().getBombs().forEach(bomb -> bombsSprites.add(SpriteFactory.createBomb(layer, bomb)));
     }
 
