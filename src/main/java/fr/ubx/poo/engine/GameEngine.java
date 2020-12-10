@@ -83,7 +83,7 @@ public final class GameEngine {
         this.princess = game.getPrincess();
         if (princess != null) spritePrincess = SpriteFactory.createPrincess(layer, princess);
         game.getMonsters().forEach(monster -> monstersSprites.add(SpriteFactory.createMonster(layer, monster)));
-        // TODO: add game object loading
+        game.getWorld().getBombs().forEach(bomb -> bombsSprites.add(SpriteFactory.createBomb(layer, bomb)));
     }
 
     protected final void buildAndSetGameLoop() {
@@ -136,8 +136,9 @@ public final class GameEngine {
             Position pos = this.player.getPosition();
             if (this.player.getBomb() >= 1) {
                 Bomb b = new Bomb(this.game, pos);
-                //this.bombs.add(b);
-                //this.bombsSprites.add(SpriteFactory.createBomb());
+                this.game.getWorld().getBombs().add(b); // add bomb in bomb list
+                player.setBomb(player.getBomb()-1);
+                this.bombsSprites.add(SpriteFactory.createBomb(layer, b)); // add sprite of the current bomb in sprite bomb list
             }
         }
         input.clear();
@@ -176,9 +177,9 @@ public final class GameEngine {
         }
 
         //update all bombs in the game
-        /*for (Bomb b : bombs) {
+        for (Bomb b : this.game.getWorld().getBombs()) {
             b.update(now);
-        }*/
+        }
 
         if (this.game.worldHasChanged()) {
             initialize(stage, game);
@@ -198,6 +199,7 @@ public final class GameEngine {
     private void render() {
         sprites.forEach(Sprite::render);
         monstersSprites.forEach(Sprite::render);
+        bombsSprites.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
         if (spritePrincess != null) spritePrincess.render();
