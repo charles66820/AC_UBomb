@@ -6,19 +6,28 @@ import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.go.GameObject;
 
-public class Monster extends GameObject implements Movable {
+public class Monster extends Character implements Movable {
 
     public Monster(Game game, Position position) {
         super(game, position);
     }
 
-    @Override
-    public boolean canMove(Direction direction) {
-        return false;
-    }
+    public void update(long now) {
+        // On move
+        if (moveRequested) {
+            if (canMove(direction)) {
+                doMove(direction);
 
-    @Override
-    public void doMove(Direction direction){}
+                // Hit the player if is on same position
+                Player player = this.game.getPlayer();
+                if (this.getPosition().equals(player.getPosition())) {
+                    player.setLives(player.getLives() - 1);
+                }
+            }
+            moveRequested = false;
+        }
+
+    }
 
     //TODO : rajouter getDirection, requestMove, update.
 

@@ -9,19 +9,13 @@ import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Decor;
-import fr.ubx.poo.model.decor.Door;
-import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 
 import java.util.Collection;
 
-public class Player extends GameObject implements Movable {
-
-    // TODO : supprimer le final
-    private final boolean alive = true;
+public class Player extends Character implements Movable {
     private boolean winner;
-    Direction direction;
-    private boolean moveRequested = false;
+    // Stats
     private int lives = 1;
     private int bomb = 1;
     private int rangebomb = 1;
@@ -33,51 +27,43 @@ public class Player extends GameObject implements Movable {
         this.lives = game.getInitPlayerLives();
     }
 
-    public int getLives() {
-        return lives;
-    }
-
-    public int getBomb() {
-        return bomb;
-    }
-
-    public int getRangebomb() {
-        return rangebomb;
-    }
-
-    public int getKey() {
-        return key;
-    }
-
-    public Direction getDirection() {
-        return direction;
-    }
-
-    public void setLives(int lives) {
-        this.lives = lives;
-    }
-
-    public void setBomb(int bomb) {
-        this.bomb = bomb;
-    }
-
-    public void setRangebomb(int rangebomb) {
-        this.rangebomb = rangebomb;
-    }
-
-    public void setKey(int key) {
-        this.key = key;
-    }
-
-    public Game getGame() {
-        return this.game;
-    }
-
-    public void requestMove(Direction direction) {
-        if (direction != this.direction) {
-            this.direction = direction;
+    @Override
+    public void update(long now) {
+        // Check if player die
+        if (this.getLives() <= 0) {
+            this.alive = false;
         }
-        moveRequested = true;
+
+        // On move
+        if (moveRequested) {
+            if (canMove(direction)) {
+                doMove(direction);
+
+                Position newPos = this.getPosition();
+
+                // If a monster is on player position player is hit
+                Collection<Monster> monsters = this.game.getMonsters();
+                for (Monster monster : monsters) {
+                    if (newPos.equals(monster.getPosition())) {
+                        setLives(this.getLives() - 1);
+                    }
+                }
+
+                Decor decor = this.game.getWorld().get(newPos);
+                if (decor != null) {
+                    decor.takenBy(this);
+                }
+            }
+        }
+        moveRequested = false;
+
+        // Check is player win
+        Position pos = this.getPosition();
+        Princess princess = this.game.getPrincess();
+        if (princess != null && pos.equals(princess.getPosition())) {
+            this.winner = true;
+        }
+        // TODO: loose lives (explosions) in Bomb ?
     }
 
     @Override
@@ -85,7 +71,6 @@ public class Player extends GameObject implements Movable {
         Position nextPos = direction.nextPosition(getPosition());
         Decor decor = this.game.getWorld().get(nextPos);
         if (decor instanceof Box) {
-            Box b = (Box) decor;
             Position nextBoxPos = direction.nextPosition(nextPos);
             if (!this.game.getWorld().isInside(nextBoxPos)) return false; // Fix bug with box move out of world border
             Decor d = this.game.getWorld().get(nextBoxPos);
@@ -97,54 +82,52 @@ public class Player extends GameObject implements Movable {
         return (this.game.getWorld().isInside(nextPos)) && ((decor == null) || (decor.isTraversable()));
     }
 
-    public void doMove(Direction direction) {
-        Position nextPos = direction.nextPosition(getPosition());
-        setPosition(nextPos);
-    }
-
-    public void update(long now) {
-        if (moveRequested) {
-            if (canMove(direction)) {
-                doMove(direction);
-                Position pos = this.getPosition();
-                Decor decor = this.game.getWorld().get(pos);
-                Collection<Monster> monsters = this.game.getMonsters();
-                //Lives
-                for (Monster monster : monsters) {
-                    if (pos.equals(monster.getPosition())) {
-                        setLives(this.getLives() - 1);
-                    }
-                }
-                //TODO: loose lives (explosions)
-                if (decor != null){
-                    decor.takenBy(this);
-                }
-            }
-        }
-        moveRequested = false;
-    }
-
     public boolean isWinner() {
-        Position pos = this.getPosition();
-        Princess princess = this.game.getPrincess();
-        if (princess != null && pos.equals(princess.getPosition())) {
-            return winner = true;
-        }
-        return winner = false;
+        return this.winner;
     }
 
-    public boolean isAlive() {
-        if (this.getLives() <= 0) {
-            return !alive;
+    public void requestMove(Direction direction) {
+        if (direction != this.direction) {
+            this.direction = direction;
         }
-        return alive;
+        moveRequested = true;
     }
 
-    public void takeDoor(Door door) {
-        if (door.isNext())
-            this.game.goNextWord();
-        else
-            this.game.goPrevWord();
+    // Stats
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+    public int getBomb() {
+        return bomb;
+    }
+
+    public void setBomb(int bomb) {
+        this.bomb = bomb;
+    }
+
+    public int getRangebomb() {
+        return rangebomb;
+    }
+
+    public void setRangebomb(int rangebomb) {
+        this.rangebomb = rangebomb;
+    }
+
+    public int getKey() {
+        return key;
+    }
+
+    public void setKey(int key) {
+        this.key = key;
+    }
+
+    public Game getGame() {
+        return this.game;
     }
 
 }

@@ -3,7 +3,6 @@ package fr.ubx.poo.model.decor;
 import fr.ubx.poo.model.go.character.Player;
 
 public class Door extends Decor {
-    // TODO: gérer la destination de la porte
     private boolean isOpen;
     private boolean isNext;
 
@@ -25,7 +24,10 @@ public class Door extends Decor {
     }
 
     public void takenBy(Player player) {
-        player.takeDoor(this);
+        if (this.isNext)
+            player.getGame().goNextWord();
+        else
+            player.getGame().goPrevWord();
     }
 
     @Override
