@@ -16,10 +16,7 @@ public class SpriteBomb extends SpriteGameObject {
     }
 
     @Override
-    //TODO : update l'image de la bombe à chaque secondes avant qu'elle explose (avec un timer tout ça ...)
     public void updateImage() {
-        //time / cooldown
-        //x / 100
         Bomb b = (Bomb) this.go;
         if ((b.getTimer()*100)/b.getExplosionCooldown() <= 250){
             setImage(ImageFactory.getInstance().get(BOMB_4));
