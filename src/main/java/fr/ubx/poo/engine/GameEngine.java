@@ -75,13 +75,29 @@ public final class GameEngine {
         input = new Input(scene);
         root.getChildren().add(layer);
         statusBar = new StatusBar(root, sceneWidth, sceneHeight, game);
+
+        createSprites();
+    }
+
+    private void createSprites() {
         // Create decor sprites
         game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
-        spritePlayer = SpriteFactory.createPlayer(layer, player);
         this.princess = game.getPrincess();
+        spritePlayer = SpriteFactory.createPlayer(layer, player);
         if (princess != null) spritePrincess = SpriteFactory.createPrincess(layer, princess);
         game.getMonsters().forEach(monster -> monstersSprites.add(SpriteFactory.createMonster(layer, monster)));
         game.getWorld().getBombs().forEach(bomb -> bombsSprites.add(SpriteFactory.createBomb(layer, bomb)));
+    }
+
+    private void removeSprites() {
+        this.sprites.forEach(Sprite::remove);
+        this.sprites.clear();
+        if (spritePlayer != null) spritePlayer.remove();
+        if (spritePrincess != null) spritePrincess.remove();
+        this.monstersSprites.forEach(Sprite::remove);
+        this.monstersSprites.clear();
+        this.bombsSprites.forEach(Sprite::remove);
+        this.bombsSprites.clear();
     }
 
     protected final void buildAndSetGameLoop() {
@@ -184,11 +200,10 @@ public final class GameEngine {
             this.game.worldChanged();
         }
 
-        //update all sprites when world has changed
+        // Update all sprites when world has changed
         if (this.game.getWorld().hasChanged()) {
-            this.sprites.forEach(Sprite::remove);
-            this.sprites.clear();
-            game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
+            removeSprites();
+            createSprites();
             this.game.getWorld().setChanged(false);
         }
 
