@@ -42,7 +42,7 @@ public class Player extends Character implements Movable {
                 Position newPos = this.getPosition();
 
                 // If a monster is on player position player is hit
-                Collection<Monster> monsters = this.game.getMonsters();
+                Collection<Monster> monsters = this.game.getWorld().getMonsters();
                 for (Monster monster : monsters) {
                     if (newPos.equals(monster.getPosition())) {
                         setLives(this.getLives() - 1);

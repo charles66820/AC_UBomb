@@ -86,12 +86,14 @@ public class Game {
             }
         } while (c != -1);
 
-        WorldEntity[][] world = new WorldEntity[worldArray.size()][rowLength];
+        WorldEntity[][] worldE = new WorldEntity[worldArray.size()][rowLength];
         for (int i = 0; i < worldArray.size(); i++)
             for (int j = 0; j < rowLength; j++)
-                world[i][j] = worldArray.get(i).get(j);
+                worldE[i][j] = worldArray.get(i).get(j);
 
-        this.worlds.add(new World(world));
+        World world = new World(worldE);
+        for (Position pos : world.getMonsterPositions()) world.getMonsters().add(new Monster(this, pos));
+        this.worlds.add(world);
     }
 
     public World getWorld() {
@@ -108,12 +110,6 @@ public class Game {
         } catch (PositionNotFoundException e) {
             return null;
         }
-    }
-
-    public Collection<Monster> getMonsters() {
-        Collection<Monster> monsters = new ArrayList<>();
-        for (Position pos : currentWorld.getMonsterPositions()) monsters.add(new Monster(this, pos));
-        return monsters;
     }
 
     public boolean worldHasChanged() {
