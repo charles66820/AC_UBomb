@@ -84,5 +84,5 @@ public final class Input {
 
     public boolean isExit() {
         return is(ESCAPE);
-    } //TODO: à implémenter dans processInput
+    }
 }

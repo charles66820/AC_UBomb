@@ -12,7 +12,7 @@ import static fr.ubx.poo.view.image.ImageResource.PRINCESS;
 
 public class SpriteBomb extends SpriteGameObject {
 
-    public SpriteBomb(Pane layer, Image image, Bomb bomb) {
+    public SpriteBomb(Pane layer, Bomb bomb) {
         super(layer, null, bomb);
         updateImage();
     }

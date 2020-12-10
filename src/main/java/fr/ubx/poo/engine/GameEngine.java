@@ -9,7 +9,9 @@ import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Door;
+import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.go.character.Princess;
+import fr.ubx.poo.model.go.item.Bomb;
 import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteFactory;
 import fr.ubx.poo.game.Game;
@@ -39,6 +41,7 @@ public final class GameEngine {
     private Princess princess;
     private final List<Sprite> sprites = new ArrayList<>();
     private final List<Sprite> monstersSprites = new ArrayList<>();
+    private final List<Sprite> bombsSprites = new ArrayList<>();
     private StatusBar statusBar;
     private Pane layer;
     private Input input;
@@ -100,7 +103,7 @@ public final class GameEngine {
     }
 
     private void processInput(long now) {
-        if (input.isExit()) {
+        if (input.isExit()) {  //TODO: ajouter une interface sympa quand on quitte le jeu
             gameLoop.stop();
             Platform.exit();
             System.exit(0);
@@ -127,6 +130,14 @@ public final class GameEngine {
                     this.game.getWorld().setChanged(true);
                     this.player.setKey(this.player.getKey() - 1);
                 }
+            }
+        }
+        if (input.isBomb()) {
+            Position pos = this.player.getPosition();
+            if (this.player.getBomb() >= 1) {
+                Bomb b = new Bomb(this.game, pos);
+                //this.bombs.add(b);
+                //this.bombsSprites.add(SpriteFactory.createBomb());
             }
         }
         input.clear();
@@ -164,17 +175,24 @@ public final class GameEngine {
             showMessage("Gagné", Color.BLUE);
         }
 
+        //update all bombs in the game
+        /*for (Bomb b : bombs) {
+            b.update(now);
+        }*/
+
         if (this.game.worldHasChanged()) {
             initialize(stage, game);
             this.game.worldChanged();
         }
 
+        //update all sprites when world has changed
         if (this.game.getWorld().hasChanged()) {
             this.sprites.forEach(Sprite::remove);
             this.sprites.clear();
             game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
             this.game.getWorld().setChanged(false);
         }
+
     }
 
     private void render() {

@@ -8,4 +8,8 @@ public class Bomb extends GameObject {
     public Bomb(Game game, Position position) {
         super(game, position);
     }
+
+    public void update(long now) {
+
+    }
 }
