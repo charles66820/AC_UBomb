@@ -1,10 +1,19 @@
 package fr.ubx.poo.model.decor.collectable;
 
 
+import fr.ubx.poo.model.go.character.Player;
+
 public class BombNumberDec extends Collectable {
     @Override
     public String toString() {
         return "BombNumberDec";
     }
-    // TODO: take()
+
+    @Override
+    public void takenBy(Player player) {
+        if (player.getBomb() > 1) {
+            player.setBomb(player.getBomb() - 1);
+            player.getGame().getWorld().clear(player.getPosition());
+        }
+    }
 }

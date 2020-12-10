@@ -10,7 +10,6 @@ import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Door;
-import fr.ubx.poo.model.decor.collectable.*;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.game.Game;
 
@@ -70,6 +69,10 @@ public class Player extends GameObject implements Movable {
         this.key = key;
     }
 
+    public Game getGame() {
+        return this.game;
+    }
+
     public void requestMove(Direction direction) {
         if (direction != this.direction) {
             this.direction = direction;
@@ -112,42 +115,9 @@ public class Player extends GameObject implements Movable {
                         setLives(this.getLives() - 1);
                     }
                 }
-                // TODO: Make method take(player, pos) in all collectable decor for replacce instanceof
-                if (decor instanceof Heart) {
-                    setLives(this.getLives() + 1);
-                    this.game.getWorld().clear(pos);
-                }
                 //TODO: loose lives (explosions)
-                //Keys
-                else if (decor instanceof Key) {
-                    setKey(this.getKey() + 1);
-                    this.game.getWorld().clear(pos);
-                }
-                //Bomb increased
-                else if (decor instanceof BombNumberInc) {
-                    setBomb(this.getBomb() + 1);
-                    this.game.getWorld().clear(pos);
-                }
-                //Bomb deceased
-                else if (decor instanceof BombNumberDec) {
-                    if (this.getBomb() > 1) {
-                        setBomb(this.getBomb() - 1);
-                        this.game.getWorld().clear(pos);
-                    }
-                }
-                //Range bomb increased
-                else if (decor instanceof BombRangeInc) {
-                    setRangebomb(this.getRangebomb() + 1);
-                    this.game.getWorld().clear(pos);
-                }
-                //Range bomb decreased
-                else if (decor instanceof BombRangeDec) {
-                    if (this.getRangebomb() > 1) {
-                        setRangebomb(this.getRangebomb() - 1);
-                        this.game.getWorld().clear(pos);
-                    }
-                } else if (decor instanceof Door) { // Tmp for door
-                    decor.take(this, pos);
+                if (decor != null){
+                    decor.takenBy(this);
                 }
             }
         }
