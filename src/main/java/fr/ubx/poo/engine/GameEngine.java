@@ -6,10 +6,8 @@ package fr.ubx.poo.engine;
 
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
-import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Door;
-import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.go.character.Princess;
 import fr.ubx.poo.model.go.item.Bomb;
 import fr.ubx.poo.view.sprite.Sprite;
@@ -135,7 +133,7 @@ public final class GameEngine {
         if (input.isBomb()) {
             Position pos = this.player.getPosition();
             if (this.player.getBomb() >= 1) {
-                Bomb b = new Bomb(this.game, pos);
+                Bomb b = new Bomb(this.game, pos, now);
                 this.game.getWorld().getBombs().add(b); // add bomb in bomb list
                 player.setBomb(player.getBomb()-1);
                 this.bombsSprites.add(SpriteFactory.createBomb(layer, b)); // add sprite of the current bomb in sprite bomb list
