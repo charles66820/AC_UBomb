@@ -9,6 +9,7 @@ import java.util.Objects;
 public class Position {
     public final int x;
     public final int y;
+
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
@@ -17,6 +18,10 @@ public class Position {
     public Position(Position position) {
         this.x = position.x;
         this.y = position.y;
+    }
+
+    public boolean inside(Dimension d) {
+        return x >= 0 && x < d.width && y >= 0 && y < d.height;
     }
 
     @Override
@@ -38,7 +43,4 @@ public class Position {
         return "(" + x + "," + y + ")";
     }
 
-    public boolean inside(Dimension d) {
-        return x >= 0 && x < d.width && y >= 0 && y < d.height;
-    }
 }

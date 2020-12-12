@@ -151,7 +151,7 @@ public final class GameEngine {
             if (this.player.getBomb() >= 1) {
                 Bomb b = new Bomb(this.game, pos, now);
                 this.game.getWorld().getBombs().add(b); // add bomb in bomb list
-                player.setBomb(player.getBomb()-1);
+                player.setBomb(player.getBomb() - 1);
                 this.bombsSprites.add(SpriteFactory.createBomb(layer, b)); // add sprite of the current bomb in sprite bomb list
             }
         }

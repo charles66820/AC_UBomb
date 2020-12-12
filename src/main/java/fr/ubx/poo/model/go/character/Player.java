@@ -16,7 +16,7 @@ import java.util.Collection;
 public class Player extends Character implements Movable {
     private boolean winner;
     // Stats
-    private int lives = 1;
+    private int lives;
     private int bomb = 1;
     private int rangebomb = 1;
     private int key = 0;

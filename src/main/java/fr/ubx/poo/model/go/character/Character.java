@@ -17,7 +17,8 @@ public abstract class Character extends GameObject implements Movable {
         this.direction = Direction.S;
     }
 
-    public void update(long now) { };
+    public void update(long now) {
+    }
 
     @Override
     public boolean canMove(Direction direction) {

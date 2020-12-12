@@ -21,12 +21,8 @@ public class World {
     private final WorldEntity[][] raw; // World grid with all entities
     public final Dimension dimension;
     private boolean changed = true;
-    private final Collection<Monster> monsters = new ArrayList<>();
+    private final List<Monster> monsters = new ArrayList<>();
     private final List<Bomb> bombs = new ArrayList<>();
-
-    public List<Bomb> getBombs() {
-        return bombs;
-    }
 
     public World(WorldEntity[][] raw) {
         this.raw = raw;
@@ -68,10 +64,6 @@ public class World {
         return pos;
     }
 
-    public Collection<Monster> getMonsters() {
-        return monsters;
-    }
-
     public Decor get(Position position) {
         return grid.get(position);
     }
@@ -111,6 +103,14 @@ public class World {
 
     public void setChanged(boolean changed) {
         this.changed = changed;
+    }
+
+    public List<Bomb> getBombs() {
+        return bombs;
+    }
+
+    public Collection<Monster> getMonsters() {
+        return monsters;
     }
 
 }

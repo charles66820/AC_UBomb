@@ -30,7 +30,6 @@ public class StatusBar {
     private final DropShadow ds = new DropShadow();
 
 
-
     public StatusBar(Group root, int sceneWidth, int sceneHeight, Game game) {
         // Status bar
         this.game = game;

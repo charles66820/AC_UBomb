@@ -42,10 +42,6 @@ public class Game {
         }
     }
 
-    public int getInitPlayerLives() {
-        return initPlayerLives;
-    }
-
     private void loadConfig(String path) {
         try (InputStream input = new FileInputStream(new File(path, "config.properties"))) {
             Properties prop = new Properties();
@@ -96,30 +92,6 @@ public class Game {
         this.worlds.add(world);
     }
 
-    public World getWorld() {
-        return currentWorld;
-    }
-
-    public Player getPlayer() {
-        return this.player;
-    }
-
-    public Princess getPrincess() {
-        try {
-            return new Princess(this, currentWorld.findPrincess());
-        } catch (PositionNotFoundException e) {
-            return null;
-        }
-    }
-
-    public boolean worldHasChanged() {
-        return this.worldChanged;
-    }
-
-    public void worldChanged() {
-        this.worldChanged = false;
-    }
-
     public void goNextWord() {
         this.worldChanged = true;
         if (currentLevel < nbLevels) {
@@ -138,6 +110,34 @@ public class Game {
                 if (d instanceof Door && ((Door) d).isNext()) player.setPosition(p);
             });
         }
+    }
+
+    public World getWorld() {
+        return currentWorld;
+    }
+
+    public Player getPlayer() {
+        return this.player;
+    }
+
+    public int getInitPlayerLives() {
+        return initPlayerLives;
+    }
+
+    public Princess getPrincess() {
+        try {
+            return new Princess(this, currentWorld.findPrincess());
+        } catch (PositionNotFoundException e) {
+            return null;
+        }
+    }
+
+    public boolean worldHasChanged() {
+        return this.worldChanged;
+    }
+
+    public void worldChanged() {
+        this.worldChanged = false;
     }
 
 }
