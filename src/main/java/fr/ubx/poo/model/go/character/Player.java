@@ -40,7 +40,7 @@ public class Player extends Character implements Movable {
                 doMove(direction);
 
                 Position newPos = this.getPosition();
-
+                // TODO: loose lives (explosions) in Bomb ?
                 // If a monster is on player position player is hit
                 Collection<Monster> monsters = this.game.getWorld().getMonsters();
                 for (Monster monster : monsters) {
@@ -63,7 +63,6 @@ public class Player extends Character implements Movable {
         if (princess != null && pos.equals(princess.getPosition())) {
             this.winner = true;
         }
-        // TODO: loose lives (explosions) in Bomb ?
     }
 
     @Override

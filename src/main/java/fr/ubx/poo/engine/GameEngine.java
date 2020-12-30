@@ -139,7 +139,7 @@ public final class GameEngine {
             Decor decor = this.game.getWorld().get(nextPos);
             if (decor instanceof Door) {
                 Door door = (Door) decor;
-                if (!door.isOpen()) {
+                if (!door.isOpen() && (this.player.getKey() >= 1)) {
                     door.setOpen(true);
                     this.game.getWorld().setChanged(true);
                     this.player.setKey(this.player.getKey() - 1);
@@ -148,7 +148,7 @@ public final class GameEngine {
         }
         if (input.isBomb()) {
             Position pos = this.player.getPosition();
-            if (this.player.getBomb() >= 1) {
+            if (this.player.getBomb() >= 1) { //TODO: une bombe ne peut se poser que sur un slot vide ou un monstre !
                 Bomb b = new Bomb(this.game, pos, now);
                 this.game.getWorld().getBombs().add(b); // add bomb in bomb list
                 player.setBomb(player.getBomb() - 1);
@@ -181,7 +181,7 @@ public final class GameEngine {
     private void update(long now) {
         player.update(now);
 
-        if (player.isAlive() == false) {
+        if (!player.isAlive()) {
             gameLoop.stop();
             showMessage("Perdu!", Color.RED);
         }
