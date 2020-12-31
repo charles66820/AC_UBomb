@@ -15,4 +15,5 @@ public class Decor extends Entity {
         return false;
     }
     public void takenBy(Player player) { }
+    public boolean isExplosionStop() { return true;} //check if explosion continue at the same direction
 }

@@ -193,6 +193,10 @@ public final class GameEngine {
         //update all bombs in the game
         for (Bomb b : this.game.getWorld().getBombs()) {
             b.update(now);
+            if (b.isExplosed()){
+                b.explosion(); //TODO: /!\ bombe très explosive qui fait mourir instant ! Donc il faut supprimer la bombe qui continue "d'exploser en boucle"
+                this.game.getWorld().clear(b.getPosition());
+            }
         }
 
         if (this.game.worldHasChanged()) {

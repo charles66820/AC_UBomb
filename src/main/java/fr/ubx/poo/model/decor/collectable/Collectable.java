@@ -7,4 +7,9 @@ public abstract class Collectable extends Decor {
     public boolean isTraversable() {
         return true;
     }
+
+    @Override
+    public boolean isExplosionStop() {
+        return false;
+    }
 }
