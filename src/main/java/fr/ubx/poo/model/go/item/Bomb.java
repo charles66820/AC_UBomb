@@ -81,6 +81,7 @@ public class Bomb extends GameObject {
                 Collection<Monster> monsters = this.game.getWorld().getMonsters();
                 for (Monster monster : monsters) {
                     if (nextPos.equals(monster.getPosition())) {
+                        monster.die(); // kill monster
                         this.game.getWorld().clear(nextPos); //TODO: rajouter des vies aux monstres au lieu de les one shot
                     }
                 }
