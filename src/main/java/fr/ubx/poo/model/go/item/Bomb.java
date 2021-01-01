@@ -15,7 +15,7 @@ import java.util.Collection;
 public class Bomb extends GameObject {
     private long initTimer; // time when bomb was created
     private long timer; // current time before explosion
-    private final long explosionCooldown = 400000000; // total time before explosion
+    private final long explosionCooldown; // total time before explosion
     private boolean isExplosed; // state of the bomb if it is explosed or not
 
     public long getInitTimer() {
@@ -42,11 +42,12 @@ public class Bomb extends GameObject {
         super(game, position);
         this.initTimer = initTimer;
         this.isExplosed = false;
+        this.explosionCooldown = 100000L * this.game.getExplosionCooldown();
     }
 
     public void update(long now) {
         this.timer = now - this.getInitTimer();
-        if ((this.getTimer() * 100) / this.getExplosionCooldown() > 1000) {
+        if ((this.getTimer() * 100) / this.getExplosionCooldown() > 1000 + this.game.getExplosionDuration()) {
             this.setExplosed(true);
             // TODO: move b.explosion(); here
         }

@@ -26,6 +26,8 @@ public class Game {
     public int initPlayerLives;
     public int startMonsterMoveFrequency;
     public int monsterMoveFrequencyRation;
+    public int explosionCooldown;
+    public int explosionDuration;
     private boolean worldChanged = false;
 
     public Game(String worldPath) {
@@ -55,6 +57,8 @@ public class Game {
             this.nbLevels = Integer.parseInt(prop.getProperty("levels", "0"));
             this.startMonsterMoveFrequency = Integer.parseInt(prop.getProperty("startMonsterMoveFrequency", "800"));
             this.monsterMoveFrequencyRation = Integer.parseInt(prop.getProperty("monsterMoveFrequencyRation", "100"));
+            this.explosionCooldown = Integer.parseInt(prop.getProperty("explosionCooldown", "4000"));
+            this.explosionDuration = Integer.parseInt(prop.getProperty("explosionDuration", "200"));
             if (nbLevels == 0) {
                 // Load static world for demo on levels is define to 0
                 this.worlds.add(new WorldStatic());
@@ -147,6 +151,14 @@ public class Game {
 
     public void worldChanged() {
         this.worldChanged = false;
+    }
+
+    public int getExplosionCooldown() {
+        return this.explosionCooldown;
+    }
+
+    public int getExplosionDuration() {
+        return this.explosionDuration;
     }
 
 }
