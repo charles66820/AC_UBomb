@@ -161,4 +161,8 @@ public class Game {
         return this.explosionDuration;
     }
 
+    public int getCurrentLevel() {
+        return this.currentLevel;
+    }
+
 }

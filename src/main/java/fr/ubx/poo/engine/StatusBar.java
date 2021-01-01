@@ -24,6 +24,7 @@ public class StatusBar {
     private Text rangeValue = new Text();
     private Text keyValue = new Text();
     private HBox level = new HBox();
+    private int newGameLevel = 1;
     private int gameLevel = 1;
 
     private final Game game;
@@ -79,11 +80,14 @@ public class StatusBar {
     }
 
     public void update(Game game) {
-        updateLevel(1);
+        updateLevel(this.newGameLevel);
         liveValue.setText(String.valueOf(game.getPlayer().getLives()));
         rangeValue.setText(String.valueOf(game.getPlayer().getRangebomb()));
         bombsValue.setText(String.valueOf(game.getPlayer().getBomb()));
         keyValue.setText(String.valueOf(game.getPlayer().getKey()));
     }
 
+    public void setGameLevel(int gameLevel) {
+        this.newGameLevel = gameLevel;
+    }
 }

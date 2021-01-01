@@ -214,6 +214,7 @@ public final class GameEngine {
         if (this.game.worldHasChanged()) {
             initialize(stage, game);
             this.game.worldChanged();
+            statusBar.setGameLevel(this.game.getCurrentLevel() + 1);
         }
 
         // Update all sprites when world has changed
