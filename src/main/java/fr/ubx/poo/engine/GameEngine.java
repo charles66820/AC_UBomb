@@ -8,6 +8,7 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Door;
+import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Princess;
 import fr.ubx.poo.model.go.item.Bomb;
 import fr.ubx.poo.view.sprite.Sprite;
@@ -192,7 +193,7 @@ public final class GameEngine {
 
         // update all bombs in the game
         List<Bomb> removeBomb = new ArrayList<>();
-         for (Bomb b : this.game.getWorld().getBombs()) {
+        for (Bomb b : this.game.getWorld().getBombs()) {
             b.update(now);
             if (b.isExplosed()) {
                 removeBomb.add(b);
@@ -201,6 +202,14 @@ public final class GameEngine {
             }
         }
         this.game.getWorld().getBombs().removeAll(removeBomb);
+
+        // Update monster
+        List<Monster> removeMonster = new ArrayList<>();
+        for (Monster b : this.game.getWorld().getMonsters()) {
+            b.update(now);
+            if (!b.isAlive()) removeMonster.add(b);
+        }
+        this.game.getWorld().getMonsters().removeAll(removeMonster);
 
         if (this.game.worldHasChanged()) {
             initialize(stage, game);

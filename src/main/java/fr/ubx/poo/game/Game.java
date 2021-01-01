@@ -24,6 +24,8 @@ public class Game {
     private int nbLevels;
     private int currentLevel = 0;
     public int initPlayerLives;
+    public int startMonsterMoveFrequency;
+    public int monsterMoveFrequencyRation;
     private boolean worldChanged = false;
 
     public Game(String worldPath) {
@@ -51,6 +53,8 @@ public class Game {
             this.worldPrefix = prop.getProperty("prefix", "level");
             this.extension = prop.getProperty("extension", ".txt");
             this.nbLevels = Integer.parseInt(prop.getProperty("levels", "0"));
+            this.startMonsterMoveFrequency = Integer.parseInt(prop.getProperty("startMonsterMoveFrequency", "800"));
+            this.monsterMoveFrequencyRation = Integer.parseInt(prop.getProperty("monsterMoveFrequencyRation", "100"));
             if (nbLevels == 0) {
                 // Load static world for demo on levels is define to 0
                 this.worlds.add(new WorldStatic());
@@ -88,7 +92,12 @@ public class Game {
                 worldE[i][j] = worldArray.get(i).get(j);
 
         World world = new World(worldE);
-        for (Position pos : world.getMonsterPositions()) world.getMonsters().add(new Monster(this, pos));
+        int moveFrequency = startMonsterMoveFrequency - (monsterMoveFrequencyRation * levelNum);
+        if (moveFrequency < 200) moveFrequency = 200;
+
+        for (Position pos : world.getMonsterPositions()) {
+            world.getMonsters().add(new Monster(this, pos, moveFrequency));
+        }
         this.worlds.add(world);
     }
 

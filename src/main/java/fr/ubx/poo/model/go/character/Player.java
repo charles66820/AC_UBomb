@@ -73,6 +73,10 @@ public class Player extends Character implements Movable {
             if (!this.game.getWorld().isInside(nextBoxPos)) return false; // Fix bug with box move out of world border
             Decor d = this.game.getWorld().get(nextBoxPos);
             if (d != null) return false;
+
+            // Collition with monster
+            for (Monster monster : this.game.getWorld().getMonsters()) if (nextBoxPos.equals(monster.getPosition())) return false;
+
             this.game.getWorld().clear(nextPos);
             this.game.getWorld().set(nextBoxPos, decor);
             return true;
@@ -82,13 +86,6 @@ public class Player extends Character implements Movable {
 
     public boolean isWinner() {
         return this.winner;
-    }
-
-    public void requestMove(Direction direction) {
-        if (direction != this.direction) {
-            this.direction = direction;
-        }
-        moveRequested = true;
     }
 
     // Stats

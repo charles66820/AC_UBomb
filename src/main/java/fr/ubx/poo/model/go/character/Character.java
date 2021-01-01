@@ -33,6 +33,12 @@ public abstract class Character extends GameObject implements Movable {
         setPosition(nextPos);
     }
 
+    public void requestMove(Direction direction) {
+        if (direction != this.direction) {
+            this.direction = direction;
+        }
+        moveRequested = true;
+    }
 
     public boolean isAlive() {
         return alive;
