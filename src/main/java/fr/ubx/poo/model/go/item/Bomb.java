@@ -46,7 +46,7 @@ public class Bomb extends GameObject {
 
     public void update(long now) {
         this.timer = now - this.getInitTimer();
-        if ((this.getTimer()*100)/this.getExplosionCooldown() > 1000){
+        if ((this.getTimer() * 100) / this.getExplosionCooldown() > 1000) {
             this.setExplosed(true);
             // TODO: move b.explosion(); here
         }
@@ -61,14 +61,14 @@ public class Bomb extends GameObject {
                 //if it is a decor
                 Decor decor = this.game.getWorld().get(nextPos);
                 if (decor != null) {
-                    if (decor instanceof Box){ //TODO: casser qu'une seule caisse / explosion
+                    if (decor instanceof Box) { //TODO: casser qu'une seule caisse / explosion
                         this.game.getWorld().clear(nextPos);
                         break; //TODO: sortir seulement de la boucle et pas des 2
                     }
-                    if (decor instanceof Collectable && !(decor instanceof Key)){
+                    if (decor instanceof Collectable && !(decor instanceof Key)) {
                         this.game.getWorld().clear(nextPos);
                     }
-                    if (decor.isExplosionStop()){
+                    if (decor.isExplosionStop()) {
                         break;
                     }
                 }
