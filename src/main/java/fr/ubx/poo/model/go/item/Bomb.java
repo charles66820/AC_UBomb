@@ -48,6 +48,7 @@ public class Bomb extends GameObject {
         this.timer = now - this.getInitTimer();
         if ((this.getTimer()*100)/this.getExplosionCooldown() > 1000){
             this.setExplosed(true);
+            // TODO: move b.explosion(); here
         }
     }
 
