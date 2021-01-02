@@ -17,35 +17,24 @@ public class Bomb extends GameObject {
     private long timer; // current time before explosion
     private final long explosionCooldown; // total time before explosion
     private boolean isExploded; // state of the bomb if it is exploded or not
-
-    public long getInitTimer() {
-        return initTimer;
-    }
-
-    public long getTimer() {
-        return timer;
-    }
-
-    public long getExplosionCooldown() {
-        return explosionCooldown;
-    }
-
-    public boolean isExploded() {
-        return isExploded;
-    }
-
+    private boolean canBeRemove; // state of the bomb if it can be remove
 
     public Bomb(Game game, Position position, long initTimer) {
         super(game, position);
         this.initTimer = initTimer;
         this.isExploded = false;
-        this.explosionCooldown = 100000L * this.game.getExplosionCooldown();
+        this.canBeRemove = false;
+        this.explosionCooldown = 1000000L * this.game.getExplosionCooldown();
     }
 
     public void update(long now) {
         this.timer = now - this.getInitTimer();
-        if ((this.getTimer() * 100) / this.getExplosionCooldown() > 1000 + this.game.getExplosionDuration()) {
+        if (this.getTimer() > this.getExplosionCooldown() && !this.isExploded) {
             this.explosion();
+        }
+
+        if (this.getTimer() > this.getExplosionCooldown() + (1000000L * this.game.getExplosionDuration()) && this.isExploded) {
+            this.canBeRemove = true;
         }
     }
 
@@ -61,11 +50,9 @@ public class Bomb extends GameObject {
                     if (decor instanceof Box) {
                         this.game.getWorld().clear(nextPos);
                         break;
-                    }
-                    else if (decor instanceof Collectable && !(decor instanceof Key)) {
+                    } else if (decor instanceof Collectable && !(decor instanceof Key)) {
                         this.game.getWorld().clear(nextPos);
-                    }
-                    else if (decor.isExplosionStop()) {
+                    } else if (decor.isExplosionStop()) {
                         break;
                     }
                 }
@@ -83,5 +70,21 @@ public class Bomb extends GameObject {
             }
         }
         this.isExploded = true;
+    }
+
+    public long getInitTimer() {
+        return initTimer;
+    }
+
+    public long getTimer() {
+        return timer;
+    }
+
+    public long getExplosionCooldown() {
+        return explosionCooldown;
+    }
+
+    public boolean canBeRemove() {
+        return canBeRemove;
     }
 }

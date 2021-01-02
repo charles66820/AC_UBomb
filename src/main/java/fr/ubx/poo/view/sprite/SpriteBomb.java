@@ -16,13 +16,13 @@ public class SpriteBomb extends SpriteGameObject {
     @Override
     public void updateImage() {
         Bomb b = (Bomb) this.go;
-        if ((b.getTimer() * 100) / b.getExplosionCooldown() <= 250) {
+        if ((b.getTimer() * 100) / b.getExplosionCooldown() <= 25) { // 25%
             setImage(ImageFactory.getInstance().get(BOMB_4));
-        } else if ((b.getTimer() * 100) / b.getExplosionCooldown() <= 500) {
+        } else if ((b.getTimer() * 100) / b.getExplosionCooldown() <= 50) { // 50%
             setImage(ImageFactory.getInstance().get(BOMB_3));
-        } else if ((b.getTimer() * 100) / b.getExplosionCooldown() <= 750) {
+        } else if ((b.getTimer() * 100) / b.getExplosionCooldown() <= 75) { // 75%
             setImage(ImageFactory.getInstance().get(BOMB_2));
-        } else if ((b.getTimer() * 100) / b.getExplosionCooldown() <= 1000) {
+        } else if ((b.getTimer() * 100) / b.getExplosionCooldown() <= 100) { // 100%
             setImage(ImageFactory.getInstance().get(BOMB_1));
         } else {
             setImage(ImageFactory.getInstance().get(EXPLOSION));
