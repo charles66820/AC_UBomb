@@ -18,10 +18,10 @@ public class Monster extends Character implements Movable {
     }
 
     public void update(long now) {
-        // Init lasteCallTime
+        // Init lastCallTime
         if (this.lastCallTime == 0) this.lastCallTime = now;
 
-        // Request monste move after a moment
+        // Request monster move after a moment
         if ((now - lastCallTime) >= moveFrequency) {
             this.randomAI(); // TODO: smartAI()
             this.lastCallTime = now;
@@ -35,7 +35,7 @@ public class Monster extends Character implements Movable {
                 // Hit the player if is on same position
                 Player player = this.game.getPlayer();
                 if (this.getPosition().equals(player.getPosition())) {
-                    player.setLives(player.getLives() - 1);
+                    player.removeLives(1);
                 }
             }
             moveRequested = false;
@@ -47,7 +47,7 @@ public class Monster extends Character implements Movable {
     public boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
         Decor decor = this.game.getWorld().get(nextPos);
-        // Collition with monster
+        // Collision with monster
         for (Monster monster : this.game.getWorld().getMonsters()) if (nextPos.equals(monster.getPosition())) return false;
         return (this.game.getWorld().isInside(nextPos)) && ((decor == null) || (decor.isTraversable() && !(decor instanceof Door)));
     }

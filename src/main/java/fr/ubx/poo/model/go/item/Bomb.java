@@ -13,10 +13,10 @@ import fr.ubx.poo.model.go.character.Monster;
 import java.util.Collection;
 
 public class Bomb extends GameObject {
-    private long initTimer; // time when bomb was created
+    private final long initTimer; // time when bomb was created
     private long timer; // current time before explosion
     private final long explosionCooldown; // total time before explosion
-    private boolean isExplosed; // state of the bomb if it is explosed or not
+    private boolean isExploded; // state of the bomb if it is exploded or not
 
     public long getInitTimer() {
         return initTimer;
@@ -30,64 +30,58 @@ public class Bomb extends GameObject {
         return explosionCooldown;
     }
 
-    public boolean isExplosed() {
-        return isExplosed;
+    public boolean isExploded() {
+        return isExploded;
     }
 
-    public void setExplosed(boolean explosed) {
-        isExplosed = explosed;
-    }
 
     public Bomb(Game game, Position position, long initTimer) {
         super(game, position);
         this.initTimer = initTimer;
-        this.isExplosed = false;
+        this.isExploded = false;
         this.explosionCooldown = 100000L * this.game.getExplosionCooldown();
     }
 
     public void update(long now) {
         this.timer = now - this.getInitTimer();
         if ((this.getTimer() * 100) / this.getExplosionCooldown() > 1000 + this.game.getExplosionDuration()) {
-            this.setExplosed(true);
-            // TODO: move b.explosion(); here
+            this.explosion();
         }
     }
 
     public void explosion() {
         int rangeMax = this.game.getPlayer().getRangebomb();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i <= 3; i++) {
             Direction direction = Direction.values()[i]; // select each direction
             for (int j = 1; j <= rangeMax; j++) {
                 Position nextPos = direction.nextPosition(this.getPosition(), j);
                 //if it is a decor
                 Decor decor = this.game.getWorld().get(nextPos);
                 if (decor != null) {
-                    if (decor instanceof Box) { //TODO: casser qu'une seule caisse / explosion
+                    if (decor instanceof Box) {
                         this.game.getWorld().clear(nextPos);
-                        break; //TODO: sortir seulement de la boucle et pas des 2
+                        break;
                     }
-                    if (decor instanceof Collectable && !(decor instanceof Key)) {
+                    else if (decor instanceof Collectable && !(decor instanceof Key)) {
                         this.game.getWorld().clear(nextPos);
                     }
-                    if (decor.isExplosionStop()) {
+                    else if (decor.isExplosionStop()) {
                         break;
                     }
                 }
-                //TODO: voir si cette partie est à mettre ici ou dans player et monster
                 //if explosion hit the player
                 if (nextPos.equals(this.game.getPlayer().getPosition())) {
-                    this.game.getPlayer().setLives(this.game.getPlayer().getLives() - 1);
+                    this.game.getPlayer().removeLives(1);
                 }
                 //if explosion hit a monster
                 Collection<Monster> monsters = this.game.getWorld().getMonsters();
                 for (Monster monster : monsters) {
                     if (nextPos.equals(monster.getPosition())) {
                         monster.die(); // kill monster
-                        this.game.getWorld().clear(nextPos); //TODO: rajouter des vies aux monstres au lieu de les one shot
                     }
                 }
             }
         }
-        this.setExplosed(false);
+        this.isExploded = true;
     }
 }

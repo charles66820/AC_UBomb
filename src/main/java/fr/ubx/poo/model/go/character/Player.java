@@ -44,7 +44,7 @@ public class Player extends Character implements Movable {
                 Collection<Monster> monsters = this.game.getWorld().getMonsters();
                 for (Monster monster : monsters) {
                     if (newPos.equals(monster.getPosition())) {
-                        setLives(this.getLives() - 1);
+                        removeLives(1);
                     }
                 }
 
@@ -88,13 +88,17 @@ public class Player extends Character implements Movable {
         return this.winner;
     }
 
+    public void addLives (int pv) {
+        this.lives = this.lives + pv;
+    }
+
+    public void removeLives (int pv) {
+        this.lives = this.lives - pv;
+    }
+
     // Stats
     public int getLives() {
         return lives;
-    }
-
-    public void setLives(int lives) {
-        this.lives = lives;
     }
 
     public int getBomb() {

@@ -191,17 +191,16 @@ public final class GameEngine {
             showMessage("Gagné", Color.BLUE);
         }
 
-        // update all bombs in the game
-        List<Bomb> removeBomb = new ArrayList<>();
+        // Update all bombs in the game
+        List<Bomb> explodedBomb = new ArrayList<>();
         for (Bomb b : this.game.getWorld().getBombs()) {
             b.update(now);
-            if (b.isExplosed()) {
-                removeBomb.add(b);
-                b.explosion(); //TODO: /!\ bombe très explosive qui fait mourir instant ! Donc il faut supprimer la bombe qui continue "d'exploser en boucle"
-                this.game.getWorld().clear(b.getPosition());
+            if (b.isExploded()) {
+                explodedBomb.add(b);
+                this.game.getWorld().setChanged(true);
             }
         }
-        this.game.getWorld().getBombs().removeAll(removeBomb);
+        this.game.getWorld().getBombs().removeAll(explodedBomb);
 
         // Update monster
         List<Monster> removeMonster = new ArrayList<>();

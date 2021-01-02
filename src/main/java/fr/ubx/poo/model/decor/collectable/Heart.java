@@ -10,7 +10,7 @@ public class Heart extends Collectable {
 
     @Override
     public void takenBy(Player player) {
-        player.setLives(player.getLives() + 1);
+        player.addLives(1);
         player.getGame().getWorld().clear(player.getPosition());
     }
 }
