@@ -10,14 +10,18 @@ import fr.ubx.poo.model.decor.collectable.Key;
 import fr.ubx.poo.model.go.GameObject;
 import fr.ubx.poo.model.go.character.Monster;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class Bomb extends GameObject {
+    private final int rangeMax;
     private final long initTimer; // time when bomb was created
     private long timer; // current time before explosion
     private final long explosionCooldown; // total time before explosion
     private boolean isExploded; // state of the bomb if it is exploded or not
     private boolean canBeRemove; // state of the bomb if it can be remove
+    List<Position> explosionPositions = new ArrayList<>();
 
     public Bomb(Game game, Position position, long initTimer) {
         super(game, position);
@@ -25,6 +29,7 @@ public class Bomb extends GameObject {
         this.isExploded = false;
         this.canBeRemove = false;
         this.explosionCooldown = 1000000L * this.game.getExplosionCooldown();
+        this.rangeMax = this.game.getPlayer().getRangebomb();
     }
 
     public void update(long now) {
@@ -39,7 +44,6 @@ public class Bomb extends GameObject {
     }
 
     public void explosion() {
-        int rangeMax = this.game.getPlayer().getRangebomb();
         for (int i = 0; i <= 3; i++) {
             Direction direction = Direction.values()[i]; // select each direction
             for (int j = 1; j <= rangeMax; j++) {
@@ -49,12 +53,16 @@ public class Bomb extends GameObject {
                 if (decor != null) {
                     if (decor instanceof Box) {
                         this.game.getWorld().clear(nextPos);
+                        explosionPositions.add(nextPos); // To show explosion
                         break;
                     } else if (decor instanceof Collectable && !(decor instanceof Key)) {
                         this.game.getWorld().clear(nextPos);
+                        explosionPositions.add(nextPos); // To show explosion
                     } else if (decor.isExplosionStop()) {
                         break;
                     }
+                } else {
+                    explosionPositions.add(nextPos); // To show explosion
                 }
                 //if explosion hit the player
                 if (nextPos.equals(this.game.getPlayer().getPosition())) {
@@ -87,4 +95,9 @@ public class Bomb extends GameObject {
     public boolean canBeRemove() {
         return canBeRemove;
     }
+
+    public List<Position> getExplosionPositions() {
+        return explosionPositions;
+    }
+
 }

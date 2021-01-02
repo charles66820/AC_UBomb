@@ -58,7 +58,7 @@ public class Game {
             this.startMonsterMoveFrequency = Integer.parseInt(prop.getProperty("startMonsterMoveFrequency", "800"));
             this.monsterMoveFrequencyRation = Integer.parseInt(prop.getProperty("monsterMoveFrequencyRation", "100"));
             this.explosionCooldown = Integer.parseInt(prop.getProperty("explosionCooldown", "4000"));
-            this.explosionDuration = Integer.parseInt(prop.getProperty("explosionDuration", "200"));
+            this.explosionDuration = Integer.parseInt(prop.getProperty("explosionDuration", "400"));
             if (nbLevels == 0) {
                 // Load static world for demo on levels is define to 0
                 this.worlds.add(new WorldStatic());

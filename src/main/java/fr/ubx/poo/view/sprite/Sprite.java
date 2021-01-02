@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
 public abstract class Sprite {
 
     public static final int size = 40;
-    private final Pane layer;
+    protected final Pane layer; // Change to protected for bomb explosion
     private ImageView imageView;
     private Image image;
 
@@ -31,7 +31,7 @@ public abstract class Sprite {
 
     public abstract Position getPosition();
 
-    public final void render() {
+    public void render() { // Remove final for bomb explosion
         if (imageView != null) {
             remove();
         }
@@ -42,7 +42,7 @@ public abstract class Sprite {
         layer.getChildren().add(imageView);
     }
 
-    public final void remove() {
+    public void remove() { // Remove final for bomb explosion
         layer.getChildren().remove(imageView);
         imageView = null;
     }
