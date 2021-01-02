@@ -74,7 +74,7 @@ public class Player extends Character implements Movable {
             Decor d = this.game.getWorld().get(nextBoxPos);
             if (d != null) return false;
 
-            // Collition with monster
+            // Collision with monster
             for (Monster monster : this.game.getWorld().getMonsters()) if (nextBoxPos.equals(monster.getPosition())) return false;
 
             this.game.getWorld().clear(nextPos);
