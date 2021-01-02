@@ -195,7 +195,7 @@ public final class GameEngine {
         List<Bomb> explodedBomb = new ArrayList<>();
         for (Bomb b : this.game.getWorld().getBombs()) {
             b.update(now);
-            if (b.isExploded()) {
+            if (b.canBeRemove()) {
                 explodedBomb.add(b);
                 this.game.getWorld().setChanged(true);
             }
