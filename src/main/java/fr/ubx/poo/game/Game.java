@@ -24,10 +24,10 @@ public class Game {
     private int nbLevels;
     private int currentLevel = 0;
     private int initPlayerLives;
-    private int startMonsterMoveFrequency;
-    private int monsterMoveFrequencyRation;
-    private int explosionCooldown;
-    private int explosionDuration;
+    private double startMonsterMoveFrequency;
+    private double monsterMoveFrequencyRation;
+    private double explosionCooldown;
+    private double explosionDuration;
     private boolean worldChanged = false;
 
     public Game(String worldPath) {
@@ -36,17 +36,34 @@ public class Game {
         loadConfig(worldPath);
     }
 
-    public void initFirstWorldAndPlayer() {
+    public void initGame() {
+        // Load levels
+        if (nbLevels == 0) {
+            // Load static world for demo on levels is define to 0
+            this.worlds.add(new WorldStatic());
+        } else {
+            try {
+                for (int i = 1; i < nbLevels + 1; i++)
+                    loadWorld(i);
+            } catch (IOException ex) {
+                System.err.println("Error on loading levels");
+                // Load static world on levels loading error
+                this.worlds.add(new WorldStatic());
+            }
+        }
+
         currentWorld = worlds.get(0);
 
         Position positionPlayer = null;
         try {
             positionPlayer = currentWorld.findPlayer();
             player = new Player(this, positionPlayer);
-        } catch (PositionNotFoundException e) {
+        } catch (
+                PositionNotFoundException e) {
             System.err.println("Position not found : " + e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
+
     }
 
     private void loadConfig(String path) {
@@ -62,13 +79,6 @@ public class Game {
             this.monsterMoveFrequencyRation = Integer.parseInt(prop.getProperty("monsterMoveFrequencyRation", "100"));
             this.explosionCooldown = Integer.parseInt(prop.getProperty("explosionCooldown", "4000"));
             this.explosionDuration = Integer.parseInt(prop.getProperty("explosionDuration", "400"));
-            if (nbLevels == 0) {
-                // Load static world for demo on levels is define to 0
-                this.worlds.add(new WorldStatic());
-            } else {
-                for (int i = 1; i < nbLevels + 1; i++)
-                    loadWorld(i);
-            }
         } catch (IOException ex) {
             System.err.println("Error loading configuration");
         }
@@ -99,7 +109,7 @@ public class Game {
                 worldE[i][j] = worldArray.get(i).get(j);
 
         World world = new World(worldE);
-        int moveFrequency = startMonsterMoveFrequency - (monsterMoveFrequencyRation * levelNum);
+        double moveFrequency = startMonsterMoveFrequency - (monsterMoveFrequencyRation * levelNum);
         if (moveFrequency < 200) moveFrequency = 200;
 
         for (Position pos : world.getMonsterPositions()) {
@@ -110,7 +120,7 @@ public class Game {
 
     public void goNextWord() {
         this.worldChanged = true;
-        if (currentLevel < nbLevels) {
+        if (currentLevel + 1 < nbLevels) {
             this.currentWorld = this.worlds.get(++currentLevel);
             this.currentWorld.forEach((p, d) -> {
                 if (d instanceof Door && !((Door) d).isNext()) player.setPosition(p);
@@ -156,14 +166,6 @@ public class Game {
         this.worldChanged = false;
     }
 
-    public int getExplosionCooldown() {
-        return this.explosionCooldown;
-    }
-
-    public int getExplosionDuration() {
-        return this.explosionDuration;
-    }
-
     public int getCurrentLevel() {
         return this.currentLevel;
     }
@@ -197,27 +199,35 @@ public class Game {
         this.initPlayerLives = initPlayerLives;
     }
 
-    public int getStartMonsterMoveFrequency() {
+    public double getStartMonsterMoveFrequency() {
         return startMonsterMoveFrequency;
     }
 
-    public void setStartMonsterMoveFrequency(int startMonsterMoveFrequency) {
+    public void setStartMonsterMoveFrequency(double startMonsterMoveFrequency) {
         this.startMonsterMoveFrequency = startMonsterMoveFrequency;
     }
 
-    public int getMonsterMoveFrequencyRation() {
+    public double getMonsterMoveFrequencyRation() {
         return monsterMoveFrequencyRation;
     }
 
-    public void setMonsterMoveFrequencyRation(int monsterMoveFrequencyRation) {
+    public void setMonsterMoveFrequencyRation(double monsterMoveFrequencyRation) {
         this.monsterMoveFrequencyRation = monsterMoveFrequencyRation;
     }
 
-    public void setExplosionCooldown(int explosionCooldown) {
+    public double getExplosionCooldown() {
+        return this.explosionCooldown;
+    }
+
+    public void setExplosionCooldown(double explosionCooldown) {
         this.explosionCooldown = explosionCooldown;
     }
 
-    public void setExplosionDuration(int explosionDuration) {
+    public void setExplosionDuration(double explosionDuration) {
         this.explosionDuration = explosionDuration;
+    }
+
+    public double getExplosionDuration() {
+        return this.explosionDuration;
     }
 }

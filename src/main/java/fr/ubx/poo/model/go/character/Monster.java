@@ -12,9 +12,9 @@ public class Monster extends Character implements Movable {
     private final long moveFrequency; // In ns
     private long lastCallTime;
 
-    public Monster(Game game, Position position, int moveFrequencyInMs) {
+    public Monster(Game game, Position position, double moveFrequencyInMs) {
         super(game, position);
-        this.moveFrequency = 1000000L * moveFrequencyInMs;
+        this.moveFrequency = (long) (1000000L * moveFrequencyInMs);
     }
 
     public void update(long now) {

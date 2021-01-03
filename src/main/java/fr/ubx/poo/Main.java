@@ -9,6 +9,8 @@ import fr.ubx.poo.game.Game;
 import fr.ubx.poo.view.image.ImageFactory;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -48,7 +50,7 @@ public class Main extends Application {
         // Play button
         Button startBtn = new Button("Lancer le jeu");
         startBtn.setOnAction(e -> {
-            game.initFirstWorldAndPlayer();
+            game.initGame();
             GameEngine engine = new GameEngine("UBomb : in game", game, stage);
             engine.start();
         });
@@ -105,13 +107,6 @@ public class Main extends Application {
     }
 
     private StackPane initSettingsPanel() {
-        // Close button
-        Button closeBtn = new Button("Save and quite");
-        AnchorPane closePane = new AnchorPane();
-        AnchorPane.setRightAnchor(closeBtn, 16.0);
-        AnchorPane.setBottomAnchor(closeBtn, 16.0);
-        closePane.getChildren().add(closeBtn);
-
         // Levels files prefix
         Text prefixLabel = new Text("Levels files prefix");
         TextField prefixTextField = new TextField();
@@ -121,6 +116,9 @@ public class Main extends Application {
         Text nbLevelsLabel = new Text("Number of levels");
         TextField nbLevelsTextField = new TextField();
         nbLevelsTextField.setText(String.valueOf(this.game.getNbLevels()));
+        nbLevelsTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d{0,12}")) nbLevelsTextField.setText(oldValue);
+        });
 
         // Levels files extension
         Text extensionLabel = new Text("Levels files extension");
@@ -131,26 +129,46 @@ public class Main extends Application {
         Text initialsLivesLabel = new Text("Initials lives");
         TextField initialsLivesTextField = new TextField();
         initialsLivesTextField.setText(String.valueOf(this.game.getInitPlayerLives()));
+        initialsLivesTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d{0,12}"))
+                initialsLivesTextField.setText(oldValue);
+        });
 
         // Start monster move frequency
         Text startMonsterMoveFrequencyLabel = new Text("monster move frequency (in ms)");
         TextField startMonsterMoveFrequencyTextField = new TextField();
         startMonsterMoveFrequencyTextField.setText(String.valueOf(this.game.getStartMonsterMoveFrequency()));
+        startMonsterMoveFrequencyTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?"))
+                startMonsterMoveFrequencyTextField.setText(oldValue);
+        });
 
         // Monster move frequency ration add on each level
         Text monsterMoveFrequencyRationLabel = new Text("monster move frequency ration (in ms)");
         TextField monsterMoveFrequencyRationTextField = new TextField();
         monsterMoveFrequencyRationTextField.setText(String.valueOf(this.game.getMonsterMoveFrequencyRation()));
+        monsterMoveFrequencyRationTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?"))
+                monsterMoveFrequencyRationTextField.setText(oldValue);
+        });
 
         // Explosion cooldown for bomb
         Text explosionCooldownLabel = new Text("Explosion cooldown (in ms)");
         TextField explosionCooldownTextField = new TextField();
         explosionCooldownTextField.setText(String.valueOf(this.game.getExplosionCooldown()));
+        explosionCooldownTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?"))
+                explosionCooldownTextField.setText(oldValue);
+        });
 
         // Explosion duration for bomb
         Text explosionDurationLabel = new Text("Explosion duration (in ms)");
         TextField explosionDurationTextField = new TextField();
         explosionDurationTextField.setText(String.valueOf(this.game.getExplosionDuration()));
+        explosionDurationTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?"))
+                explosionDurationTextField.setText(oldValue);
+        });
 
         // Choose monsterAI
         Text monsterAILabel = new Text("Choose monster AI");
@@ -165,6 +183,13 @@ public class Main extends Application {
         HBox monsterAIHBox = new HBox();
         monsterAIHBox.setAlignment(Pos.CENTER);
         monsterAIHBox.getChildren().addAll(smartAIRadio, randomAIRadio);
+
+        // Close button
+        Button closeBtn = new Button("Save and quite");
+        AnchorPane closePane = new AnchorPane();
+        AnchorPane.setRightAnchor(closeBtn, 16.0);
+        AnchorPane.setBottomAnchor(closeBtn, 16.0);
+        closePane.getChildren().add(closeBtn);
 
         // Layout
         GridPane gridPane = new GridPane();
@@ -196,8 +221,40 @@ public class Main extends Application {
         StackPane settingPane = new StackPane(gridPane);
         settingPane.setStyle("-fx-background-color:#FFFFFFFF");
         settingPane.setVisible(false);
+
         closeBtn.setOnMouseClicked(e -> {
             if (settingPane.isVisible()) {
+                // Validation
+                if (nbLevelsTextField.getText().equals(""))
+                    nbLevelsTextField.setText("0");
+
+                if (initialsLivesTextField.getText().equals(""))
+                    initialsLivesTextField.setText("0");
+
+                if (startMonsterMoveFrequencyTextField.getText().equals(""))
+                    startMonsterMoveFrequencyTextField.setText("800");
+
+                if (monsterMoveFrequencyRationTextField.getText().equals(""))
+                    monsterMoveFrequencyRationTextField.setText("100");
+
+                if (explosionCooldownTextField.getText().equals(""))
+                    explosionCooldownTextField.setText("4000");
+
+                if (explosionDurationTextField.getText().equals(""))
+                    explosionDurationTextField.setText("400");
+
+                // Save value
+                this.game.setWorldPrefix(prefixTextField.getText());
+                this.game.setNbLevels(Integer.parseInt(nbLevelsTextField.getText()));
+                this.game.setExtension(extensionTextField.getText());
+                this.game.setInitPlayerLives(Integer.parseInt(initialsLivesTextField.getText()));
+                this.game.setStartMonsterMoveFrequency(Double.parseDouble(startMonsterMoveFrequencyTextField.getText()));
+                this.game.setMonsterMoveFrequencyRation(Double.parseDouble(monsterMoveFrequencyRationTextField.getText()));
+                this.game.setExplosionCooldown(Double.parseDouble(explosionCooldownTextField.getText()));
+                this.game.setExplosionDuration(Double.parseDouble(explosionDurationTextField.getText()));
+
+                //monsterAIGroup
+
                 // Close with animation
                 FadeTransition ft = new FadeTransition(Duration.millis(300), settingPane);
                 ft.setOnFinished(e1 -> settingPane.setVisible(false));
