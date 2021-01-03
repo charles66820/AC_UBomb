@@ -17,23 +17,26 @@ public class Game {
 
     private World currentWorld;
     private final List<World> worlds;
-    private final Player player;
+    private Player player;
     private final String worldPath;
     private String worldPrefix;
     private String extension;
     private int nbLevels;
     private int currentLevel = 0;
-    public int initPlayerLives;
-    public int startMonsterMoveFrequency;
-    public int monsterMoveFrequencyRation;
-    public int explosionCooldown;
-    public int explosionDuration;
+    private int initPlayerLives;
+    private int startMonsterMoveFrequency;
+    private int monsterMoveFrequencyRation;
+    private int explosionCooldown;
+    private int explosionDuration;
     private boolean worldChanged = false;
 
     public Game(String worldPath) {
         this.worldPath = worldPath;
         this.worlds = new ArrayList<>();
         loadConfig(worldPath);
+    }
+
+    public void initFirstWorldAndPlayer() {
         currentWorld = worlds.get(0);
 
         Position positionPlayer = null;
@@ -165,4 +168,56 @@ public class Game {
         return this.currentLevel;
     }
 
+    // Getter and setters for settings
+    public String getWorldPrefix() {
+        return worldPrefix;
+    }
+
+    public void setWorldPrefix(String worldPrefix) {
+        this.worldPrefix = worldPrefix;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
+    }
+
+    public int getNbLevels() {
+        return nbLevels;
+    }
+
+    public void setNbLevels(int nbLevels) {
+        this.nbLevels = nbLevels;
+    }
+
+    public void setInitPlayerLives(int initPlayerLives) {
+        this.initPlayerLives = initPlayerLives;
+    }
+
+    public int getStartMonsterMoveFrequency() {
+        return startMonsterMoveFrequency;
+    }
+
+    public void setStartMonsterMoveFrequency(int startMonsterMoveFrequency) {
+        this.startMonsterMoveFrequency = startMonsterMoveFrequency;
+    }
+
+    public int getMonsterMoveFrequencyRation() {
+        return monsterMoveFrequencyRation;
+    }
+
+    public void setMonsterMoveFrequencyRation(int monsterMoveFrequencyRation) {
+        this.monsterMoveFrequencyRation = monsterMoveFrequencyRation;
+    }
+
+    public void setExplosionCooldown(int explosionCooldown) {
+        this.explosionCooldown = explosionCooldown;
+    }
+
+    public void setExplosionDuration(int explosionDuration) {
+        this.explosionDuration = explosionDuration;
+    }
 }

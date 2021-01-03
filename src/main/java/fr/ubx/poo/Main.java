@@ -14,7 +14,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -49,11 +48,12 @@ public class Main extends Application {
         // Play button
         Button startBtn = new Button("Lancer le jeu");
         startBtn.setOnAction(e -> {
+            game.initFirstWorldAndPlayer();
             GameEngine engine = new GameEngine("UBomb : in game", game, stage);
             engine.start();
         });
 
-        // Chose prince or princess
+        // Choose prince or princess
         ToggleGroup playerGroup = new ToggleGroup();
         RadioButton princeRadio = new RadioButton("Pince");
         HBox.setMargin(princeRadio, new Insets(8, 8, 8, 8));
@@ -94,12 +94,12 @@ public class Main extends Application {
         StackPane root = new StackPane();
         root.getChildren().addAll(menuVBox, settingPane);
 
-        Scene scene = new Scene(root, 400, 200);
+        Scene scene = new Scene(root, 500, 200);
         scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
 
         stage.setTitle("UBomb : main menu");
+        stage.setMinWidth(500);
         stage.setMinHeight(400);
-        stage.setMinWidth(400);
         stage.setScene(scene);
         stage.show();
     }
@@ -112,19 +112,88 @@ public class Main extends Application {
         AnchorPane.setBottomAnchor(closeBtn, 16.0);
         closePane.getChildren().add(closeBtn);
 
-        // TODO: add form
-        Button btnBtn = new Button("tmp btn");
+        // Levels files prefix
+        Text prefixLabel = new Text("Levels files prefix");
+        TextField prefixTextField = new TextField();
+        prefixTextField.setText(this.game.getWorldPrefix());
+
+        // Number of levels
+        Text nbLevelsLabel = new Text("Number of levels");
+        TextField nbLevelsTextField = new TextField();
+        nbLevelsTextField.setText(String.valueOf(this.game.getNbLevels()));
+
+        // Levels files extension
+        Text extensionLabel = new Text("Levels files extension");
+        TextField extensionTextField = new TextField();
+        extensionTextField.setText(this.game.getExtension());
+
+        // Initials lives
+        Text initialsLivesLabel = new Text("Initials lives");
+        TextField initialsLivesTextField = new TextField();
+        initialsLivesTextField.setText(String.valueOf(this.game.getInitPlayerLives()));
+
+        // Start monster move frequency
+        Text startMonsterMoveFrequencyLabel = new Text("monster move frequency (in ms)");
+        TextField startMonsterMoveFrequencyTextField = new TextField();
+        startMonsterMoveFrequencyTextField.setText(String.valueOf(this.game.getStartMonsterMoveFrequency()));
+
+        // Monster move frequency ration add on each level
+        Text monsterMoveFrequencyRationLabel = new Text("monster move frequency ration (in ms)");
+        TextField monsterMoveFrequencyRationTextField = new TextField();
+        monsterMoveFrequencyRationTextField.setText(String.valueOf(this.game.getMonsterMoveFrequencyRation()));
+
+        // Explosion cooldown for bomb
+        Text explosionCooldownLabel = new Text("Explosion cooldown (in ms)");
+        TextField explosionCooldownTextField = new TextField();
+        explosionCooldownTextField.setText(String.valueOf(this.game.getExplosionCooldown()));
+
+        // Explosion duration for bomb
+        Text explosionDurationLabel = new Text("Explosion duration (in ms)");
+        TextField explosionDurationTextField = new TextField();
+        explosionDurationTextField.setText(String.valueOf(this.game.getExplosionDuration()));
+
+        // Choose monsterAI
+        Text monsterAILabel = new Text("Choose monster AI");
+        ToggleGroup monsterAIGroup = new ToggleGroup();
+        RadioButton randomAIRadio = new RadioButton("Random AI");
+        HBox.setMargin(randomAIRadio, new Insets(8, 8, 8, 8));
+        randomAIRadio.setToggleGroup(monsterAIGroup);
+        RadioButton smartAIRadio = new RadioButton("Smart AI");
+        HBox.setMargin(smartAIRadio, new Insets(8, 8, 8, 8));
+        smartAIRadio.setToggleGroup(monsterAIGroup);
+        smartAIRadio.fire();
+        HBox monsterAIHBox = new HBox();
+        monsterAIHBox.setAlignment(Pos.CENTER);
+        monsterAIHBox.getChildren().addAll(smartAIRadio, randomAIRadio);
 
         // Layout
         GridPane gridPane = new GridPane();
-        gridPane.setMinSize(400, 200);
+        gridPane.setMinSize(500, 200);
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setHgap(2);
         gridPane.setVgap(8);
         gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(btnBtn, 0, 0);
+        gridPane.add(prefixLabel, 0, 0);
+        gridPane.add(prefixTextField, 1, 0);
+        gridPane.add(nbLevelsLabel, 0, 1);
+        gridPane.add(nbLevelsTextField, 1, 1);
+        gridPane.add(extensionLabel, 0, 2);
+        gridPane.add(extensionTextField, 1, 2);
+        gridPane.add(initialsLivesLabel, 0, 3);
+        gridPane.add(initialsLivesTextField, 1, 3);
+        gridPane.add(startMonsterMoveFrequencyLabel, 0, 4);
+        gridPane.add(startMonsterMoveFrequencyTextField, 1, 4);
+        gridPane.add(monsterMoveFrequencyRationLabel, 0, 5);
+        gridPane.add(monsterMoveFrequencyRationTextField, 1, 5);
+        gridPane.add(explosionCooldownLabel, 0, 6);
+        gridPane.add(explosionCooldownTextField, 1, 6);
+        gridPane.add(explosionDurationLabel, 0, 7);
+        gridPane.add(explosionDurationTextField, 1, 7);
+        gridPane.add(monsterAILabel, 0, 8);
+        gridPane.add(monsterAIHBox, 1, 8);
+        gridPane.add(closePane, 1, 9);
 
-        StackPane settingPane = new StackPane(gridPane, closePane);
+        StackPane settingPane = new StackPane(gridPane);
         settingPane.setStyle("-fx-background-color:#FFFFFFFF");
         settingPane.setVisible(false);
         closeBtn.setOnMouseClicked(e -> {
