@@ -1,3 +1,14 @@
+/* Main */
+.button {
+    -fx-background-color: darkslateblue;
+    -fx-text-fill: white;
+}
+
+.title {
+    -fx-font: normal bold 20px 'serif';
+}
+
+/* Status Bar */
 .statusBar {
     -fx-border-color: black;
     -fx-border-style: solid;
