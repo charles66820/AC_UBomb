@@ -21,6 +21,7 @@ public class Game {
     private final String worldPath;
     private String worldPrefix;
     private String extension;
+    private String theme;
     private int nbLevels;
     private int currentLevel = 0;
     private int initPlayerLives;
@@ -81,6 +82,7 @@ public class Game {
             this.explosionCooldown = Integer.parseInt(prop.getProperty("explosionCooldown", "4000"));
             this.explosionDuration = Integer.parseInt(prop.getProperty("explosionDuration", "400"));
             this.smartAI = Boolean.parseBoolean(prop.getProperty("smartAI", "true"));
+            this.theme = prop.getProperty("theme", "default");
         } catch (IOException ex) {
             System.err.println("Error loading configuration");
         }
@@ -239,5 +241,13 @@ public class Game {
 
     public void setSmartAI(boolean smartAI) {
         this.smartAI = smartAI;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 }

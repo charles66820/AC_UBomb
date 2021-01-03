@@ -7,10 +7,9 @@ package fr.ubx.poo;
 import fr.ubx.poo.engine.GameEngine;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.view.image.ImageFactory;
+import fr.ubx.poo.view.image.Theme;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -69,10 +68,14 @@ public class Main extends Application {
         playerHBox.getChildren().addAll(princessRadio, princeRadio);
 
         // Themes
-        ChoiceBox<String> themesChoiceBox = new ChoiceBox<>();
-        themesChoiceBox.getItems().addAll
-                ("Classic", "Miraculous ladybug");
-        themesChoiceBox.getSelectionModel().select(0);
+        ChoiceBox<Theme> themesChoiceBox = new ChoiceBox<>();
+        themesChoiceBox.getItems().addAll(Theme.values());
+        Theme configTheme = Theme.get(this.game.getTheme());
+        if (configTheme != null)
+            themesChoiceBox.getSelectionModel().select(configTheme);
+        else themesChoiceBox.getSelectionModel().select(0);
+        themesChoiceBox.getSelectionModel().selectedItemProperty()
+                .addListener((observableValue, lastTheme, newTheme) -> game.setTheme(newTheme.name));
 
         // Settings panel
         StackPane settingPane = initSettingsPanel();
@@ -181,7 +184,7 @@ public class Main extends Application {
         smartAIRadio.setToggleGroup(monsterAIGroup);
 
         if (this.game.isSmartAI()) smartAIRadio.setSelected(true);
-        else  randomAIRadio.setSelected(true);
+        else randomAIRadio.setSelected(true);
 
         HBox monsterAIHBox = new HBox();
         monsterAIHBox.setAlignment(Pos.CENTER);
