@@ -179,7 +179,10 @@ public class Main extends Application {
         RadioButton smartAIRadio = new RadioButton("Smart AI");
         HBox.setMargin(smartAIRadio, new Insets(8, 8, 8, 8));
         smartAIRadio.setToggleGroup(monsterAIGroup);
-        smartAIRadio.fire();
+
+        if (this.game.isSmartAI()) smartAIRadio.setSelected(true);
+        else  randomAIRadio.setSelected(true);
+
         HBox monsterAIHBox = new HBox();
         monsterAIHBox.setAlignment(Pos.CENTER);
         monsterAIHBox.getChildren().addAll(smartAIRadio, randomAIRadio);
@@ -252,8 +255,7 @@ public class Main extends Application {
                 this.game.setMonsterMoveFrequencyRation(Double.parseDouble(monsterMoveFrequencyRationTextField.getText()));
                 this.game.setExplosionCooldown(Double.parseDouble(explosionCooldownTextField.getText()));
                 this.game.setExplosionDuration(Double.parseDouble(explosionDurationTextField.getText()));
-
-                //monsterAIGroup
+                this.game.setSmartAI(monsterAIGroup.getSelectedToggle() == smartAIRadio);
 
                 // Close with animation
                 FadeTransition ft = new FadeTransition(Duration.millis(300), settingPane);

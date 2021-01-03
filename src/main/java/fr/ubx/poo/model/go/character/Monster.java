@@ -23,7 +23,8 @@ public class Monster extends Character implements Movable {
 
         // Request monster move after a moment
         if ((now - lastCallTime) >= moveFrequency) {
-            this.randomAI(); // TODO: smartAI()
+            if (this.game.isSmartAI()) this.smartAI();
+            else this.randomAI();
             this.lastCallTime = now;
         }
 
@@ -48,7 +49,8 @@ public class Monster extends Character implements Movable {
         Position nextPos = direction.nextPosition(getPosition());
         Decor decor = this.game.getWorld().get(nextPos);
         // Collision with monster
-        for (Monster monster : this.game.getWorld().getMonsters()) if (nextPos.equals(monster.getPosition())) return false;
+        for (Monster monster : this.game.getWorld().getMonsters())
+            if (nextPos.equals(monster.getPosition())) return false;
         return (this.game.getWorld().isInside(nextPos)) && ((decor == null) || (decor.isTraversable() && !(decor instanceof Door)));
     }
 

@@ -29,6 +29,7 @@ public class Game {
     private double explosionCooldown;
     private double explosionDuration;
     private boolean worldChanged = false;
+    private boolean smartAI = false;
 
     public Game(String worldPath) {
         this.worldPath = worldPath;
@@ -79,6 +80,7 @@ public class Game {
             this.monsterMoveFrequencyRation = Integer.parseInt(prop.getProperty("monsterMoveFrequencyRation", "100"));
             this.explosionCooldown = Integer.parseInt(prop.getProperty("explosionCooldown", "4000"));
             this.explosionDuration = Integer.parseInt(prop.getProperty("explosionDuration", "400"));
+            this.smartAI = Boolean.parseBoolean(prop.getProperty("smartAI", "true"));
         } catch (IOException ex) {
             System.err.println("Error loading configuration");
         }
@@ -229,5 +231,13 @@ public class Game {
 
     public double getExplosionDuration() {
         return this.explosionDuration;
+    }
+
+    public boolean isSmartAI() {
+        return smartAI;
+    }
+
+    public void setSmartAI(boolean smartAI) {
+        this.smartAI = smartAI;
     }
 }
