@@ -15,6 +15,6 @@ public class SpriteTarget extends SpriteGameObject {
 
     @Override
     public void updateImage() {
-        setImage(ImageFactory.getInstance().get(PRINCESS));
+        setImage(ImageFactory.getInstance().getTarget());
     }
 }

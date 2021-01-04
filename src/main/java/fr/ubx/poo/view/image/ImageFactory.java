@@ -11,13 +11,19 @@ import static fr.ubx.poo.view.image.ImageResource.*;
 
 public final class ImageFactory {
     private final Image[] images;
+    private boolean isPrincess = false;
 
-    private final ImageResource[] directions = new ImageResource[]{
+    private final ImageResource[] princeDirections = new ImageResource[]{
             // Direction { N, E, S, W }
-            PLAYER_UP, PLAYER_RIGHT, PLAYER_DOWN, PLAYER_LEFT,
+            PRINCE_UP, PRINCE_RIGHT, PRINCE_DOWN, PRINCE_LEFT,
     };
 
-    private final ImageResource[] monstersdirections = new ImageResource[]{
+    private final ImageResource[] princessDirections = new ImageResource[]{
+            // Direction { N, E, S, W }
+            PRINCESS_UP, PRINCESS_RIGHT, PRINCESS_DOWN, PRINCESS_LEFT,
+    };
+
+    private final ImageResource[] monstersDirections = new ImageResource[]{
             // Direction { N, E, S, W }
             MONSTER_UP, MONSTER_RIGHT, MONSTER_DOWN, MONSTER_LEFT,
     };
@@ -59,11 +65,20 @@ public final class ImageFactory {
     }
 
     public Image getPlayer(Direction direction) {
+        ImageResource[] directions = isPrincess? princessDirections : princeDirections;
         return get(directions[direction.ordinal()]);
     }
 
+    public Image getTarget() {
+        return get(!isPrincess? PRINCESS : PRINCE);
+    }
+
     public Image getMonsters(Direction direction) {
-        return get(monstersdirections[direction.ordinal()]);
+        return get(monstersDirections[direction.ordinal()]);
+    }
+
+    public void setPrincess(boolean isPrincess) {
+        this.isPrincess = isPrincess;
     }
 
     /**

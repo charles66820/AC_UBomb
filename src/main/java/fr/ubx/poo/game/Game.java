@@ -12,6 +12,7 @@ import fr.ubx.poo.model.decor.Door;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.model.go.character.Target;
+import fr.ubx.poo.view.image.ImageFactory;
 
 public class Game {
 
@@ -53,6 +54,8 @@ public class Game {
                 this.worlds.add(new WorldStatic());
             }
         }
+
+        ImageFactory.getInstance().setPrincess(true);
 
         currentWorld = worlds.get(0);
 
