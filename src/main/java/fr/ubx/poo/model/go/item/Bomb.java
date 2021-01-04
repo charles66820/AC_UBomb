@@ -44,51 +44,54 @@ public class Bomb extends GameObject {
     }
 
     public void explosion() {
+        explosionSpred(this.getPosition());
         for (int i = 0; i <= 3; i++) {
             Direction direction = Direction.values()[i]; // select each direction
             for (int j = 1; j <= rangeMax; j++) {
                 Position nextPos = direction.nextPosition(this.getPosition(), j);
-                //if it is a decor
-                Decor decor = this.game.getWorld().get(nextPos);
-                if (decor != null) {
-                    if (decor instanceof Box) {
-                        this.game.getWorld().clear(nextPos);
-                        explosionPositions.add(nextPos); // To show explosion
-                        break;
-                    } else if (decor instanceof Collectable && !(decor instanceof Key)) {
-                        this.game.getWorld().clear(nextPos);
-                        explosionPositions.add(nextPos); // To show explosion
-                    } else if (decor.isExplosionStop()) {
-                        break;
-                    }
-                } else {
-                    explosionPositions.add(nextPos); // To show explosion
-                }
-                //if explosion hit the player
-                if (nextPos.equals(this.game.getPlayer().getPosition()) ||
-                this.getPosition().equals(this.game.getPlayer().getPosition())) {
-                    this.game.getPlayer().removeLives(1);
-                    this.game.getPlayer().setInvulnerable(true);
-                    this.game.getPlayer().setLastTimeInvulnerable(this.timer);
-                }
-                //if explosion hit a monster
-                Collection<Monster> monsters = this.game.getWorld().getMonsters();
-                for (Monster monster : monsters) {
-                    if (nextPos.equals(monster.getPosition()) ||
-                    this.getPosition().equals(monster.getPosition())) {
-                        monster.die(); // kill monster
-                    }
-                }
-                //if explosion hit another bomb
-                Collection<Bomb> bombs = this.game.getWorld().getBombs();
-                for (Bomb bomb : bombs) {
-                    if (nextPos.equals(bomb.getPosition())) {
-                        bomb.initTimer = this.initTimer;
-                    }
-                }
+                explosionSpred(nextPos);
+            }
+            this.isExploded = true;
+        }
+    }
+
+    private void explosionSpred(Position pos) {
+        //if it is a decor
+        Decor decor = this.game.getWorld().get(pos);
+        if (decor != null) {
+            if (decor instanceof Box) {
+                this.game.getWorld().clear(pos);
+                explosionPositions.add(pos); // To show explosion
+                return;
+            } else if (decor instanceof Collectable && !(decor instanceof Key)) {
+                this.game.getWorld().clear(pos);
+                explosionPositions.add(pos); // To show explosion
+            } else if (decor.isExplosionStop()) {
+                return;
+            }
+        } else {
+            explosionPositions.add(pos); // To show explosion
+        }
+        //if explosion hit the player
+        if (pos.equals(this.game.getPlayer().getPosition())) {
+            this.game.getPlayer().removeLives(1);
+            this.game.getPlayer().setInvulnerable(true);
+            this.game.getPlayer().setLastTimeInvulnerable(this.timer);
+        }
+        //if explosion hit a monster
+        Collection<Monster> monsters = this.game.getWorld().getMonsters();
+        for (Monster monster : monsters) {
+            if (pos.equals(monster.getPosition())) {
+                monster.die(); // kill monster
             }
         }
-        this.isExploded = true;
+        //if explosion hit another bomb
+        Collection<Bomb> bombs = this.game.getWorld().getBombs();
+        for (Bomb bomb : bombs) {
+            if (pos.equals(bomb.getPosition())) {
+                bomb.initTimer = this.initTimer;
+            }
+        }
     }
 
     public long getInitTimer() {
