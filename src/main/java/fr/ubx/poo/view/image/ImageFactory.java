@@ -11,6 +11,7 @@ import static fr.ubx.poo.view.image.ImageResource.*;
 
 public final class ImageFactory {
     private final Image[] images;
+    private String theme = "default";
     private boolean isPrincess = false;
 
     private final ImageResource[] princeDirections = new ImageResource[]{
@@ -45,7 +46,7 @@ public final class ImageFactory {
     }
 
     private Image loadImage(String file) {
-        return new Image(getClass().getResource("/images/" + file).toExternalForm());
+        return new Image(getClass().getResource("/themes/" + theme + "/images/" + file).toExternalForm());
     }
 
     public void load() {
@@ -79,6 +80,10 @@ public final class ImageFactory {
 
     public void setPrincess(boolean isPrincess) {
         this.isPrincess = isPrincess;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 
     /**

@@ -57,6 +57,8 @@ public class Game {
         }
 
         ImageFactory.getInstance().setPrincess(this.isPrincess);
+        ImageFactory.getInstance().setTheme(this.theme);
+        ImageFactory.getInstance().load();
 
         currentWorld = worlds.get(0);
 

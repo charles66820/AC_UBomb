@@ -1,0 +1,27 @@
+/* Main */
+.title {
+    -fx-font: normal bold 20px 'serif';
+}
+
+/* Status Bar */
+.statusBar {
+    -fx-border-color: black;
+    -fx-border-style: solid;
+    -fx-border-width: 5px 0 0 0;
+}
+
+.level {
+    -fx-padding: 5px 10px 5px 10px;
+    -fx-border-color: black;
+    -fx-border-style: solid;
+    -fx-border-width: 0 5px 0 0;
+}
+
+.status {
+    -fx-padding: 5px 15px 5px 15px;
+}
+
+.number {
+    -fx-font-size: 28;
+    -fx-font-weight: bold;
+}
