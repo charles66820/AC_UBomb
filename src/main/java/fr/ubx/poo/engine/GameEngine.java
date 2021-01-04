@@ -193,11 +193,11 @@ public final class GameEngine {
 
         if (!player.isAlive()) {
             gameLoop.stop();
-            showMessage(LangFactory.get("winMsg"), Color.RED);
+            showMessage(LangFactory.get("loseMsg"), Color.RED);
         }
         if (player.isWinner()) {
             gameLoop.stop();
-            showMessage(LangFactory.get("loseMsg"), Color.BLUE);
+            showMessage(LangFactory.get("winMsg"), Color.BLUE);
         }
 
         // Update all bombs in the game
