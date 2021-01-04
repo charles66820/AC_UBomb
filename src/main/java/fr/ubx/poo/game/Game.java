@@ -32,6 +32,7 @@ public class Game {
     private double explosionDuration;
     private boolean worldChanged = false;
     private boolean smartAI = false;
+    private boolean isPrincess = false;
 
     public Game(String worldPath) {
         this.worldPath = worldPath;
@@ -55,7 +56,7 @@ public class Game {
             }
         }
 
-        ImageFactory.getInstance().setPrincess(true);
+        ImageFactory.getInstance().setPrincess(this.isPrincess);
 
         currentWorld = worlds.get(0);
 
@@ -252,5 +253,13 @@ public class Game {
 
     public void setTheme(String theme) {
         this.theme = theme;
+    }
+
+    public boolean isPrincess() {
+        return isPrincess;
+    }
+
+    public void setPrincess(boolean princess) {
+        isPrincess = princess;
     }
 }

@@ -62,10 +62,17 @@ public class Main extends Application {
         RadioButton princessRadio = new RadioButton("Princess");
         HBox.setMargin(princessRadio, new Insets(8, 8, 8, 8));
         princessRadio.setToggleGroup(playerGroup);
-        princessRadio.fire();
+
+        if (this.game.isPrincess()) princessRadio.setSelected(true);
+        else princeRadio.setSelected(true);
+
         HBox playerHBox = new HBox();
         playerHBox.setAlignment(Pos.CENTER);
         playerHBox.getChildren().addAll(princessRadio, princeRadio);
+
+        playerGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) ->
+                this.game.setPrincess(newValue == princessRadio)
+        );
 
         // Themes
         ChoiceBox<Theme> themesChoiceBox = new ChoiceBox<>();
