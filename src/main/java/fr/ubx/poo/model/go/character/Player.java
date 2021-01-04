@@ -10,6 +10,7 @@ import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.game.Game;
+import fr.ubx.poo.model.go.item.Bomb;
 
 import java.util.Collection;
 
@@ -21,6 +22,7 @@ public class Player extends Character implements Movable {
     private int lives;
     private int bomb = 1;
     private int rangebomb = 1;
+    private int bombMax = 1;
     private int key = 0;
 
     public Player(Game game, Position position) {
@@ -88,6 +90,12 @@ public class Player extends Character implements Movable {
             // Collision with monster
             for (Monster monster : this.game.getWorld().getMonsters())
                 if (nextBoxPos.equals(monster.getPosition())) return false;
+            // Collision with bombs
+            for (Bomb bomb : this.game.getWorld().getBombs()) {
+                if (nextBoxPos.equals(bomb.getPosition())) {
+                    return false;
+                }
+            }
 
             this.game.getWorld().clear(nextPos);
             this.game.getWorld().set(nextBoxPos, decor);
@@ -141,6 +149,14 @@ public class Player extends Character implements Movable {
 
     public void setRangebomb(int rangebomb) {
         this.rangebomb = rangebomb;
+    }
+
+    public int getBombMax() {
+        return bombMax;
+    }
+
+    public void setBombMax(int bombMax) {
+        this.bombMax = bombMax;
     }
 
     public int getKey() {

@@ -149,7 +149,14 @@ public final class GameEngine {
         }
         if (input.isBomb()) {
             Position pos = this.player.getPosition();
-            if (this.player.getBomb() >= 1) {
+            Decor decor = this.game.getWorld().get(pos);
+            boolean bombHere = false;
+            for (Bomb bomb: this.game.getWorld().getBombs()) {
+                if (pos.equals(bomb.getPosition())){
+                    bombHere = true;
+                }
+            }
+            if (this.player.getBomb() >= 1 && decor == null && !bombHere) {
                 Bomb b = new Bomb(this.game, pos, now);
                 this.game.getWorld().getBombs().add(b); // add bomb in bomb list
                 player.setBomb(player.getBomb() - 1);
@@ -196,6 +203,7 @@ public final class GameEngine {
         for (Bomb b : this.game.getWorld().getBombs()) {
             b.update(now);
             if (b.canBeRemove()) {
+                this.player.setBomb(this.player.getBomb() + 1); //TODO: regagner la bombe même si on change de monde !
                 explodedBomb.add(b);
                 this.game.getWorld().setChanged(true);
             }

@@ -11,6 +11,7 @@ public class BombNumberInc extends Collectable {
     @Override
     public void takenBy(Player player) {
         player.setBomb(player.getBomb() + 1);
+        player.setBombMax(player.getBombMax() + 1);
         player.getGame().getWorld().clear(player.getPosition());
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Bomb extends GameObject {
     private final int rangeMax;
-    private final long initTimer; // time when bomb was created
+    private long initTimer; // time when bomb was created
     private long timer; // current time before explosion
     private final long explosionCooldown; // total time before explosion
     private boolean isExploded; // state of the bomb if it is exploded or not
@@ -65,7 +65,8 @@ public class Bomb extends GameObject {
                     explosionPositions.add(nextPos); // To show explosion
                 }
                 //if explosion hit the player
-                if (nextPos.equals(this.game.getPlayer().getPosition())) {
+                if (nextPos.equals(this.game.getPlayer().getPosition()) ||
+                this.getPosition().equals(this.game.getPlayer().getPosition())) {
                     this.game.getPlayer().removeLives(1);
                     this.game.getPlayer().setInvulnerable(true);
                     this.game.getPlayer().setLastTimeInvulnerable(this.timer);
@@ -73,8 +74,16 @@ public class Bomb extends GameObject {
                 //if explosion hit a monster
                 Collection<Monster> monsters = this.game.getWorld().getMonsters();
                 for (Monster monster : monsters) {
-                    if (nextPos.equals(monster.getPosition())) {
+                    if (nextPos.equals(monster.getPosition()) ||
+                    this.getPosition().equals(monster.getPosition())) {
                         monster.die(); // kill monster
+                    }
+                }
+                //if explosion hit another bomb
+                Collection<Bomb> bombs = this.game.getWorld().getBombs();
+                for (Bomb bomb : bombs) {
+                    if (nextPos.equals(bomb.getPosition())) {
+                        bomb.initTimer = this.initTimer;
                     }
                 }
             }
