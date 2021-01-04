@@ -1,6 +1,7 @@
 package fr.ubx.poo.utils;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Properties;
 
 public final class LangFactory {
 
+    // Store lang with key is theme + code
     private final Map<String, Map<String, String>> langs = new HashMap<>();
 
     private Map<String, String> currentLang;
@@ -27,8 +29,8 @@ public final class LangFactory {
     }
 
     public void setLang(String theme, String code) {
-        if (langs.get(code) == null) loadLang(theme, code);
-        else this.currentLang = langs.get(code);
+        if (langs.get(theme + code) == null) loadLang(theme, code);
+        else this.currentLang = langs.get(theme + code);
     }
 
     private void loadLang(String theme, String code) {
@@ -36,11 +38,11 @@ public final class LangFactory {
 
         // Add lang
         Map<String, String> lang = new HashMap<>();
-        langs.put(code, lang);
+        langs.put(theme + code, lang);
         // Load lang properties
         try (InputStream input = new FileInputStream(new File(langPath, code + ".properties"))) {
             Properties prop = new Properties();
-            prop.load(input);
+            prop.load(new InputStreamReader(input, StandardCharsets.UTF_8));
             Enumeration<Object> enu = prop.keys();
             while (enu.hasMoreElements()) {
                 String key = (String) enu.nextElement();
