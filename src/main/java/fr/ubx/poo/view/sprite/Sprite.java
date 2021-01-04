@@ -37,6 +37,8 @@ public abstract class Sprite {
         }
         updateImage();
         imageView = new ImageView(this.image);
+        imageView.setFitHeight(40);
+        imageView.setFitWidth(40);
         imageView.setX(getPosition().x * size);
         imageView.setY(getPosition().y * size);
         layer.getChildren().add(imageView);
