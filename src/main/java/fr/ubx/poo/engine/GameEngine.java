@@ -65,7 +65,7 @@ public final class GameEngine {
         int sceneWidth = width * Sprite.size;
         int sceneHeight = height * Sprite.size;
         Scene scene = new Scene(root, sceneWidth, sceneHeight + StatusBar.height);
-        scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/themes/" + this.game.getTheme() + "/css/application.css").toExternalForm());
 
         stage.setTitle(windowTitle);
         stage.setScene(scene);

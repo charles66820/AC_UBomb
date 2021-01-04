@@ -6,7 +6,6 @@ package fr.ubx.poo;
 
 import fr.ubx.poo.engine.GameEngine;
 import fr.ubx.poo.game.Game;
-import fr.ubx.poo.view.image.ImageFactory;
 import fr.ubx.poo.view.image.Theme;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
@@ -23,10 +22,11 @@ import javafx.util.Duration;
 public class Main extends Application {
 
     private Game game;
+    private String styleRessources;
+    Scene scene;
 
     @Override
     public void start(Stage stage) {
-        ImageFactory.getInstance().load();
         String path = getClass().getResource("/sample").getFile();
         game = new Game(path);
         initMainMenu(stage);
@@ -82,7 +82,12 @@ public class Main extends Application {
             themesChoiceBox.getSelectionModel().select(configTheme);
         else themesChoiceBox.getSelectionModel().select(0);
         themesChoiceBox.getSelectionModel().selectedItemProperty()
-                .addListener((observableValue, lastTheme, newTheme) -> game.setTheme(newTheme.name));
+                .addListener((observableValue, lastTheme, newTheme) -> {
+                    this.game.setTheme(newTheme.name);
+                    scene.getStylesheets().remove(this.styleRessources);
+                    this.styleRessources = getClass().getResource("/themes/" + newTheme.name + "/css/application.css").toExternalForm();
+                    this.scene.getStylesheets().add(styleRessources);
+                });
 
         // Settings panel
         StackPane settingPane = initSettingsPanel();
@@ -106,8 +111,9 @@ public class Main extends Application {
         StackPane root = new StackPane();
         root.getChildren().addAll(menuVBox, settingPane);
 
-        Scene scene = new Scene(root, 500, 200);
-        scene.getStylesheets().add(getClass().getResource("/css/application.css").toExternalForm());
+        this.scene = new Scene(root, 500, 200);
+        this.styleRessources = getClass().getResource("/themes/" + this.game.getTheme() + "/css/application.css").toExternalForm();
+        this.scene.getStylesheets().add(styleRessources);
 
         stage.setTitle("UBomb : main menu");
         stage.setMinWidth(500);
@@ -235,7 +241,7 @@ public class Main extends Application {
         settingPane.setStyle("-fx-background-color:#FFFFFFFF");
         settingPane.setVisible(false);
 
-        closeBtn.setOnMouseClicked(e -> {
+        closeBtn.setOnAction(e -> {
             if (settingPane.isVisible()) {
                 // Validation
                 if (nbLevelsTextField.getText().equals(""))
