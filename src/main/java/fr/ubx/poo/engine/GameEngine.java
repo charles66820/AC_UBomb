@@ -9,7 +9,7 @@ import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Door;
 import fr.ubx.poo.model.go.character.Monster;
-import fr.ubx.poo.model.go.character.Princess;
+import fr.ubx.poo.model.go.character.Target;
 import fr.ubx.poo.model.go.item.Bomb;
 import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteFactory;
@@ -45,7 +45,7 @@ public final class GameEngine {
     private Input input;
     private Stage stage;
     private Sprite spritePlayer;
-    private Sprite spritePrincess;
+    private Sprite spriteTarget;
 
     public GameEngine(final String windowTitle, Game game, final Stage stage) {
         this.windowTitle = windowTitle;
@@ -83,9 +83,9 @@ public final class GameEngine {
     private void createSprites() {
         // Create decor sprites
         game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
-        Princess princess = game.getPrincess();
         spritePlayer = SpriteFactory.createPlayer(layer, player);
-        if (princess != null) spritePrincess = SpriteFactory.createPrincess(layer, princess);
+        Target target = game.getTarget();
+        if (target != null) spriteTarget = SpriteFactory.createTarget(layer, target);
         game.getWorld().getMonsters().forEach(monster -> monstersSprites.add(SpriteFactory.createMonster(layer, monster)));
         game.getWorld().getBombs().forEach(bomb -> bombsSprites.add(SpriteFactory.createBomb(layer, bomb)));
     }
@@ -94,7 +94,7 @@ public final class GameEngine {
         this.sprites.forEach(Sprite::remove);
         this.sprites.clear();
         if (spritePlayer != null) spritePlayer.remove();
-        if (spritePrincess != null) spritePrincess.remove();
+        if (spriteTarget != null) spriteTarget.remove();
         this.monstersSprites.forEach(Sprite::remove);
         this.monstersSprites.clear();
         this.bombsSprites.forEach(Sprite::remove);
@@ -231,7 +231,7 @@ public final class GameEngine {
         bombsSprites.forEach(Sprite::render);
         // last rendering to have player in the foreground
         spritePlayer.render();
-        if (spritePrincess != null) spritePrincess.render();
+        if (spriteTarget != null) spriteTarget.render();
     }
 
     public void start() {

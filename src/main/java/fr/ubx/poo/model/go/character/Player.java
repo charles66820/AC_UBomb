@@ -58,8 +58,8 @@ public class Player extends Character implements Movable {
 
         // Check is player win
         Position pos = this.getPosition();
-        Princess princess = this.game.getPrincess();
-        if (princess != null && pos.equals(princess.getPosition())) {
+        Target target = this.game.getTarget();
+        if (target != null && pos.equals(target.getPosition())) {
             this.winner = true;
         }
     }

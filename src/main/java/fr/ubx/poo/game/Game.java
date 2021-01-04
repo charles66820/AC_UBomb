@@ -11,7 +11,7 @@ import java.util.*;
 import fr.ubx.poo.model.decor.Door;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
-import fr.ubx.poo.model.go.character.Princess;
+import fr.ubx.poo.model.go.character.Target;
 
 public class Game {
 
@@ -154,9 +154,9 @@ public class Game {
         return initPlayerLives;
     }
 
-    public Princess getPrincess() {
+    public Target getTarget() {
         try {
-            return new Princess(this, currentWorld.findPrincess());
+            return new Target(this, currentWorld.findTarget());
         } catch (PositionNotFoundException e) {
             return null;
         }

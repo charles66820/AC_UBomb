@@ -19,7 +19,7 @@ public enum WorldEntity {
     Player('P'),
     Stone('S'),
     Tree('T'),
-    Princess('W'),
+    Target('W'),
     BombRangeInc('>'),
     BombRangeDec('<'),
     BombNumberInc('+'),

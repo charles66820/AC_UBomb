@@ -41,15 +41,15 @@ public class World {
         throw new PositionNotFoundException("Player");
     }
 
-    public Position findPrincess() throws PositionNotFoundException {
+    public Position findTarget() throws PositionNotFoundException {
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
-                if (raw[y][x] == Princess) {
+                if (raw[y][x] == Target) {
                     return new Position(x, y);
                 }
             }
         }
-        throw new PositionNotFoundException("Princess");
+        throw new PositionNotFoundException("Target");
     }
 
     public Collection<Position> getMonsterPositions() {

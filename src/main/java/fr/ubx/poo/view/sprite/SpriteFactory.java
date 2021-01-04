@@ -11,7 +11,7 @@ import fr.ubx.poo.model.decor.*;
 import fr.ubx.poo.model.decor.collectable.*;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
-import fr.ubx.poo.model.go.character.Princess;
+import fr.ubx.poo.model.go.character.Target;
 import fr.ubx.poo.model.go.item.Bomb;
 import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.layout.Pane;
@@ -49,9 +49,9 @@ public final class SpriteFactory {
         return new SpritePlayer(layer, player);
     }
 
-    public static Sprite createPrincess(Pane layer, Princess princess) {
+    public static Sprite createTarget(Pane layer, Target target) {
 
-        return new SpritePrincess(layer, princess);
+        return new SpriteTarget(layer, target);
     }
 
     public static Sprite createMonster(Pane layer, Monster monster) {
