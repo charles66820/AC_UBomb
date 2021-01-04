@@ -56,7 +56,7 @@ public class Main extends Application {
 
         // Choose prince or princess
         ToggleGroup playerGroup = new ToggleGroup();
-        RadioButton princeRadio = new RadioButton("Pince");
+        RadioButton princeRadio = new RadioButton("Prince");
         HBox.setMargin(princeRadio, new Insets(8, 8, 8, 8));
         princeRadio.setToggleGroup(playerGroup);
         RadioButton princessRadio = new RadioButton("Princess");
