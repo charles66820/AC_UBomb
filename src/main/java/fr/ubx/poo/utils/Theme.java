@@ -1,4 +1,4 @@
-package fr.ubx.poo.view.image;
+package fr.ubx.poo.utils;
 
 import java.util.Arrays;
 

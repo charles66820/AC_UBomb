@@ -23,6 +23,7 @@ public class Game {
     private String worldPrefix;
     private String extension;
     private String theme;
+    private String lang = "en";
     private int nbLevels;
     private int currentLevel = 0;
     private int initPlayerLives;
@@ -89,6 +90,7 @@ public class Game {
             this.explosionDuration = Integer.parseInt(prop.getProperty("explosionDuration", "400"));
             this.smartAI = Boolean.parseBoolean(prop.getProperty("smartAI", "true"));
             this.theme = prop.getProperty("theme", "default");
+            this.lang = prop.getProperty("lang", "en");
         } catch (IOException ex) {
             System.err.println("Error loading configuration");
         }
@@ -263,5 +265,13 @@ public class Game {
 
     public void setPrincess(boolean princess) {
         isPrincess = princess;
+    }
+
+    public String getLang() {
+        return lang;
+    }
+
+    public void setLang(String lang) {
+        this.lang = lang;
     }
 }

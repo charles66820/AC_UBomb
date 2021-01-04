@@ -11,6 +11,8 @@ import fr.ubx.poo.model.decor.Door;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Target;
 import fr.ubx.poo.model.go.item.Bomb;
+import fr.ubx.poo.utils.Lang;
+import fr.ubx.poo.utils.LangFactory;
 import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteFactory;
 import fr.ubx.poo.game.Game;
@@ -191,11 +193,11 @@ public final class GameEngine {
 
         if (!player.isAlive()) {
             gameLoop.stop();
-            showMessage("Perdu!", Color.RED);
+            showMessage(LangFactory.get("winMsg"), Color.RED);
         }
         if (player.isWinner()) {
             gameLoop.stop();
-            showMessage("Gagné", Color.BLUE);
+            showMessage(LangFactory.get("loseMsg"), Color.BLUE);
         }
 
         // Update all bombs in the game
