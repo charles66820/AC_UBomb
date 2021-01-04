@@ -241,7 +241,7 @@ public class Main extends Application {
         settingPane.setStyle("-fx-background-color:#FFFFFFFF");
         settingPane.setVisible(false);
 
-        closeBtn.setOnMouseClicked(e -> {
+        closeBtn.setOnAction(e -> {
             if (settingPane.isVisible()) {
                 // Validation
                 if (nbLevelsTextField.getText().equals(""))
