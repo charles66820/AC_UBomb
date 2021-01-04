@@ -67,6 +67,8 @@ public class Bomb extends GameObject {
                 //if explosion hit the player
                 if (nextPos.equals(this.game.getPlayer().getPosition())) {
                     this.game.getPlayer().removeLives(1);
+                    this.game.getPlayer().setInvulnerable(true);
+                    this.game.getPlayer().setLastTimeInvulnerable(this.timer);
                 }
                 //if explosion hit a monster
                 Collection<Monster> monsters = this.game.getWorld().getMonsters();

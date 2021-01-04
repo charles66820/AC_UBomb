@@ -149,7 +149,7 @@ public final class GameEngine {
         }
         if (input.isBomb()) {
             Position pos = this.player.getPosition();
-            if (this.player.getBomb() >= 1) { //TODO: une bombe ne peut se poser que sur un slot vide ou un monstre !
+            if (this.player.getBomb() >= 1) {
                 Bomb b = new Bomb(this.game, pos, now);
                 this.game.getWorld().getBombs().add(b); // add bomb in bomb list
                 player.setBomb(player.getBomb() - 1);

@@ -10,7 +10,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.Pane;
 
 public class SpritePlayer extends SpriteGameObject {
-    private final ColorAdjust effect = new ColorAdjust(); //TODO: changer quand invulnérabilité
+    private ColorAdjust effect = new ColorAdjust(); //TODO: changer quand invulnérabilité
 
     public SpritePlayer(Pane layer, Player player) {
         super(layer, null, player);
@@ -21,5 +21,17 @@ public class SpritePlayer extends SpriteGameObject {
     public void updateImage() {
         Player player = (Player) go;
         setImage(ImageFactory.getInstance().getPlayer(player.getDirection()));
+    }
+
+    @Override
+    public void render() {
+        super.render();
+        Player player = (Player) go;
+        if (player.isInvulnerable()) {
+            this.effect.setSaturation(-0.3);
+            this.effect.setContrast(0.6);
+            this.effect.setBrightness(0.3);
+            this.getImageView().setEffect(this.effect);
+        }
     }
 }

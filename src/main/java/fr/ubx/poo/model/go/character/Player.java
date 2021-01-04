@@ -15,6 +15,8 @@ import java.util.Collection;
 
 public class Player extends Character implements Movable {
     private boolean winner;
+    private boolean invulnerable;
+    private long lastTimeInvulnerable;
     // Stats
     private int lives;
     private int bomb = 1;
@@ -25,6 +27,8 @@ public class Player extends Character implements Movable {
         super(game, position);
         this.direction = Direction.S;
         this.lives = game.getInitPlayerLives();
+        this.invulnerable = false;
+        this.lastTimeInvulnerable = 0;
     }
 
     @Override
@@ -32,6 +36,11 @@ public class Player extends Character implements Movable {
         // Check if player die
         if (this.getLives() <= 0) {
             this.alive = false;
+        }
+
+        //Check if player is still invulnerable
+        if (now >= this.lastTimeInvulnerable + 1000000000L) {
+            this.invulnerable = false;
         }
 
         // On move
@@ -45,6 +54,8 @@ public class Player extends Character implements Movable {
                 for (Monster monster : monsters) {
                     if (newPos.equals(monster.getPosition())) {
                         removeLives(1);
+                        this.invulnerable = true;
+                        this.lastTimeInvulnerable = now;
                     }
                 }
 
@@ -75,7 +86,8 @@ public class Player extends Character implements Movable {
             if (d != null) return false;
 
             // Collision with monster
-            for (Monster monster : this.game.getWorld().getMonsters()) if (nextBoxPos.equals(monster.getPosition())) return false;
+            for (Monster monster : this.game.getWorld().getMonsters())
+                if (nextBoxPos.equals(monster.getPosition())) return false;
 
             this.game.getWorld().clear(nextPos);
             this.game.getWorld().set(nextBoxPos, decor);
@@ -88,12 +100,26 @@ public class Player extends Character implements Movable {
         return this.winner;
     }
 
-    public void addLives (int pv) {
+    public boolean isInvulnerable() {
+        return this.invulnerable;
+    }
+
+    public void setInvulnerable(boolean invulnerable) {
+        this.invulnerable = invulnerable;
+    }
+
+    public void setLastTimeInvulnerable(long lastTimeInvulnerable) {
+        this.lastTimeInvulnerable = lastTimeInvulnerable;
+    }
+
+    public void addLives(int pv) {
         this.lives = this.lives + pv;
     }
 
-    public void removeLives (int pv) {
-        this.lives = this.lives - pv;
+    public void removeLives(int pv) {
+        if (!this.invulnerable) {
+            this.lives = this.lives - pv;
+        }
     }
 
     // Stats

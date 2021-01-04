@@ -27,6 +27,10 @@ public abstract class Sprite {
         }
     }
 
+    public ImageView getImageView() {
+        return imageView;
+    }
+
     public abstract void updateImage();
 
     public abstract Position getPosition();

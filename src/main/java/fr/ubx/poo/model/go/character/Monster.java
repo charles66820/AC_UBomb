@@ -37,6 +37,8 @@ public class Monster extends Character implements Movable {
                 Player player = this.game.getPlayer();
                 if (this.getPosition().equals(player.getPosition())) {
                     player.removeLives(1);
+                    this.game.getPlayer().setInvulnerable(true);
+                    this.game.getPlayer().setLastTimeInvulnerable(now);
                 }
             }
             moveRequested = false;
