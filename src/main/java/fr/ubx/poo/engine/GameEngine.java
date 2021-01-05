@@ -8,6 +8,7 @@ import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Door;
+import fr.ubx.poo.model.decor.collectable.Collectable;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Target;
 import fr.ubx.poo.model.go.item.Bomb;
@@ -158,7 +159,7 @@ public final class GameEngine {
                     bombHere = true;
                 }
             }
-            if (this.player.getBomb() >= 1 && decor == null && !bombHere) {
+            if (this.player.getBomb() >= 1 && !bombHere && (decor == null || decor instanceof Collectable)) {
                 Bomb b = new Bomb(this.game, pos, now);
                 this.game.getWorld().getBombs().add(b); // add bomb in bomb list
                 player.setBomb(player.getBomb() - 1);
