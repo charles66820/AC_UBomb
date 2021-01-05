@@ -14,6 +14,9 @@ public class Monster extends Character implements Movable {
     private final long moveFrequency; // In ns
     private long lastCallTime;
 
+    static public final Boolean DEBUG_PATHFINDING = false;
+    private List<Position> path;
+
     public Monster(Game game, Position position, double moveFrequencyInMs) {
         super(game, position);
         this.moveFrequency = (long) (1000000L * moveFrequencyInMs);
@@ -68,7 +71,9 @@ public class Monster extends Character implements Movable {
 
     public void smartAI() {
         List<Position> path = A_Start(this.getPosition(), this.game.getPlayer().getPosition());
-
+        Direction d = null;
+        if (path != null) d = Direction.to(this.getPosition(), path.get(1));
+        this.requestMove(d != null ? d : Direction.random());
     }
 
     static class Node {
@@ -114,6 +119,7 @@ public class Monster extends Character implements Movable {
         while (!openSet.isEmpty()) {
             Node current = openSet.poll();
 
+            // On goal is reached
             if (current.p.equals(goal)) {
                 Node pathHead = cameFrom.keySet().stream()
                         .filter(e -> e.p.equals(this.game.getPlayer().getPosition()))
@@ -129,28 +135,23 @@ public class Monster extends Character implements Movable {
                 }
                 while (pathHead != null);
                 Collections.reverse(total_path);
+                if (DEBUG_PATHFINDING) this.path = total_path;
                 return total_path;
             }
 
-            openSet.remove(current);
+            // Search paths
             for (int i = 0; i < 4; i++) {
                 Direction d = Direction.values()[i];
                 if (this.canMove(current.p, d)) {
                     Position neighborPos = d.nextPosition(current.p);
-                    if (!cameFrom.containsValue(neighborPos)) {
-                        Node neighbor = openSet.stream()
-                                .filter(e -> e.p.equals(neighborPos))
-                                .findAny()
-                                .orElse(null);
-                        if (neighbor == null)
-                            neighbor = new Node(current, neighborPos);
+                    if (!cameFrom.containsValue(neighborPos)) { // If position is already test
+                        Node neighbor = new Node(current, neighborPos);
                         long tentative_gScore = current.getgScore() + d(current.p, neighbor.p);
                         if (tentative_gScore < neighbor.getgScore()) {
                             cameFrom.put(neighbor, current.p);
                             neighbor.setgScore(tentative_gScore);
                             neighbor.setfScore(neighbor.getgScore() + d(neighbor.p, goal)); // d = h is distance
-                            Node finalNeighbor = neighbor;
-                            if (openSet.stream().noneMatch(e -> e.p.equals(finalNeighbor.p))) openSet.add(neighbor);
+                            if (openSet.stream().noneMatch(e -> e.p.equals(neighbor.p))) openSet.add(neighbor);
                         }
                     }
                 }
@@ -158,12 +159,18 @@ public class Monster extends Character implements Movable {
         }
         return null;
     }
+
     private long d(Position current, Position goal) { // Distance, Can be buged
         return Math.abs(current.x - goal.x) + Math.abs(current.y - goal.y);
     }
 
     public void die() {
         this.alive = false;
+    }
+
+    // For debug
+    public List<Position> getPath() {
+        return this.path;
     }
 
 }

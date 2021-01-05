@@ -43,6 +43,13 @@ public enum Direction {
         return values()[randomGenerator.nextInt(values().length)];
     }
 
+    static public Direction to(Position from, Position p) {
+        if (from.x < p.x) return Direction.E;
+        else if (from.x > p.x) return Direction.W;
+        else if (from.y < p.y) return Direction.S;
+        else if (from.y > p.y) return Direction.N;
+        else return null;
+    }
 
     public abstract Position nextPosition(Position pos, int delta);
 
