@@ -50,7 +50,11 @@ public class Monster extends Character implements Movable {
 
     @Override
     public boolean canMove(Direction direction) {
-        Position nextPos = direction.nextPosition(getPosition());
+        return this.canMove(this.getPosition(), direction);
+    }
+
+    private boolean canMove(Position form, Direction direction) {
+        Position nextPos = direction.nextPosition(form);
         Decor decor = this.game.getWorld().get(nextPos);
         // Collision with monster
         for (Monster monster : this.game.getWorld().getMonsters())
@@ -63,14 +67,15 @@ public class Monster extends Character implements Movable {
     }
 
     public void smartAI() {
-        Map<Node, Position> path = A_Start(this.getPosition(), this.game.getPlayer().getPosition());
+        List<Position> path = A_Start(this.getPosition(), this.game.getPlayer().getPosition());
+
     }
 
     static class Node {
-        private Node parent;
+        private final Node parent;
         public Position p;
-        private long gScore; // For infinity
-        private long fScore; // For infinity
+        private long gScore;
+        private long fScore;
 
         Node(Node parent, Position p) {
             this(parent, p, Long.MAX_VALUE, Long.MAX_VALUE);
@@ -100,41 +105,60 @@ public class Monster extends Character implements Movable {
         }
     }
 
-    private Map<Node, Position> A_Start(Position start, Position goal) { // List<Position>
+    private List<Position> A_Start(Position start, Position goal) {
         Queue<Node> openSet = new PriorityQueue<>(Comparator.comparingLong(Node::getfScore));
-        openSet.add(new Node(null, start, 0, h(start, goal)));
+        openSet.add(new Node(null, start, 0, d(start, goal))); // d = h is distance
 
-        Map<Node, Position> cameFrom = new HashMap<>();
+        Map<Node, Position> cameFrom = new HashMap<>(); // paths
 
         while (!openSet.isEmpty()) {
             Node current = openSet.poll();
 
             if (current.p.equals(goal)) {
-                return cameFrom;
+                Node pathHead = cameFrom.keySet().stream()
+                        .filter(e -> e.p.equals(this.game.getPlayer().getPosition()))
+                        .findAny()
+                        .orElse(null);
+
+                if (pathHead == null) return null;
+
+                List<Position> total_path = new ArrayList<>();
+                do {
+                    total_path.add(pathHead.p);
+                    pathHead = pathHead.parent;
+                }
+                while (pathHead != null);
+                Collections.reverse(total_path);
+                return total_path;
             }
 
             openSet.remove(current);
-            for (int i = 0; i < 3; i++) {
-                Position neighborPos = Direction.values()[i].nextPosition(current.p); // ADD if direction can be trow
-                Node neighbor = new Node(current, neighborPos);
-                long tentative_gScore = current.getgScore() + d(current.p, neighbor.p);
-                if (tentative_gScore < neighbor.getgScore()) {
-                    cameFrom.put(neighbor, current.p);
-                    neighbor.setgScore(tentative_gScore);
-                    neighbor.setfScore(neighbor.getgScore() + h(neighbor.p, goal));
-                    if (openSet.stream().noneMatch(e -> e == neighbor)) openSet.add(neighbor);
+            for (int i = 0; i < 4; i++) {
+                Direction d = Direction.values()[i];
+                if (this.canMove(current.p, d)) {
+                    Position neighborPos = d.nextPosition(current.p);
+                    if (!cameFrom.containsValue(neighborPos)) {
+                        Node neighbor = openSet.stream()
+                                .filter(e -> e.p.equals(neighborPos))
+                                .findAny()
+                                .orElse(null);
+                        if (neighbor == null)
+                            neighbor = new Node(current, neighborPos);
+                        long tentative_gScore = current.getgScore() + d(current.p, neighbor.p);
+                        if (tentative_gScore < neighbor.getgScore()) {
+                            cameFrom.put(neighbor, current.p);
+                            neighbor.setgScore(tentative_gScore);
+                            neighbor.setfScore(neighbor.getgScore() + d(neighbor.p, goal)); // d = h is distance
+                            Node finalNeighbor = neighbor;
+                            if (openSet.stream().noneMatch(e -> e.p.equals(finalNeighbor.p))) openSet.add(neighbor);
+                        }
+                    }
                 }
             }
-
         }
         return null;
     }
-
     private long d(Position current, Position goal) { // Distance, Can be buged
-        return Math.abs(current.x - goal.x) + Math.abs(current.y - goal.y);
-    }
-
-    private long h(Position current, Position goal) { // TODO: ??????
         return Math.abs(current.x - goal.x) + Math.abs(current.y - goal.y);
     }
 
