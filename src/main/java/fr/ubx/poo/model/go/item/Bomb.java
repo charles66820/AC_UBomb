@@ -49,25 +49,30 @@ public class Bomb extends GameObject {
             Direction direction = Direction.values()[i]; // select each direction
             for (int j = 1; j <= rangeMax; j++) {
                 Position nextPos = direction.nextPosition(this.getPosition(), j);
-                explosionSpread(nextPos);
+                if (explosionSpread(nextPos)) break;
             }
             this.isExploded = true;
         }
     }
 
-    private void explosionSpread(Position pos) {
+    /**
+     *
+     * @param pos
+     * @return stopPropagation
+     */
+    private boolean explosionSpread(Position pos) {
         //if it is a decor
         Decor decor = this.game.getWorld().get(pos);
         if (decor != null) {
             if (decor instanceof Box) {
                 this.game.getWorld().clear(pos);
                 explosionPositions.add(pos); // To show explosion
-                return;
+                return true;
             } else if (decor instanceof Collectable && !(decor instanceof Key)) {
                 this.game.getWorld().clear(pos);
                 explosionPositions.add(pos); // To show explosion
             } else if (decor.isExplosionStop()) {
-                return;
+                return true;
             }
         } else {
             explosionPositions.add(pos); // To show explosion
@@ -92,6 +97,7 @@ public class Bomb extends GameObject {
                 bomb.initTimer = this.initTimer;
             }
         }
+        return false;
     }
 
     public long getInitTimer() {
