@@ -44,18 +44,18 @@ public class Bomb extends GameObject {
     }
 
     public void explosion() {
-        explosionSpred(this.getPosition());
+        explosionSpread(this.getPosition());
         for (int i = 0; i <= 3; i++) {
             Direction direction = Direction.values()[i]; // select each direction
             for (int j = 1; j <= rangeMax; j++) {
                 Position nextPos = direction.nextPosition(this.getPosition(), j);
-                explosionSpred(nextPos);
+                explosionSpread(nextPos);
             }
             this.isExploded = true;
         }
     }
 
-    private void explosionSpred(Position pos) {
+    private void explosionSpread(Position pos) {
         //if it is a decor
         Decor decor = this.game.getWorld().get(pos);
         if (decor != null) {
