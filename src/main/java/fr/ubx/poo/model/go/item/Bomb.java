@@ -43,7 +43,7 @@ public class Bomb extends GameObject {
         }
     }
 
-    public void explosion() {
+    public void explosion() { //TODO: les décors arrêtent l'explosion et une seule box peut être détruite par direction !
         explosionSpread(this.getPosition());
         for (int i = 0; i <= 3; i++) {
             Direction direction = Direction.values()[i]; // select each direction
