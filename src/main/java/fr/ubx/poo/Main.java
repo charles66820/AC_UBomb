@@ -34,8 +34,6 @@ public class Main extends Application {
         String path = getClass().getResource("/sample").getFile();
         this.game = new Game(path);
 
-        LangFactory.getInstance().setLang(this.game.getTheme(), "en");
-
         initMainMenu(stage);
     }
 
