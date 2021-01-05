@@ -4,7 +4,6 @@ import fr.ubx.poo.game.Position;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 
-
 public class SpriteDecor extends Sprite {
     private Position position;
 

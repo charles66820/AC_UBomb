@@ -5,19 +5,18 @@
 package fr.ubx.poo.engine;
 
 import fr.ubx.poo.game.Direction;
+import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Door;
 import fr.ubx.poo.model.decor.collectable.Collectable;
 import fr.ubx.poo.model.go.character.Monster;
+import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.model.go.character.Target;
 import fr.ubx.poo.model.go.item.Bomb;
-import fr.ubx.poo.utils.Lang;
 import fr.ubx.poo.utils.LangFactory;
 import fr.ubx.poo.view.sprite.Sprite;
 import fr.ubx.poo.view.sprite.SpriteFactory;
-import fr.ubx.poo.game.Game;
-import fr.ubx.poo.model.go.character.Player;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -154,8 +153,8 @@ public final class GameEngine {
             Position pos = this.player.getPosition();
             Decor decor = this.game.getWorld().get(pos);
             boolean bombHere = false;
-            for (Bomb bomb: this.game.getWorld().getBombs()) {
-                if (pos.equals(bomb.getPosition())){
+            for (Bomb bomb : this.game.getWorld().getBombs()) {
+                if (pos.equals(bomb.getPosition())) {
                     bombHere = true;
                 }
             }

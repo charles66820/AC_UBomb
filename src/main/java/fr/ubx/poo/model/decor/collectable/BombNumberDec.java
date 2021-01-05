@@ -1,6 +1,5 @@
 package fr.ubx.poo.model.decor.collectable;
 
-
 import fr.ubx.poo.model.go.character.Player;
 
 public class BombNumberDec extends Collectable {

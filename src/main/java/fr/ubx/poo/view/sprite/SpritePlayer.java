@@ -10,7 +10,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.Pane;
 
 public class SpritePlayer extends SpriteGameObject {
-    private ColorAdjust effect = new ColorAdjust();
+    private final ColorAdjust effect = new ColorAdjust();
 
     public SpritePlayer(Pane layer, Player player) {
         super(layer, null, player);

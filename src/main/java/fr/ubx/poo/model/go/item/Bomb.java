@@ -56,7 +56,6 @@ public class Bomb extends GameObject {
     }
 
     /**
-     *
      * @param pos
      * @return stopPropagation
      */

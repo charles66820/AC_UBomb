@@ -16,7 +16,6 @@ import fr.ubx.poo.model.go.item.Bomb;
 import fr.ubx.poo.view.image.ImageFactory;
 import javafx.scene.layout.Pane;
 
-
 public final class SpriteFactory {
 
     public static Sprite createDecor(Pane layer, Position position, Decor decor) {
@@ -59,7 +58,7 @@ public final class SpriteFactory {
         return new SpriteMonster(layer, monster);
     }
 
-    public static Sprite createBomb(Pane layer, Bomb bomb){
+    public static Sprite createBomb(Pane layer, Bomb bomb) {
         return new SpriteBomb(layer, bomb);
     }
 

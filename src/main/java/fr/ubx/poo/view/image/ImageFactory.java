@@ -66,12 +66,12 @@ public final class ImageFactory {
     }
 
     public Image getPlayer(Direction direction) {
-        ImageResource[] directions = isPrincess? princessDirections : princeDirections;
+        ImageResource[] directions = isPrincess ? princessDirections : princeDirections;
         return get(directions[direction.ordinal()]);
     }
 
     public Image getTarget() {
-        return get(!isPrincess? PRINCESS : PRINCE);
+        return get(!isPrincess ? PRINCESS : PRINCE);
     }
 
     public Image getMonsters(Direction direction) {

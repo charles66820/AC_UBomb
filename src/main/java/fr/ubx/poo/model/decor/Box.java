@@ -15,6 +15,6 @@ public class Box extends Decor implements Movable {
     }
 
     @Override
-    public void doMove(Direction direction) {}
+    public void doMove(Direction direction) { }
 
 }
