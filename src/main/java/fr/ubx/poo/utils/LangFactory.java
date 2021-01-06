@@ -1,6 +1,7 @@
 package fr.ubx.poo.utils;
 
 import java.io.*;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -34,23 +35,25 @@ public final class LangFactory {
     }
 
     private void loadLang(String theme, String code) {
-        String langPath = getClass().getResource("/themes/" + theme + "/lang/").getFile();
-
         // Add lang
         Map<String, String> lang = new HashMap<>();
         langs.put(theme + code, lang);
+        this.currentLang = lang;
+
         // Load lang properties
-        try (InputStream input = new FileInputStream(new File(langPath, code + ".properties"))) {
-            Properties prop = new Properties();
-            prop.load(new InputStreamReader(input, StandardCharsets.UTF_8));
-            Enumeration<Object> enu = prop.keys();
-            while (enu.hasMoreElements()) {
-                String key = (String) enu.nextElement();
-                lang.put(key, prop.getProperty(key, "undefined"));
+        URL langPath = getClass().getResource("/themes/" + theme + "/lang/");
+        if (langPath != null) {
+            try (InputStream input = new FileInputStream(new File(langPath.getFile(), code + ".properties"))) {
+                Properties prop = new Properties();
+                prop.load(new InputStreamReader(input, StandardCharsets.UTF_8));
+                Enumeration<Object> enu = prop.keys();
+                while (enu.hasMoreElements()) {
+                    String key = (String) enu.nextElement();
+                    lang.put(key, prop.getProperty(key, "undefined"));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            this.currentLang = lang;
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
