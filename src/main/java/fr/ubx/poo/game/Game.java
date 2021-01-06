@@ -27,10 +27,11 @@ public class Game {
     private int nbLevels;
     private int currentLevel = 0;
     private int initPlayerLives;
-    private double startMonsterMoveFrequency;
-    private double monsterMoveFrequencyRation;
-    private double explosionCooldown;
-    private double explosionDuration;
+    private int startMonsterMoveFrequency;
+    private int monsterMoveFrequencyRation;
+    private int explosionCooldown;
+    private int explosionDuration;
+    private int invulnerabilityDuration;
     private boolean worldChanged = false;
     private boolean smartAI = false;
     private boolean isPrincess = false;
@@ -88,6 +89,7 @@ public class Game {
             this.monsterMoveFrequencyRation = Integer.parseInt(prop.getProperty("monsterMoveFrequencyRation", "100"));
             this.explosionCooldown = Integer.parseInt(prop.getProperty("explosionCooldown", "4000"));
             this.explosionDuration = Integer.parseInt(prop.getProperty("explosionDuration", "400"));
+            this.invulnerabilityDuration = Integer.parseInt(prop.getProperty("invulnerabilityDuration", "1000"));
             this.smartAI = Boolean.parseBoolean(prop.getProperty("smartAI", "true"));
             this.theme = prop.getProperty("theme", "default");
             this.lang = prop.getProperty("lang", "en");
@@ -211,35 +213,35 @@ public class Game {
         this.initPlayerLives = initPlayerLives;
     }
 
-    public double getStartMonsterMoveFrequency() {
+    public int getStartMonsterMoveFrequency() {
         return startMonsterMoveFrequency;
     }
 
-    public void setStartMonsterMoveFrequency(double startMonsterMoveFrequency) {
+    public void setStartMonsterMoveFrequency(int startMonsterMoveFrequency) {
         this.startMonsterMoveFrequency = startMonsterMoveFrequency;
     }
 
-    public double getMonsterMoveFrequencyRation() {
+    public int getMonsterMoveFrequencyRation() {
         return monsterMoveFrequencyRation;
     }
 
-    public void setMonsterMoveFrequencyRation(double monsterMoveFrequencyRation) {
+    public void setMonsterMoveFrequencyRation(int monsterMoveFrequencyRation) {
         this.monsterMoveFrequencyRation = monsterMoveFrequencyRation;
     }
 
-    public double getExplosionCooldown() {
+    public int getExplosionCooldown() {
         return this.explosionCooldown;
     }
 
-    public void setExplosionCooldown(double explosionCooldown) {
+    public void setExplosionCooldown(int explosionCooldown) {
         this.explosionCooldown = explosionCooldown;
     }
 
-    public void setExplosionDuration(double explosionDuration) {
+    public void setExplosionDuration(int explosionDuration) {
         this.explosionDuration = explosionDuration;
     }
 
-    public double getExplosionDuration() {
+    public int getExplosionDuration() {
         return this.explosionDuration;
     }
 
@@ -273,5 +275,13 @@ public class Game {
 
     public void setLang(String lang) {
         this.lang = lang;
+    }
+
+    public int getInvulnerabilityDuration() {
+        return invulnerabilityDuration;
+    }
+
+    public void setInvulnerabilityDuration(int invulnerabilityDuration) {
+        this.invulnerabilityDuration = invulnerabilityDuration;
     }
 }

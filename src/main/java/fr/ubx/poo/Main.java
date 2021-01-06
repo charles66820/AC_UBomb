@@ -176,7 +176,7 @@ public class Main extends Application {
         TextField startMonsterMoveFrequencyTextField = new TextField();
         startMonsterMoveFrequencyTextField.setText(String.valueOf(this.game.getStartMonsterMoveFrequency()));
         startMonsterMoveFrequencyTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?"))
+            if (!newValue.matches("\\d{0,7}"))
                 startMonsterMoveFrequencyTextField.setText(oldValue);
         });
 
@@ -185,7 +185,7 @@ public class Main extends Application {
         TextField monsterMoveFrequencyRationTextField = new TextField();
         monsterMoveFrequencyRationTextField.setText(String.valueOf(this.game.getMonsterMoveFrequencyRation()));
         monsterMoveFrequencyRationTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?"))
+            if (!newValue.matches("\\d{0,7}"))
                 monsterMoveFrequencyRationTextField.setText(oldValue);
         });
 
@@ -194,7 +194,7 @@ public class Main extends Application {
         TextField explosionCooldownTextField = new TextField();
         explosionCooldownTextField.setText(String.valueOf(this.game.getExplosionCooldown()));
         explosionCooldownTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?"))
+            if (!newValue.matches("\\d{0,7}"))
                 explosionCooldownTextField.setText(oldValue);
         });
 
@@ -203,8 +203,17 @@ public class Main extends Application {
         TextField explosionDurationTextField = new TextField();
         explosionDurationTextField.setText(String.valueOf(this.game.getExplosionDuration()));
         explosionDurationTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?"))
+            if (!newValue.matches("\\d{0,7}"))
                 explosionDurationTextField.setText(oldValue);
+        });
+
+        // Invulnerability time
+        Text invulnerabilityDurationLabel = new Text(LangFactory.get("invulnerabilityDuration"));
+        TextField invulnerabilityDurationTextField = new TextField();
+        invulnerabilityDurationTextField.setText(String.valueOf(this.game.getInvulnerabilityDuration()));
+        invulnerabilityDurationTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d{0,7}"))
+                invulnerabilityDurationTextField.setText(oldValue);
         });
 
         // Choose monsterAI
@@ -257,7 +266,7 @@ public class Main extends Application {
         gridPane.setMinSize(WindowMinHeight, WindowMinWidth);
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setHgap(2);
-        gridPane.setVgap(10);
+        gridPane.setVgap(12);
         gridPane.setAlignment(Pos.CENTER);
         gridPane.add(prefixLabel, 0, 0);
         gridPane.add(prefixTextField, 1, 0);
@@ -275,11 +284,13 @@ public class Main extends Application {
         gridPane.add(explosionCooldownTextField, 1, 6);
         gridPane.add(explosionDurationLabel, 0, 7);
         gridPane.add(explosionDurationTextField, 1, 7);
-        gridPane.add(monsterAILabel, 0, 8);
-        gridPane.add(monsterAIHBox, 1, 8);
-        gridPane.add(langLabel, 0, 9);
-        gridPane.add(langHBox, 1, 9);
-        gridPane.add(closePane, 1, 10);
+        gridPane.add(invulnerabilityDurationLabel, 0, 8);
+        gridPane.add(invulnerabilityDurationTextField, 1, 8);
+        gridPane.add(monsterAILabel, 0, 9);
+        gridPane.add(monsterAIHBox, 1, 9);
+        gridPane.add(langLabel, 0, 10);
+        gridPane.add(langHBox, 1, 10);
+        gridPane.add(closePane, 1, 11);
 
         StackPane settingPane = new StackPane(gridPane);
         settingPane.setStyle("-fx-background-color:#FFFFFFFF");
@@ -306,15 +317,19 @@ public class Main extends Application {
                 if (explosionDurationTextField.getText().equals(""))
                     explosionDurationTextField.setText("400");
 
+                if (invulnerabilityDurationTextField.getText().equals(""))
+                    invulnerabilityDurationTextField.setText("1000");
+
                 // Save value
                 this.game.setWorldPrefix(prefixTextField.getText());
                 this.game.setNbLevels(Integer.parseInt(nbLevelsTextField.getText()));
                 this.game.setExtension(extensionTextField.getText());
                 this.game.setInitPlayerLives(Integer.parseInt(initialsLivesTextField.getText()));
-                this.game.setStartMonsterMoveFrequency(Double.parseDouble(startMonsterMoveFrequencyTextField.getText()));
-                this.game.setMonsterMoveFrequencyRation(Double.parseDouble(monsterMoveFrequencyRationTextField.getText()));
-                this.game.setExplosionCooldown(Double.parseDouble(explosionCooldownTextField.getText()));
-                this.game.setExplosionDuration(Double.parseDouble(explosionDurationTextField.getText()));
+                this.game.setStartMonsterMoveFrequency(Integer.parseInt(startMonsterMoveFrequencyTextField.getText()));
+                this.game.setMonsterMoveFrequencyRation(Integer.parseInt(monsterMoveFrequencyRationTextField.getText()));
+                this.game.setExplosionCooldown(Integer.parseInt(explosionCooldownTextField.getText()));
+                this.game.setExplosionDuration(Integer.parseInt(explosionDurationTextField.getText()));
+                this.game.setInvulnerabilityDuration(Integer.parseInt(invulnerabilityDurationTextField.getText()));
                 this.game.setSmartAI(monsterAIGroup.getSelectedToggle() == smartAIRadio);
 
                 // Close with animation

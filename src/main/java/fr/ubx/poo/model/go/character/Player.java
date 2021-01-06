@@ -41,7 +41,7 @@ public class Player extends Character implements Movable {
         }
 
         //Check if player is still invulnerable
-        if (now >= this.lastTimeInvulnerable + 1000000000L) {
+        if (now >= this.lastTimeInvulnerable + (1000000L * game.getInvulnerabilityDuration())) {
             this.invulnerable = false;
         }
 
