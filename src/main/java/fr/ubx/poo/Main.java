@@ -154,7 +154,7 @@ public class Main extends Application {
         TextField nbLevelsTextField = new TextField();
         nbLevelsTextField.setText(String.valueOf(this.game.getNbLevels()));
         nbLevelsTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d{0,12}")) nbLevelsTextField.setText(oldValue);
+            if (!newValue.matches("\\d{0,3}")) nbLevelsTextField.setText(oldValue);
         });
 
         // Levels files extension
@@ -167,7 +167,7 @@ public class Main extends Application {
         TextField initialsLivesTextField = new TextField();
         initialsLivesTextField.setText(String.valueOf(this.game.getInitPlayerLives()));
         initialsLivesTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d{0,12}"))
+            if (!newValue.matches("\\d{0,4}"))
                 initialsLivesTextField.setText(oldValue);
         });
 
