@@ -137,8 +137,7 @@ public class Main extends Application {
         }
 
         stage.setTitle(LangFactory.get("mainMenuTitle"));
-        stage.setMinWidth(WindowMinHeight);
-        stage.setMinHeight(WindowMinWidth);
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
@@ -292,7 +291,10 @@ public class Main extends Application {
         gridPane.add(langHBox, 1, 10);
         gridPane.add(closePane, 1, 11);
 
-        StackPane settingPane = new StackPane(gridPane);
+        ScrollPane sp = new ScrollPane(gridPane);
+        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        StackPane settingPane = new StackPane(sp);
         settingPane.setStyle("-fx-background-color:#FFFFFFFF");
         settingPane.setVisible(false);
 
