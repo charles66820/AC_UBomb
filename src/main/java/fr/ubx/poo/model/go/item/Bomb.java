@@ -3,6 +3,7 @@ package fr.ubx.poo.model.go.item;
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.World;
 import fr.ubx.poo.model.decor.Box;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.collectable.Collectable;
@@ -15,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class Bomb extends GameObject {
+    public final World world; // Public because not editable
     private final int rangeMax;
     private long initTimer; // time when bomb was created
     private long timer; // current time before explosion
@@ -23,8 +25,9 @@ public class Bomb extends GameObject {
     private boolean canBeRemove; // state of the bomb if it can be remove
     List<Position> explosionPositions = new ArrayList<>();
 
-    public Bomb(Game game, Position position, long initTimer) {
+    public Bomb(Game game, World world, Position position, long initTimer) {
         super(game, position);
+        this.world = world;
         this.initTimer = initTimer;
         this.isExploded = false;
         this.canBeRemove = false;
@@ -61,14 +64,14 @@ public class Bomb extends GameObject {
      */
     private boolean explosionSpread(Position pos) {
         //if it is a decor
-        Decor decor = this.game.getWorld().get(pos);
+        Decor decor = this.world.get(pos);
         if (decor != null) {
             if (decor instanceof Box) {
-                this.game.getWorld().clear(pos);
+                this.world.clear(pos);
                 explosionPositions.add(pos); // To show explosion
                 return true;
             } else if (decor instanceof Collectable && !(decor instanceof Key)) {
-                this.game.getWorld().clear(pos);
+                this.world.clear(pos);
                 explosionPositions.add(pos); // To show explosion
             } else if (decor.isExplosionStop()) {
                 return true;
@@ -76,21 +79,21 @@ public class Bomb extends GameObject {
         } else {
             explosionPositions.add(pos); // To show explosion
         }
-        //if explosion hit the player
-        if (pos.equals(this.game.getPlayer().getPosition())) {
+        //if explosion hit the player  and in same world
+        if (pos.equals(this.game.getPlayer().getPosition()) && this.world == this.game.getCurentWorld()) {
             this.game.getPlayer().removeLives(1);
             this.game.getPlayer().setInvulnerable(true);
             this.game.getPlayer().setLastTimeInvulnerable(this.timer);
         }
         //if explosion hit a monster
-        Collection<Monster> monsters = this.game.getWorld().getMonsters();
+        Collection<Monster> monsters = this.world.getMonsters();
         for (Monster monster : monsters) {
             if (pos.equals(monster.getPosition())) {
                 monster.die(); // kill monster
             }
         }
         //if explosion hit another bomb
-        Collection<Bomb> bombs = this.game.getWorld().getBombs();
+        Collection<Bomb> bombs = this.world.getBombs();
         for (Bomb bomb : bombs) {
             if (pos.equals(bomb.getPosition())) {
                 bomb.initTimer = this.initTimer;

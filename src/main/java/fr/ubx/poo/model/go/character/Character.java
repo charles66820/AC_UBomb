@@ -23,8 +23,8 @@ public abstract class Character extends GameObject implements Movable {
     @Override
     public boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
-        Decor decor = this.game.getWorld().get(nextPos);
-        return (this.game.getWorld().isInside(nextPos)) && ((decor == null) || (decor.isTraversable()));
+        Decor decor = this.game.getCurentWorld().get(nextPos);
+        return (this.game.getCurentWorld().isInside(nextPos)) && ((decor == null) || (decor.isTraversable()));
     }
 
     @Override

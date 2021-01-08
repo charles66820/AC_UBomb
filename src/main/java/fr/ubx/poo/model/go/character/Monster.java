@@ -3,6 +3,7 @@ package fr.ubx.poo.model.go.character;
 import fr.ubx.poo.game.Direction;
 import fr.ubx.poo.game.Game;
 import fr.ubx.poo.game.Position;
+import fr.ubx.poo.game.World;
 import fr.ubx.poo.model.Movable;
 import fr.ubx.poo.model.decor.Decor;
 import fr.ubx.poo.model.decor.Door;
@@ -11,14 +12,16 @@ import java.util.*;
 
 public class Monster extends Character implements Movable {
 
+    public final World world; // Public because not editable
     private final long moveFrequency; // In ns
     private long lastCallTime;
 
     static public final Boolean DEBUG_PATHFINDING = false;
     private List<Position> path;
 
-    public Monster(Game game, Position position, double moveFrequencyInMs) {
+    public Monster(Game game, World world, Position position, double moveFrequencyInMs) {
         super(game, position);
+        this.world = world;
         this.moveFrequency = (long) (1000000L * moveFrequencyInMs);
     }
 
@@ -38,9 +41,9 @@ public class Monster extends Character implements Movable {
             if (canMove(direction)) {
                 doMove(direction);
 
-                // Hit the player if is on same position
+                // Hit the player if is on same position and in same world
                 Player player = this.game.getPlayer();
-                if (this.getPosition().equals(player.getPosition())) {
+                if (this.getPosition().equals(player.getPosition()) && this.world == this.game.getCurentWorld()) {
                     player.removeLives(1);
                     this.game.getPlayer().setInvulnerable(true);
                     this.game.getPlayer().setLastTimeInvulnerable(now);
@@ -58,11 +61,11 @@ public class Monster extends Character implements Movable {
 
     private boolean canMove(Position form, Direction direction) {
         Position nextPos = direction.nextPosition(form);
-        Decor decor = this.game.getWorld().get(nextPos);
+        Decor decor = this.world.get(nextPos);
         // Collision with monster
-        for (Monster monster : this.game.getWorld().getMonsters())
+        for (Monster monster : this.world.getMonsters())
             if (nextPos.equals(monster.getPosition())) return false;
-        return (this.game.getWorld().isInside(nextPos)) && ((decor == null) || (decor.isTraversable() && !(decor instanceof Door)));
+        return (this.world.isInside(nextPos)) && ((decor == null) || (decor.isTraversable() && !(decor instanceof Door)));
     }
 
     public void randomAI() {
@@ -70,9 +73,13 @@ public class Monster extends Character implements Movable {
     }
 
     public void smartAI() {
-        List<Position> path = A_Start(this.getPosition(), this.game.getPlayer().getPosition());
         Direction d = null;
-        if (path != null) d = Direction.to(this.getPosition(), path.get(1));
+
+        // Search a path if the player is in the same monster world
+        if (this.world == this.game.getCurentWorld()) {
+            List<Position> path = A_Start(this.getPosition(), this.game.getPlayer().getPosition());
+            if (path != null) d = Direction.to(this.getPosition(), path.get(1));
+        }
         this.requestMove(d != null ? d : Direction.random());
     }
 

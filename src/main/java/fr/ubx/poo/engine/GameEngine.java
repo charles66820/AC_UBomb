@@ -62,8 +62,8 @@ public final class GameEngine {
         Group root = new Group();
         layer = new Pane();
 
-        int height = game.getWorld().dimension.height;
-        int width = game.getWorld().dimension.width;
+        int height = game.getCurentWorld().dimension.height;
+        int width = game.getCurentWorld().dimension.width;
         int sceneWidth = width * Sprite.size;
         int sceneHeight = height * Sprite.size;
         Scene scene = new Scene(root, sceneWidth, sceneHeight + StatusBar.height);
@@ -84,12 +84,12 @@ public final class GameEngine {
 
     private void createSprites() {
         // Create decor sprites
-        game.getWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
+        game.getCurentWorld().forEach((pos, d) -> sprites.add(SpriteFactory.createDecor(layer, pos, d)));
         spritePlayer = SpriteFactory.createPlayer(layer, player);
         Target target = game.getTarget();
         if (target != null) spriteTarget = SpriteFactory.createTarget(layer, target);
-        game.getWorld().getMonsters().forEach(monster -> monstersSprites.add(SpriteFactory.createMonster(layer, monster)));
-        game.getWorld().getBombs().forEach(bomb -> bombsSprites.add(SpriteFactory.createBomb(layer, bomb)));
+        game.getCurentWorld().getMonsters().forEach(monster -> monstersSprites.add(SpriteFactory.createMonster(layer, monster)));
+        game.getCurentWorld().getBombs().forEach(bomb -> bombsSprites.add(SpriteFactory.createBomb(layer, bomb)));
     }
 
     private void removeSprites() {
@@ -139,28 +139,29 @@ public final class GameEngine {
         }
         if (input.isKey()) {
             Position nextPos = this.player.getDirection().nextPosition(this.player.getPosition());
-            Decor decor = this.game.getWorld().get(nextPos);
+            Decor decor = this.game.getCurentWorld().get(nextPos);
             if (decor instanceof Door) {
                 Door door = (Door) decor;
                 if (!door.isOpen() && (this.player.getKey() >= 1)) {
                     door.setOpen(true);
-                    this.game.getWorld().setChanged(true);
+                    this.game.getCurentWorld().setChanged(true);
                     this.player.setKey(this.player.getKey() - 1);
                 }
             }
         }
         if (input.isBomb()) {
             Position pos = this.player.getPosition();
-            Decor decor = this.game.getWorld().get(pos);
+            Decor decor = this.game.getCurentWorld().get(pos);
             boolean bombHere = false;
-            for (Bomb bomb : this.game.getWorld().getBombs()) {
+            for (Bomb bomb : this.game.getCurentWorld().getBombs()) {
                 if (pos.equals(bomb.getPosition())) {
                     bombHere = true;
+                    break;
                 }
             }
             if (this.player.getBomb() >= 1 && !bombHere && (decor == null || decor instanceof Collectable)) {
-                Bomb b = new Bomb(this.game, pos, now);
-                this.game.getWorld().getBombs().add(b); // add bomb in bomb list
+                Bomb b = new Bomb(this.game, this.game.getCurentWorld(), pos, now);
+                this.game.getCurentWorld().getBombs().add(b); // add bomb in bomb list
                 player.setBomb(player.getBomb() - 1);
                 this.bombsSprites.add(SpriteFactory.createBomb(layer, b)); // add sprite of the current bomb in sprite bomb list
             }
@@ -202,23 +203,24 @@ public final class GameEngine {
 
         // Update all bombs in the game
         List<Bomb> explodedBomb = new ArrayList<>();
-        for (Bomb b : this.game.getWorld().getBombs()) {
+        for (Bomb b : this.game.getBombs()) {
             b.update(now);
             if (b.canBeRemove()) {
                 this.player.setBomb(this.player.getBomb() + 1); //TODO: regagner la bombe même si on change de monde !
                 explodedBomb.add(b);
-                this.game.getWorld().setChanged(true);
+                // Set change for update sprites
+                this.game.getCurentWorld().setChanged(true);
             }
         }
-        this.game.getWorld().getBombs().removeAll(explodedBomb);
+        explodedBomb.forEach(bomb -> bomb.world.getBombs().remove(bomb));
 
-        // Update monster
+        // Update monsters
         List<Monster> removeMonster = new ArrayList<>();
-        for (Monster b : this.game.getWorld().getMonsters()) {
+        for (Monster b : this.game.getMonsters()) {
             b.update(now);
             if (!b.isAlive()) removeMonster.add(b);
         }
-        this.game.getWorld().getMonsters().removeAll(removeMonster);
+        removeMonster.forEach(monster -> monster.world.getMonsters().remove(monster));
 
         if (this.game.worldHasChanged()) {
             initialize(stage, game);
@@ -227,10 +229,10 @@ public final class GameEngine {
         }
 
         // Update all sprites when world has changed
-        if (this.game.getWorld().hasChanged()) {
+        if (this.game.getCurentWorld().hasChanged()) {
             removeSprites();
             createSprites();
-            this.game.getWorld().setChanged(false);
+            this.game.getCurentWorld().setChanged(false);
         }
 
     }

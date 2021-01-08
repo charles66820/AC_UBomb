@@ -13,7 +13,7 @@ public class BombNumberDec extends Collectable {
         if (player.getBombMax() > 1) {
             player.setBomb(player.getBomb() - 1);
             player.setBombMax(player.getBombMax() - 1);
-            player.getGame().getWorld().clear(player.getPosition());
+            player.getGame().getCurentWorld().clear(player.getPosition());
         }
     }
 }

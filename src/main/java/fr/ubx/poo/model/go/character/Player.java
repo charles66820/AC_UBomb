@@ -52,7 +52,7 @@ public class Player extends Character implements Movable {
 
                 Position newPos = this.getPosition();
                 // If a monster is on player position player is hit
-                Collection<Monster> monsters = this.game.getWorld().getMonsters();
+                Collection<Monster> monsters = this.game.getCurentWorld().getMonsters();
                 for (Monster monster : monsters) {
                     if (newPos.equals(monster.getPosition())) {
                         removeLives(1);
@@ -61,7 +61,7 @@ public class Player extends Character implements Movable {
                     }
                 }
 
-                Decor decor = this.game.getWorld().get(newPos);
+                Decor decor = this.game.getCurentWorld().get(newPos);
                 if (decor != null) {
                     decor.takenBy(this);
                 }
@@ -80,28 +80,28 @@ public class Player extends Character implements Movable {
     @Override
     public boolean canMove(Direction direction) {
         Position nextPos = direction.nextPosition(getPosition());
-        Decor decor = this.game.getWorld().get(nextPos);
+        Decor decor = this.game.getCurentWorld().get(nextPos);
         if (decor instanceof Box) {
             Position nextBoxPos = direction.nextPosition(nextPos);
-            if (!this.game.getWorld().isInside(nextBoxPos)) return false; // Fix bug with box move out of world border
-            Decor d = this.game.getWorld().get(nextBoxPos);
+            if (!this.game.getCurentWorld().isInside(nextBoxPos)) return false; // Fix bug with box move out of world border
+            Decor d = this.game.getCurentWorld().get(nextBoxPos);
             if (d != null) return false;
 
             // Collision with monster
-            for (Monster monster : this.game.getWorld().getMonsters())
+            for (Monster monster : this.game.getCurentWorld().getMonsters())
                 if (nextBoxPos.equals(monster.getPosition())) return false;
             // Collision with bombs
-            for (Bomb bomb : this.game.getWorld().getBombs()) {
+            for (Bomb bomb : this.game.getCurentWorld().getBombs()) {
                 if (nextBoxPos.equals(bomb.getPosition())) {
                     return false;
                 }
             }
 
-            this.game.getWorld().clear(nextPos);
-            this.game.getWorld().set(nextBoxPos, decor);
+            this.game.getCurentWorld().clear(nextPos);
+            this.game.getCurentWorld().set(nextBoxPos, decor);
             return true;
         }
-        return (this.game.getWorld().isInside(nextPos)) && ((decor == null) || (decor.isTraversable()));
+        return (this.game.getCurentWorld().isInside(nextPos)) && ((decor == null) || (decor.isTraversable()));
     }
 
     public boolean isWinner() {

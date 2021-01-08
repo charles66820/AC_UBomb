@@ -11,6 +11,6 @@ public class Key extends Collectable {
     @Override
     public void takenBy(Player player) {
         player.setKey(player.getKey() + 1);
-        player.getGame().getWorld().clear(player.getPosition());
+        player.getGame().getCurentWorld().clear(player.getPosition());
     }
 }

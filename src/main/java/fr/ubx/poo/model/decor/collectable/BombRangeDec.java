@@ -12,7 +12,7 @@ public class BombRangeDec extends Collectable {
     public void takenBy(Player player) {
         if (player.getRangebomb() > 1) {
             player.setRangebomb(player.getRangebomb() - 1);
-            player.getGame().getWorld().clear(player.getPosition());
+            player.getGame().getCurentWorld().clear(player.getPosition());
         }
     }
 }

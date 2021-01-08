@@ -11,6 +11,6 @@ public class BombRangeInc extends Collectable {
     @Override
     public void takenBy(Player player) {
         player.setRangebomb(player.getRangebomb() + 1);
-        player.getGame().getWorld().clear(player.getPosition());
+        player.getGame().getCurentWorld().clear(player.getPosition());
     }
 }

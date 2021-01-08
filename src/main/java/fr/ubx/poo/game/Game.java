@@ -12,6 +12,7 @@ import fr.ubx.poo.model.decor.Door;
 import fr.ubx.poo.model.go.character.Monster;
 import fr.ubx.poo.model.go.character.Player;
 import fr.ubx.poo.model.go.character.Target;
+import fr.ubx.poo.model.go.item.Bomb;
 import fr.ubx.poo.view.image.ImageFactory;
 
 public class Game {
@@ -127,7 +128,7 @@ public class Game {
         if (moveFrequency < 200) moveFrequency = 200;
 
         for (Position pos : world.getMonsterPositions()) {
-            world.getMonsters().add(new Monster(this, pos, moveFrequency));
+            world.getMonsters().add(new Monster(this, world, pos, moveFrequency));
         }
         this.worlds.add(world);
     }
@@ -152,8 +153,20 @@ public class Game {
         }
     }
 
-    public World getWorld() {
+    public World getCurentWorld() {
         return currentWorld;
+    }
+
+    public List<Monster> getMonsters() {
+        List<Monster> monsters = new ArrayList<>();
+        for (World w : this.worlds) monsters.addAll(w.getMonsters());
+        return monsters;
+    }
+
+    public List<Bomb> getBombs() {
+        List<Bomb> bombs = new ArrayList<>();
+        for (World w : this.worlds) bombs.addAll(w.getBombs());
+        return bombs;
     }
 
     public Player getPlayer() {
