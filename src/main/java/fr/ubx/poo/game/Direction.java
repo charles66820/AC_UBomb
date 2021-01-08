@@ -35,8 +35,7 @@ public enum Direction {
 
     private static final Random randomGenerator = new Random();
 
-    /***
-     *
+    /**
      * @return a pseudorandom direction
      */
     public static Direction random() {

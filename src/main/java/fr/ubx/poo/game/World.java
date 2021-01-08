@@ -17,7 +17,7 @@ import java.util.function.BiConsumer;
 import static fr.ubx.poo.game.WorldEntity.*;
 
 public class World {
-    private final Map<Position, Decor> grid; // World grid with all decors and collectable (For collision)
+    private final Map<Position, Decor> grid; // World grid with all decors and collectables (for collision)
     private final WorldEntity[][] raw; // World grid with all entities
     public final Dimension dimension;
     private boolean changed = true;
@@ -41,6 +41,12 @@ public class World {
         throw new PositionNotFoundException("Player");
     }
 
+    /**
+     * Find the target (e.g. Princess) in the current world
+     *
+     * @return The position of the target
+     * @throws PositionNotFoundException This exception can be throw if the target is not in the current world
+     */
     public Position findTarget() throws PositionNotFoundException {
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
@@ -52,6 +58,9 @@ public class World {
         throw new PositionNotFoundException("Target");
     }
 
+    /**
+     * @return The position of each monsters in the current world
+     */
     public Collection<Position> getMonsterPositions() {
         Collection<Position> pos = new ArrayList<Position>();
         for (int x = 0; x < dimension.width; x++) {

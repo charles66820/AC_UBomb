@@ -202,24 +202,27 @@ public final class GameEngine {
         }
 
         // Update all bombs in the game
-        List<Bomb> explodedBomb = new ArrayList<>();
+        List<Bomb> explodedBomb = new ArrayList<>(); // create a list for all exploded bombs in the game
         for (Bomb b : this.game.getBombs()) {
             b.update(now);
+            // If the bomb has finished exploded
             if (b.canBeRemove()) {
                 this.player.setBomb(this.player.getBomb() + 1);
                 explodedBomb.add(b);
-                // Set change for update sprites
+                // Set boolean for changed world to update sprites
                 this.game.getCurentWorld().setChanged(true);
             }
         }
+        // Remove all bombs which exploded in the game
         explodedBomb.forEach(bomb -> bomb.world.getBombs().remove(bomb));
 
-        // Update monsters
+        // Update all monsters in the game
         List<Monster> removeMonster = new ArrayList<>();
         for (Monster b : this.game.getMonsters()) {
             b.update(now);
             if (!b.isAlive()) removeMonster.add(b);
         }
+        // Remove all monsters which died in the game
         removeMonster.forEach(monster -> monster.world.getMonsters().remove(monster));
 
         if (this.game.worldHasChanged()) {
@@ -234,15 +237,13 @@ public final class GameEngine {
             createSprites();
             this.game.getCurentWorld().setChanged(false);
         }
-
     }
 
     private void render() {
         sprites.forEach(Sprite::render);
         monstersSprites.forEach(Sprite::render);
         bombsSprites.forEach(Sprite::render);
-        // last rendering to have player in the foreground
-        spritePlayer.render();
+        spritePlayer.render(); // last rendering to have player in the foreground
         if (spriteTarget != null) spriteTarget.render();
     }
 

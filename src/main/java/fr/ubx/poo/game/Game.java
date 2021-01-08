@@ -17,22 +17,22 @@ import fr.ubx.poo.view.image.ImageFactory;
 
 public class Game {
 
-    private World currentWorld;
+    private World currentWorld; // the world where the player is
     private final List<World> worlds;
     private Player player;
     private final String worldPath;
-    private String worldPrefix;
-    private String extension;
-    private String theme;
-    private String lang = "en";
+    private String worldPrefix; // prefix of the level files
+    private String extension; // extension of the level files
+    private String theme; // name of the theme folder
+    private String lang = "en"; // default language of the game
     private int nbLevels;
     private int currentLevel = 0;
-    private int initPlayerLives;
-    private int startMonsterMoveFrequency;
-    private int monsterMoveFrequencyRation;
-    private int explosionCooldown;
-    private int explosionDuration;
-    private int invulnerabilityDuration;
+    private int initPlayerLives; // initial lives of the player
+    private int startMonsterMoveFrequency; // first level monster movement frequency in ms
+    private int monsterMoveFrequencyRation; // value that is added to the movements of monsters at each level
+    private int explosionCooldown; // time of the bomb before explosion
+    private int explosionDuration; // duration of the explosion
+    private int invulnerabilityDuration; // duration of the invulnerability of the player
     private boolean worldChanged = false;
     private boolean smartAI = false;
     private boolean isPrincess = false;
@@ -46,7 +46,7 @@ public class Game {
     public void initGame() {
         // Load levels
         if (nbLevels == 0) {
-            // Load static world for demo on levels is define to 0
+            // Load static world for demo when nbLevels is 0
             this.worlds.add(new WorldStatic());
         } else {
             try {
@@ -54,7 +54,7 @@ public class Game {
                     loadWorld(i);
             } catch (IOException ex) {
                 System.err.println("Error on loading levels");
-                // Load static world on levels loading error
+                // Load static world when an error is caught
                 this.worlds.add(new WorldStatic());
             }
         }
@@ -69,8 +69,7 @@ public class Game {
         try {
             positionPlayer = currentWorld.findPlayer();
             player = new Player(this, positionPlayer);
-        } catch (
-                PositionNotFoundException e) {
+        } catch (PositionNotFoundException e) {
             System.err.println("Position not found : " + e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
@@ -99,6 +98,11 @@ public class Game {
         }
     }
 
+    /**
+     * Load the world from the path of the file
+     * @param levelNum The number of the level file to load
+     * @throws IOException An IOException can be throw because of the file that we read
+     */
     private void loadWorld(int levelNum) throws IOException {
         InputStream input = new FileInputStream(new File(this.worldPath, this.worldPrefix + levelNum + this.extension));
 
@@ -137,6 +141,7 @@ public class Game {
         this.worldChanged = true;
         if (currentLevel + 1 < nbLevels) {
             this.currentWorld = this.worlds.get(++currentLevel);
+            // Search for the arrival door
             this.currentWorld.forEach((p, d) -> {
                 if (d instanceof Door && !((Door) d).isNext()) player.setPosition(p);
             });
@@ -147,6 +152,7 @@ public class Game {
         this.worldChanged = true;
         if (currentLevel > 0) {
             this.currentWorld = this.worlds.get(--currentLevel);
+            // Search for the previous door
             this.currentWorld.forEach((p, d) -> {
                 if (d instanceof Door && ((Door) d).isNext()) player.setPosition(p);
             });
