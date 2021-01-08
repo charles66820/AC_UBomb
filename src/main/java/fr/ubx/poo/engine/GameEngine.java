@@ -206,7 +206,7 @@ public final class GameEngine {
         for (Bomb b : this.game.getBombs()) {
             b.update(now);
             if (b.canBeRemove()) {
-                this.player.setBomb(this.player.getBomb() + 1); //TODO: regagner la bombe même si on change de monde !
+                this.player.setBomb(this.player.getBomb() + 1);
                 explodedBomb.add(b);
                 // Set change for update sprites
                 this.game.getCurentWorld().setChanged(true);
