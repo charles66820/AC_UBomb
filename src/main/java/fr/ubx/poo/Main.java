@@ -22,8 +22,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Main extends Application {
-    private final int WindowMinHeight = 600;
-    private final int WindowMinWidth = 450;
+    private final int windowHeight = 600;
+    private final int windowWidth = 450;
     private Game game;
     private String styleRessources;
     Scene scene;
@@ -127,7 +127,7 @@ public class Main extends Application {
         StackPane root = new StackPane();
         root.getChildren().addAll(menuVBox, settingPane);
 
-        this.scene = new Scene(root, WindowMinHeight, WindowMinWidth);
+        this.scene = new Scene(root, windowHeight, windowWidth);
         this.styleRessources = getClass().getResource("/themes/" + this.game.getTheme() + "/css/application.css").toExternalForm();
         this.scene.getStylesheets().add(styleRessources);
 
@@ -262,7 +262,7 @@ public class Main extends Application {
 
         // Layout
         GridPane gridPane = new GridPane();
-        gridPane.setMinSize(WindowMinHeight, WindowMinWidth);
+        gridPane.setMinSize(windowHeight, windowWidth);
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setHgap(2);
         gridPane.setVgap(12);

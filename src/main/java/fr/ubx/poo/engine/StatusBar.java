@@ -18,7 +18,6 @@ import javafx.scene.text.Text;
 
 public class StatusBar {
     public static final int height = 55;
-    private final HBox hBox = new HBox();
     private final Text liveValue = new Text();
     private final Text bombsValue = new Text();
     private final Text rangeValue = new Text();
@@ -53,6 +52,7 @@ public class StatusBar {
         status.setSpacing(40.0);
         status.getChildren().addAll(live, bombs, range, key);
 
+        HBox hBox = new HBox();
         hBox.getChildren().addAll(level, status);
         hBox.getStyleClass().add("statusBar");
         hBox.relocate(0, sceneHeight);
@@ -79,16 +79,16 @@ public class StatusBar {
         return group;
     }
 
-    public void update(Game game) {
+    public void update() {
         updateLevel(this.newGameLevel);
-        liveValue.setText(String.valueOf(game.getPlayer().getLives()));
-        rangeValue.setText(String.valueOf(game.getPlayer().getRangebomb()));
-        if (game.getPlayer().getBomb() < 0) {
+        liveValue.setText(String.valueOf(this.game.getPlayer().getLives()));
+        rangeValue.setText(String.valueOf(this.game.getPlayer().getRangebomb()));
+        if (this.game.getPlayer().getBomb() < 0) {
             bombsValue.setText(String.valueOf(0));
         } else {
-            bombsValue.setText(String.valueOf(game.getPlayer().getBomb()));
+            bombsValue.setText(String.valueOf(this.game.getPlayer().getBomb()));
         }
-        keyValue.setText(String.valueOf(game.getPlayer().getKey()));
+        keyValue.setText(String.valueOf(this.game.getPlayer().getKey()));
     }
 
     public void setGameLevel(int gameLevel) {

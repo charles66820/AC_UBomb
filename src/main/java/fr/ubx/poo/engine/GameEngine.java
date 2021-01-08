@@ -114,7 +114,7 @@ public final class GameEngine {
 
                 // Graphic update
                 render();
-                statusBar.update(game);
+                statusBar.update();
             }
         };
     }

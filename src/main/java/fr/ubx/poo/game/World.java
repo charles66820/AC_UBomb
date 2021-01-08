@@ -53,7 +53,7 @@ public class World {
     }
 
     public Collection<Position> getMonsterPositions() {
-        Collection<Position> pos = new ArrayList<Position>();
+        Collection<Position> pos = new ArrayList<>();
         for (int x = 0; x < dimension.width; x++) {
             for (int y = 0; y < dimension.height; y++) {
                 if (raw[y][x] == Monster) {
