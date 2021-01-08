@@ -43,6 +43,12 @@ public enum Direction {
         return values()[randomGenerator.nextInt(values().length)];
     }
 
+    /**
+     * Determine the direction to look at a position
+     * @param from The start position
+     * @param p The look position
+     * @return The direction at `form` position to facing the destination
+     */
     static public Direction to(Position from, Position p) {
         if (from.x < p.x) return Direction.E;
         else if (from.x > p.x) return Direction.W;
