@@ -41,7 +41,7 @@ public class Monster extends Character implements Movable {
             if (canMove(direction)) {
                 doMove(direction);
 
-                // Hit the player if is on same position and in same world
+                // Hit the player if they are in the same position and in the same world
                 Player player = this.game.getPlayer();
                 if (this.getPosition().equals(player.getPosition()) && this.world == this.game.getCurentWorld()) {
                     player.removeLives(1);
@@ -117,11 +117,18 @@ public class Monster extends Character implements Movable {
         }
     }
 
+    /**
+     * If an A* search algorithm for monster
+     * https://en.wikipedia.org/wiki/A*_search_algorithm
+     * @param start The current monster position
+     * @param goal Player position
+     * @return A list of positions or null
+     */
     private List<Position> A_Start(Position start, Position goal) {
         Queue<Node> openSet = new PriorityQueue<>(Comparator.comparingLong(Node::getfScore));
         openSet.add(new Node(null, start, 0, d(start, goal))); // d = h is distance
 
-        Map<Node, Position> cameFrom = new HashMap<>(); // paths
+        Map<Node, Position> cameFrom = new HashMap<>(); // The paths
 
         while (!openSet.isEmpty()) {
             Node current = openSet.poll();

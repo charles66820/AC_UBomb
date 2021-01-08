@@ -25,6 +25,7 @@ public class SpriteMonster extends SpriteGameObject {
         Monster monster = (Monster) go;
         setImage(ImageFactory.getInstance().getMonsters(monster.getDirection()));
 
+        // Show the path of the monster to the player
         if (Monster.DEBUG_PATHFINDING) {
             List<Position> path = monster.getPath();
             if (path != null) {
@@ -40,6 +41,7 @@ public class SpriteMonster extends SpriteGameObject {
     @Override
     public final void remove() {
         super.remove();
+        // Remove the path of the monster to the player
         if (Monster.DEBUG_PATHFINDING && circlePath != null) {
             for (Circle c : circlePath)
                 layer.getChildren().remove(c);

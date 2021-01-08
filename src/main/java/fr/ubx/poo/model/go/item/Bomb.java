@@ -46,6 +46,9 @@ public class Bomb extends GameObject {
         }
     }
 
+    /**
+     * Call when this bomb is exposed
+     */
     public void explosion() {
         explosionSpread(this.getPosition());
         for (int i = 0; i <= 3; i++) {
@@ -59,11 +62,12 @@ public class Bomb extends GameObject {
     }
 
     /**
-     * @param pos
-     * @return stopPropagation
+     * These methods propagate the explosion to a position
+     * @param pos The explosed position
+     * @return stopPropagation Returns a boolean if the explosion is stopped or not
      */
     private boolean explosionSpread(Position pos) {
-        //if it is a decor
+        // If it is a decor
         Decor decor = this.world.get(pos);
         if (decor != null) {
             if (decor instanceof Box) {
@@ -79,20 +83,20 @@ public class Bomb extends GameObject {
         } else {
             explosionPositions.add(pos); // To show explosion
         }
-        //if explosion hit the player  and in same world
+        // If the explosion hits the player and is in the same world
         if (pos.equals(this.game.getPlayer().getPosition()) && this.world == this.game.getCurentWorld()) {
             this.game.getPlayer().removeLives(1);
             this.game.getPlayer().setInvulnerable(true);
             this.game.getPlayer().setLastTimeInvulnerable(this.timer);
         }
-        //if explosion hit a monster
+        // If the explosion hits a monster
         Collection<Monster> monsters = this.world.getMonsters();
         for (Monster monster : monsters) {
             if (pos.equals(monster.getPosition())) {
                 monster.die(); // kill monster
             }
         }
-        //if explosion hit another bomb
+        // If the explosion hits another bomb
         Collection<Bomb> bombs = this.world.getBombs();
         for (Bomb bomb : bombs) {
             if (pos.equals(bomb.getPosition())) {

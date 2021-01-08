@@ -40,7 +40,7 @@ public class Player extends Character implements Movable {
             this.alive = false;
         }
 
-        //Check if player is still invulnerable
+        // Check if player is still invulnerable
         if (now >= this.lastTimeInvulnerable + (1000000L * game.getInvulnerabilityDuration())) {
             this.invulnerable = false;
         }
@@ -49,9 +49,9 @@ public class Player extends Character implements Movable {
         if (moveRequested) {
             if (canMove(direction)) {
                 doMove(direction);
-
+                // newPos is the potential future position
                 Position newPos = this.getPosition();
-                // If a monster is on player position player is hit
+                // Hit the player when a monster has the same position
                 Collection<Monster> monsters = this.game.getCurentWorld().getMonsters();
                 for (Monster monster : monsters) {
                     if (newPos.equals(monster.getPosition())) {
@@ -69,7 +69,7 @@ public class Player extends Character implements Movable {
         }
         moveRequested = false;
 
-        // Check is player win
+        // Check if the player wins
         Position pos = this.getPosition();
         Target target = this.game.getTarget();
         if (target != null && pos.equals(target.getPosition())) {
@@ -83,7 +83,7 @@ public class Player extends Character implements Movable {
         Decor decor = this.game.getCurentWorld().get(nextPos);
         if (decor instanceof Box) {
             Position nextBoxPos = direction.nextPosition(nextPos);
-            if (!this.game.getCurentWorld().isInside(nextBoxPos)) return false; // Fix bug with box move out of world border
+            if (!this.game.getCurentWorld().isInside(nextBoxPos)) return false; // Is to fix bug with box move out of world border
             Decor d = this.game.getCurentWorld().get(nextBoxPos);
             if (d != null) return false;
 

@@ -26,6 +26,7 @@ public class SpritePlayer extends SpriteGameObject {
     @Override
     public void render() {
         super.render();
+        // Apply the effect of invulnerability to the player
         Player player = (Player) go;
         if (player.isInvulnerable()) {
             this.effect.setSaturation(-0.3);

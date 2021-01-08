@@ -9,7 +9,7 @@ import fr.ubx.poo.model.go.GameObject;
 
 public abstract class Character extends GameObject implements Movable {
     protected boolean alive = true;
-    Direction direction;
+    Direction direction; // Player looks at the direction
     protected boolean moveRequested = false;
 
     public Character(Game game, Position position) {
