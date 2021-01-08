@@ -65,7 +65,7 @@ public class Game {
 
         currentWorld = worlds.get(0);
 
-        Position positionPlayer = null;
+        Position positionPlayer;
         try {
             positionPlayer = currentWorld.findPlayer();
             player = new Player(this, positionPlayer);

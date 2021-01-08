@@ -36,10 +36,8 @@ public final class Input {
         // register key up
         keyboardBitSet.set(event.getCode().ordinal(), false);
     };
-    private final Scene scene;
 
     public Input(Scene scene) {
-        this.scene = scene;
         scene.addEventFilter(KeyEvent.KEY_PRESSED, keyPressedEventHandler);
         scene.addEventFilter(KeyEvent.KEY_RELEASED, keyReleasedEventHandler);
     }
