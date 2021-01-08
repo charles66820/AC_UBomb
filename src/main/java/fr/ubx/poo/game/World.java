@@ -86,11 +86,8 @@ public class World {
     }
 
     public boolean isInside(Position position) {
-        if (position.x >= 0 && position.x < this.dimension.width &&
-                position.y >= 0 && position.y < this.dimension.height) {
-            return true;
-        }
-        return false;
+        return position.x >= 0 && position.x < this.dimension.width &&
+                position.y >= 0 && position.y < this.dimension.height;
     }
 
     public boolean isEmpty(Position position) {

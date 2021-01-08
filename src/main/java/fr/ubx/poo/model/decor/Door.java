@@ -4,7 +4,7 @@ import fr.ubx.poo.model.go.character.Player;
 
 public class Door extends Decor {
     private boolean isOpen;
-    private boolean isNext;
+    private final boolean isNext;
 
     public Door(boolean isOpen, boolean isNext) {
         this.isOpen = isOpen;

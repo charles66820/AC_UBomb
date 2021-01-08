@@ -31,7 +31,7 @@ public class Bomb extends GameObject {
         this.initTimer = initTimer;
         this.isExploded = false;
         this.canBeRemove = false;
-        this.explosionCooldown = (long) (1000000L * this.game.getExplosionCooldown());
+        this.explosionCooldown = 1000000L * this.game.getExplosionCooldown();
         this.rangeMax = this.game.getPlayer().getRangebomb();
     }
 
