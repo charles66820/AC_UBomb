@@ -366,20 +366,24 @@ public class Main extends Application {
         Button closeBtn = new Button(LangFactory.get("closeBtn"));
         AnchorPane closePane = new AnchorPane();
         AnchorPane.setRightAnchor(closeBtn, 16.0);
+        AnchorPane.setTopAnchor(closeBtn, 8.0);
         AnchorPane.setBottomAnchor(closeBtn, 16.0);
         closePane.getChildren().add(closeBtn);
 
         // Credit content
         Text content = new Text(LangFactory.get("creditContent"));
+        content.setWrappingWidth(windowWidth - 60);
+        content.setTextAlignment(TextAlignment.CENTER);
 
         ScrollPane sp = new ScrollPane(content);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        StackPane creditPane = new StackPane(sp);
+        sp.setPrefHeight(windowHeight);
+        sp.setPadding(new Insets(10, 10, 10, 10));
+        StackPane creditPane = new StackPane(new VBox(sp, closePane));
         creditPane.setPadding(new Insets(10, 10, 10, 10));
         creditPane.setStyle("-fx-background-color:#EEEEEEFF");
         creditPane.setVisible(false);
-        creditPane.getChildren().add(closePane);
 
         closeBtn.setOnAction(e -> {
             // Close with animation
