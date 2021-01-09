@@ -41,7 +41,7 @@ public class Monster extends Character implements Movable {
             if (canMove(direction)) {
                 doMove(direction);
 
-                // Hit the player if they are in the same position and in the same world
+                // Hit the player if he is in the same position and in the same world
                 Player player = this.game.getPlayer();
                 if (this.getPosition().equals(player.getPosition()) && this.world == this.game.getCurentWorld()) {
                     player.removeLives(1);
@@ -118,8 +118,8 @@ public class Monster extends Character implements Movable {
     }
 
     /**
-     * If an A* search algorithm for monster
-     * https://en.wikipedia.org/wiki/A*_search_algorithm
+     * It is an A* search algorithm for monster
+     * @see <a href="https://en.wikipedia.org/wiki/A*_search_algorithm"> A* algorithm </a>
      * @param start The current monster position
      * @param goal Player position
      * @return A list of positions or null
@@ -182,7 +182,7 @@ public class Monster extends Character implements Movable {
         this.alive = false;
     }
 
-    // For debug
+    // To debug
     public List<Position> getPath() {
         return this.path;
     }

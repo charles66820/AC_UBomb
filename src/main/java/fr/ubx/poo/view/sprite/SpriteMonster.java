@@ -12,7 +12,7 @@ import java.util.List;
 
 public class SpriteMonster extends SpriteGameObject {
 
-    List<Circle> circlePath; // For debug path finding
+    List<Circle> circlePath; // To debug path finding
 
     public SpriteMonster(Pane layer, Monster monster) {
         super(layer, null, monster);

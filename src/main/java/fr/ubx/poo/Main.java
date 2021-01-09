@@ -22,8 +22,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Main extends Application {
-    private final int windowHeight = 600;
-    private final int windowWidth = 450;
+    private final int windowWidth = 600;
+    private final int windowHeight = 450;
     private Game game;
     private String styleRessources;
     Scene scene;
@@ -112,7 +112,7 @@ public class Main extends Application {
         Button settingsBtn = new Button(LangFactory.get("settings"));
         settingsBtn.setOnAction(e -> {
             settingPane.setVisible(true);
-            // open with animation
+            // Open with animation
             FadeTransition ft = new FadeTransition(Duration.millis(300), settingPane);
             ft.setFromValue(0.0);
             ft.setToValue(1.0);
@@ -127,7 +127,7 @@ public class Main extends Application {
         StackPane root = new StackPane();
         root.getChildren().addAll(menuVBox, settingPane);
 
-        this.scene = new Scene(root, windowHeight, windowWidth);
+        this.scene = new Scene(root, windowWidth, windowHeight);
         this.styleRessources = getClass().getResource("/themes/" + this.game.getTheme() + "/css/application.css").toExternalForm();
         this.scene.getStylesheets().add(styleRessources);
 
@@ -143,7 +143,7 @@ public class Main extends Application {
     }
 
     private StackPane initSettingsPanel(Stage stage) {
-        // Levels files prefix
+        // Level files prefix
         Text prefixLabel = new Text(LangFactory.get("prefix"));
         TextField prefixTextField = new TextField();
         prefixTextField.setText(this.game.getWorldPrefix());
@@ -156,12 +156,12 @@ public class Main extends Application {
             if (!newValue.matches("\\d{0,3}")) nbLevelsTextField.setText(oldValue);
         });
 
-        // Levels files extension
+        // Level files extension
         Text extensionLabel = new Text(LangFactory.get("extension"));
         TextField extensionTextField = new TextField();
         extensionTextField.setText(this.game.getExtension());
 
-        // Initials lives
+        // Initial lives
         Text initialsLivesLabel = new Text(LangFactory.get("initialsLives"));
         TextField initialsLivesTextField = new TextField();
         initialsLivesTextField.setText(String.valueOf(this.game.getInitPlayerLives()));
@@ -262,7 +262,7 @@ public class Main extends Application {
 
         // Layout
         GridPane gridPane = new GridPane();
-        gridPane.setMinSize(windowHeight, windowWidth);
+        gridPane.setMinSize(windowWidth, windowHeight);
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setHgap(2);
         gridPane.setVgap(12);

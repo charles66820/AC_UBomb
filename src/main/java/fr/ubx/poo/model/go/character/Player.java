@@ -35,7 +35,7 @@ public class Player extends Character implements Movable {
 
     @Override
     public void update(long now) {
-        // Check if player die
+        // Check if player dies
         if (this.getLives() <= 0) {
             this.alive = false;
         }
@@ -83,11 +83,11 @@ public class Player extends Character implements Movable {
         Decor decor = this.game.getCurentWorld().get(nextPos);
         if (decor instanceof Box) {
             Position nextBoxPos = direction.nextPosition(nextPos);
-            if (!this.game.getCurentWorld().isInside(nextBoxPos)) return false; // Is to fix bug with box move out of world border
+            if (!this.game.getCurentWorld().isInside(nextBoxPos)) return false; // It is to fix bug with box move out of world border
             Decor d = this.game.getCurentWorld().get(nextBoxPos);
             if (d != null) return false;
 
-            // Collision with monster
+            // Collision with monsters
             for (Monster monster : this.game.getCurentWorld().getMonsters())
                 if (nextBoxPos.equals(monster.getPosition())) return false;
             // Collision with bombs
