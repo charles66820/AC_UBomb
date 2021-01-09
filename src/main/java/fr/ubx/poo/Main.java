@@ -119,13 +119,27 @@ public class Main extends Application {
             ft.play();
         });
 
+        // Settings panel
+        StackPane creditPane = initCreditPanel();
+
+        // credit
+        Button creditBtn = new Button(LangFactory.get("credit"));
+        creditBtn.setOnAction(e -> {
+            creditPane.setVisible(true);
+            // Open with animation
+            FadeTransition ft = new FadeTransition(Duration.millis(300), creditPane);
+            ft.setFromValue(0.0);
+            ft.setToValue(1.0);
+            ft.play();
+        });
+
         // Layout
-        VBox menuVBox = new VBox(title, startBtn, playerHBox, themeHBox, settingsBtn);
+        VBox menuVBox = new VBox(title, startBtn, playerHBox, themeHBox, settingsBtn, creditBtn);
         menuVBox.setAlignment(Pos.CENTER);
         menuVBox.setSpacing(8);
 
         StackPane root = new StackPane();
-        root.getChildren().addAll(menuVBox, settingPane);
+        root.getChildren().addAll(menuVBox, settingPane, creditPane);
 
         this.scene = new Scene(root, windowWidth, windowHeight);
         this.styleRessources = getClass().getResource("/themes/" + this.game.getTheme() + "/css/application.css").toExternalForm();
@@ -344,5 +358,37 @@ public class Main extends Application {
         });
 
         return settingPane;
+    }
+
+    private StackPane initCreditPanel() {
+
+        // Close button
+        Button closeBtn = new Button(LangFactory.get("closeBtn"));
+        AnchorPane closePane = new AnchorPane();
+        AnchorPane.setRightAnchor(closeBtn, 16.0);
+        AnchorPane.setBottomAnchor(closeBtn, 16.0);
+        closePane.getChildren().add(closeBtn);
+
+        // Credit content
+        Text content = new Text(LangFactory.get("creditContent"));
+
+        ScrollPane sp = new ScrollPane(content);
+        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        StackPane creditPane = new StackPane(sp);
+        creditPane.setPadding(new Insets(10, 10, 10, 10));
+        creditPane.setStyle("-fx-background-color:#EEEEEEFF");
+        creditPane.setVisible(false);
+        creditPane.getChildren().add(closePane);
+
+        closeBtn.setOnAction(e -> {
+            // Close with animation
+            FadeTransition ft = new FadeTransition(Duration.millis(300), creditPane);
+            ft.setOnFinished(e1 -> creditPane.setVisible(false));
+            ft.setFromValue(1.0);
+            ft.setToValue(0.0);
+            ft.play();
+        });
+        return creditPane;
     }
 }
