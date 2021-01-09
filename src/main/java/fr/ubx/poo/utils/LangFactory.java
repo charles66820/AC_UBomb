@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public final class LangFactory {
 
-    // Store lang with key is theme + code
+    // Store lang with key is theme and code
     private final Map<String, Map<String, String>> langs = new HashMap<>();
 
     private Map<String, String> currentLang;
@@ -19,7 +19,7 @@ public final class LangFactory {
     }
 
     /**
-     * Point d'accès pour l'instance unique du singleton
+     * Access point for the single instance of the singleton
      */
     public static LangFactory getInstance() {
         return LangFactory.Holder.instance;
@@ -67,7 +67,7 @@ public final class LangFactory {
      */
     private static class Holder {
         /**
-         * Instance unique non préinitialisée
+         * Single instance not pre-initialized
          */
         private final static LangFactory instance = new LangFactory();
     }

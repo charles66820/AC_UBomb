@@ -18,11 +18,11 @@ import java.util.List;
 public class Bomb extends GameObject {
     public final World world; // Public because not editable
     private final int rangeMax;
-    private long initTimer; // time when bomb was created
-    private long timer; // current time before explosion
-    private final long explosionCooldown; // total time before explosion
-    private boolean isExploded; // state of the bomb if it is exploded or not
-    private boolean canBeRemove; // state of the bomb if it can be remove
+    private long initTimer; // Time when bomb was created
+    private long timer; // Current time before explosion
+    private final long explosionCooldown; // Total time before explosion
+    private boolean isExploded; // State of the bomb if it is exploded or not
+    private boolean canBeRemove; // State of the bomb if it can be remove
     List<Position> explosionPositions = new ArrayList<>();
 
     public Bomb(Game game, World world, Position position, long initTimer) {
@@ -47,7 +47,7 @@ public class Bomb extends GameObject {
     }
 
     /**
-     * Call when this bomb is exposed
+     * Call when this bomb is exploded
      */
     public void explosion() {
         explosionSpread(this.getPosition());
@@ -62,8 +62,8 @@ public class Bomb extends GameObject {
     }
 
     /**
-     * These methods propagate the explosion to a position
-     * @param pos The explosed position
+     * This method propagates the explosion to a position
+     * @param pos The position to exploded
      * @return stopPropagation Returns a boolean if the explosion is stopped or not
      */
     private boolean explosionSpread(Position pos) {
