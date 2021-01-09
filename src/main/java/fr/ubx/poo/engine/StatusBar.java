@@ -18,6 +18,7 @@ import javafx.scene.text.Text;
 
 public class StatusBar {
     public static final int height = 55;
+    public static final int size = 40;
     private final Text liveValue = new Text();
     private final Text bombsValue = new Text();
     private final Text rangeValue = new Text();
@@ -70,6 +71,8 @@ public class StatusBar {
     private HBox statusGroup(Image kind, Text number) {
         HBox group = new HBox();
         ImageView img = new ImageView(kind);
+        img.setFitHeight(size);
+        img.setFitWidth(size);
         group.setSpacing(4);
         number.setEffect(ds);
         number.setCache(true);
