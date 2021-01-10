@@ -120,7 +120,7 @@ public final class GameEngine {
     }
 
     private void processInput(long now) {
-        if (input.isExit()) {  //TODO: ajouter une interface sympa quand on quitte le jeu
+        if (input.isExit()) {
             gameLoop.stop();
             Platform.exit();
             System.exit(0);
