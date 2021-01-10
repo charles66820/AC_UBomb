@@ -41,6 +41,8 @@ public class SpriteBomb extends SpriteGameObject {
         super.render();
         for (Position explosionPosition : ((Bomb) go).getExplosionPositions()) {
             ImageView imageView = new ImageView(ImageFactory.getInstance().get(EXPLOSION));
+            imageView.setFitHeight(40);
+            imageView.setFitWidth(40);
             imageView.setX(explosionPosition.x * size);
             imageView.setY(explosionPosition.y * size);
             explosionImageViews.add(imageView);
