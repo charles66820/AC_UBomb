@@ -190,6 +190,7 @@ public final class GameEngine {
         });
         ((Button) alert.getDialogPane().lookupButton(btnTypeCancel)).setOnAction(e -> gameLoop.start());
 
+        alert.setOnHidden(event -> gameLoop.start());
         alert.initOwner(stage);
         alert.show();
     }
