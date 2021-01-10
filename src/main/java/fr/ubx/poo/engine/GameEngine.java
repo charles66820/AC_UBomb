@@ -177,7 +177,7 @@ public final class GameEngine {
         alert.setTitle(LangFactory.get("quitTitle"));
         alert.setHeaderText(LangFactory.get("quitMessage"));
 
-        // Defined buttons type and add it to the alert
+        // Define button type and add it to the alert
         ButtonType btnTypeQuit = new ButtonType(LangFactory.get("quit"), ButtonBar.ButtonData.OK_DONE);
         ButtonType btnTypeCancel = new ButtonType(LangFactory.get("cancel"), ButtonBar.ButtonData.CANCEL_CLOSE);
         alert.getButtonTypes().setAll(btnTypeQuit, btnTypeCancel);
