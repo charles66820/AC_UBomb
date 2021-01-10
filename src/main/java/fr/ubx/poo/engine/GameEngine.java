@@ -21,6 +21,10 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -122,8 +126,7 @@ public final class GameEngine {
     private void processInput(long now) {
         if (input.isExit()) {
             gameLoop.stop();
-            Platform.exit();
-            System.exit(0);
+            askToQuit();
         }
         if (input.isMoveDown()) {
             player.requestMove(Direction.S);
@@ -167,6 +170,28 @@ public final class GameEngine {
             }
         }
         input.clear();
+    }
+
+    private void askToQuit() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(LangFactory.get("quitTitle"));
+        alert.setHeaderText(LangFactory.get("quitMessage"));
+
+        // Defined buttons type and add it to the alert
+        ButtonType btnTypeQuit = new ButtonType(LangFactory.get("quit"), ButtonBar.ButtonData.OK_DONE);
+        ButtonType btnTypeCancel = new ButtonType(LangFactory.get("cancel"), ButtonBar.ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(btnTypeQuit, btnTypeCancel);
+
+        // Add buttons events
+        ((Button) alert.getDialogPane().lookupButton(btnTypeQuit)).setOnAction(e -> {
+            // Close app
+            Platform.exit();
+            System.exit(0);
+        });
+        ((Button) alert.getDialogPane().lookupButton(btnTypeCancel)).setOnAction(e -> gameLoop.start());
+
+        alert.initOwner(stage);
+        alert.show();
     }
 
     private void showMessage(String msg, Color color) {
