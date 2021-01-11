@@ -8,7 +8,7 @@ version '0.2'
 
 jar {
     manifest {
-        attributes "Main-Class": "fr.ubx.poo.Main"
+        attributes "Main-Class": "fr.ubx.poo.Launcher"
     }
 
     from {
