@@ -21,18 +21,18 @@ public class Game {
     private final List<World> worlds;
     private Player player;
     private final String worldPath;
-    private String worldPrefix; // prefix of the level files
-    private String extension; // extension of the level files
-    private String theme; // name of the theme folder
+    private String worldPrefix = "level"; // prefix of the level files
+    private String extension = ".txt"; // extension of the level files
+    private String theme = "default"; // name of the theme folder
     private String lang = "en"; // default language of the game
     private int nbLevels;
     private int currentLevel = 0;
-    private int initPlayerLives; // initial lives of the player
-    private int startMonsterMoveFrequency; // first level monster movement frequency in ms
-    private int monsterMoveFrequencyRation; // value that is added to the movements of monsters at each level
-    private int explosionCooldown; // time of the bomb before explosion
-    private int explosionDuration; // duration of the explosion
-    private int invulnerabilityDuration; // duration of the invulnerability of the player
+    private int initPlayerLives = 1; // initial lives of the player
+    private int startMonsterMoveFrequency = 800; // first level monster movement frequency in ms
+    private int monsterMoveFrequencyRation = 100; // value that is added to the movements of monsters at each level
+    private int explosionCooldown = 4000; // time of the bomb before explosion
+    private int explosionDuration = 400; // duration of the explosion
+    private int invulnerabilityDuration = 1000; // duration of the invulnerability of the player
     private boolean worldChanged = false;
     private boolean smartAI = false;
     private boolean isPrincess = false;
