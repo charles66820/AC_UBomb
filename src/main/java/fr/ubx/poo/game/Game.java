@@ -77,7 +77,8 @@ public class Game {
     }
 
     private void loadConfig(String path) {
-        try (InputStream input = new FileInputStream(new File(path, "config.properties"))) {
+        try (InputStream input = getClass().getResourceAsStream(path + "/config.properties")) {
+            if (input == null) throw new IOException(path + "/config.properties (No such file or directory)");
             Properties prop = new Properties();
             // load the configuration file
             prop.load(input);
@@ -104,7 +105,9 @@ public class Game {
      * @throws IOException An IOException can be throw because of the file that we read
      */
     private void loadWorld(int levelNum) throws IOException {
-        InputStream input = new FileInputStream(new File(this.worldPath, this.worldPrefix + levelNum + this.extension));
+        String filePath = this.worldPath + "/" + this.worldPrefix + levelNum + this.extension;
+        InputStream input = getClass().getResourceAsStream(filePath);
+        if (input == null) throw new IOException(filePath + "(No such file or directory)");
 
         ArrayList<ArrayList<WorldEntity>> worldArray = new ArrayList<>();
         ArrayList<WorldEntity> worldArrayRow = new ArrayList<>();

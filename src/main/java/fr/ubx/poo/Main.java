@@ -31,7 +31,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        String path = getClass().getResource("/sample").getFile();
+        String path = "/sample";/*getClass().getResource("/sample").getFile();*/
         this.game = new Game(path);
 
         initMainMenu(stage);

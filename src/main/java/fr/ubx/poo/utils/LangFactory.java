@@ -41,19 +41,19 @@ public final class LangFactory {
         this.currentLang = lang;
 
         // Load lang properties
-        URL langPath = getClass().getResource("/themes/" + theme + "/lang/");
-        if (langPath != null) {
-            try (InputStream input = new FileInputStream(new File(langPath.getFile(), code + ".properties"))) {
-                Properties prop = new Properties();
-                prop.load(new InputStreamReader(input, StandardCharsets.UTF_8));
-                Enumeration<Object> enu = prop.keys();
-                while (enu.hasMoreElements()) {
-                    String key = (String) enu.nextElement();
-                    lang.put(key, prop.getProperty(key, "undefined"));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        String filePath = "/themes/" + theme + "/lang/" + code + ".properties";
+        try (InputStream input = getClass().getResourceAsStream(filePath)) {
+            if (input == null) throw new IOException(filePath + "(No such file or directory)");
+
+            Properties prop = new Properties();
+            prop.load(new InputStreamReader(input, StandardCharsets.UTF_8));
+            Enumeration<Object> enu = prop.keys();
+            while (enu.hasMoreElements()) {
+                String key = (String) enu.nextElement();
+                lang.put(key, prop.getProperty(key, "undefined"));
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
