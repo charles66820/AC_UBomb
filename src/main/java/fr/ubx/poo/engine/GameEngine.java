@@ -76,7 +76,7 @@ public final class GameEngine {
         stage.setTitle(windowTitle);
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.show();
+        if (!stage.isShowing()) stage.show();
 
         input = new Input(scene);
         root.getChildren().add(layer);
